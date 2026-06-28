@@ -1,0 +1,11 @@
+# OS / editor
+.DS_Store
+*.swp
+*~
+
+# Harness/runtime artifacts
+.omc/
+*.log
+
+# Local scratch
+/tmp/

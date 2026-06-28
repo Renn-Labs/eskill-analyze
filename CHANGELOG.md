@@ -1,0 +1,31 @@
+# Changelog
+
+All notable changes to this project are documented here. Format based on
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project aims to
+follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] — 2026-06-28
+
+First open-source release. Bundles the full three-tier analysis suite plus the
+shared engine.
+
+### Added
+- **Tier 1 — `eskill-analyze`** (`/esa`, `/eo`): triage-driven world-class
+  level-up analysis engine — evidence gathering (Phase 0), 13-model mental-model
+  toolkit, 8 analysis steps, discretionary single-critic stress test (Phase 9),
+  comparison mode, and standard + comparison output templates.
+- **Tier 2 — `esat`** (`/esat`): reuses the engine verbatim and replaces Phase 9
+  with a mandatory three-frontier-model panel (harness critic + Codex + Grok via
+  `peer trio`), with untrusted-input synthesis rules and `ESKILL_PEER` kill-switch.
+- **Tier 3 — `esat-fleet`** (`/esat-fleet`, `esatf`): reuses `esat` verbatim and
+  adds a fourth review leg — an OpenRouter open-model swarm via `fleet-fuse` —
+  sensitivity-tiered (`high`/`medium`/`low`), redacted fail-closed, folded into
+  one consensus / divergence / unique-catch synthesis.
+- **`eskill-common`**: shared, non-invocable engine references (quality
+  principles, anti-slop rules, project-impact protocol).
+- `install.sh` (symlink/copy, multi-harness), README, MIT license, DCO
+  contributing guide, and Contributor Covenant code of conduct.
+
+### Portability
+- Removed the one hardcoded developer path; the fleet leg now resolves
+  `fleet-fuse` via `FLEET_FUSE_PY` (with `PATH` fallback).
