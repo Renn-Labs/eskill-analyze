@@ -1,0 +1,7 @@
+# Force LF in the working tree so a Windows checkout with core.autocrlf=true can't
+# corrupt the shell installer — CRLF in a .sh file breaks bash ("\r: command not
+# found" / syntax errors). install.sh is bash.
+* text=auto eol=lf
+*.sh  text eol=lf
+*.png binary
+*.svg text eol=lf

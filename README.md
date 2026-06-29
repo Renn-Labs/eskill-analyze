@@ -1,4 +1,11 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="eskill-analyze — what would world-class look like?" width="560">
+</p>
+
 # eskill-analyze
+
+[![CI](https://github.com/Renn-Labs/eskill-analyze/actions/workflows/ci.yml/badge.svg)](https://github.com/Renn-Labs/eskill-analyze/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **World-class level-up analysis for AI coding harnesses** — a first-principles analysis engine that identifies what elevates any product, feature, or system to world-class status, then produces a prioritized, sprint-ready action plan.
 
@@ -115,6 +122,15 @@ The engine itself is pure prompt/markdown and needs no binaries. Each tier degra
 - **Fail-closed redaction.** The fleet leg's outbound payloads are redacted by `fleet-fuse`'s scrubber before any external call; sensitive tiers skip external models entirely.
 
 ---
+
+## Examples
+
+See [`examples/`](examples/) for worked outputs — e.g. [a Tier-1 analysis of an API rate limiter](examples/technical-rate-limiter.md).
+
+## Project
+
+- [CONTRIBUTING](CONTRIBUTING.md) (DCO) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Security](SECURITY.md) · [Support](SUPPORT.md)
+- [Roadmap](ROADMAP.md) · [Release checklist](RELEASE.md) · [Changelog](CHANGELOG.md)
 
 ## License
 

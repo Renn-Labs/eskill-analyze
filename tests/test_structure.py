@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+"""Structural validator for the eskill-analyze skill bundle.
+
+Stdlib only — no pytest, no PyYAML required. Run directly:
+
+    python3 tests/test_structure.py
+
+It also exposes test_* functions so `pytest -q` works if you have it.
+Checks the invariants that keep the bundle installable and portable:
+  1. Every skill dir has a SKILL.md with `name:` and `description:` frontmatter.
+  2. No bundled file contains an absolute, user-specific path (`/home/`, `/Users/`).
+  3. Every `~/.claude/skills/<x>/...` cross-reference points to a skill bundled here.
+  4. The README documents all three tiers.
+  5. install.sh exists.
+"""
+from __future__ import annotations
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SKILLS_DIR = ROOT / "skills"
+SKILLS = ["eskill-common", "eskill-analyze", "esat", "esat-fleet"]
+
+
+def _frontmatter(text: str) -> str:
+    m = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL)
+    return m.group(1) if m else ""
+
+
+def test_skill_frontmatter():
+    for s in SKILLS:
+        skill = SKILLS_DIR / s / "SKILL.md"
+        assert skill.is_file(), f"missing {skill}"
+        fm = _frontmatter(skill.read_text(encoding="utf-8"))
+        assert re.search(r"^name:\s*\S", fm, re.MULTILINE), f"{s}: no name: in frontmatter"
+        assert re.search(r"^description:\s*\S", fm, re.MULTILINE), f"{s}: no description: in frontmatter"
+
+
+def test_no_absolute_user_paths():
+    bad = []
+    for p in ROOT.rglob("*"):
+        if not p.is_file() or ".git/" in str(p) or "/tests/" in str(p):
+            continue
+        if p.suffix not in (".md", ".sh", ".svg", ".txt", ".yml", ".yaml", ".json"):
+            continue
+        try:
+            text = p.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        for token in ("/home/", "/Users/"):
+            if token in text:
+                bad.append(f"{p.relative_to(ROOT)} contains '{token}'")
+    assert not bad, "absolute user paths found:\n" + "\n".join(bad)
+
+
+def test_cross_references_resolve():
+    pat = re.compile(r"~/\.claude/skills/([a-z0-9-]+)/")
+    bad = []
+    for p in SKILLS_DIR.rglob("*.md"):
+        for ref in pat.findall(p.read_text(encoding="utf-8")):
+            if ref not in SKILLS:
+                bad.append(f"{p.relative_to(ROOT)} -> unknown skill '{ref}'")
+    assert not bad, "dangling cross-references:\n" + "\n".join(bad)
+
+
+def test_readme_documents_three_tiers():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for tier in ("eskill-analyze", "esat", "esat-fleet"):
+        assert tier in readme, f"README does not mention tier '{tier}'"
+
+
+def test_installer_present():
+    assert (ROOT / "install.sh").is_file(), "install.sh missing"
+
+
+def main() -> int:
+    tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
+    failed = 0
+    for t in tests:
+        try:
+            t()
+            print(f"PASS {t.__name__}")
+        except AssertionError as e:
+            failed += 1
+            print(f"FAIL {t.__name__}: {e}")
+    print(f"\n{len(tests) - failed}/{len(tests)} checks passed")
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

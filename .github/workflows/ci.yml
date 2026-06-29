@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# One CI run per change; rapid re-pushes to a PR cancel superseded runs.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  structure:
+    name: structure (${{ matrix.os }} py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+        include:                       # the validator is stdlib-only; prove it on macOS + Windows too
+          - os: macos-latest
+            python-version: "3.12"
+          - os: windows-latest
+            python-version: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python3 tests/test_structure.py
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: .
+          severity: warning
+
+  install-smoke:
+    name: install-smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: install into a temp HOME, then uninstall
+        shell: bash
+        run: |
+          H="$(mktemp -d)"
+          HOME="$H" bash install.sh
+          for s in eskill-common eskill-analyze esat esat-fleet; do
+            test -L "$H/.claude/skills/$s" || { echo "missing link: $s"; exit 1; }
+          done
+          HOME="$H" bash install.sh --uninstall
+          test -z "$(ls -A "$H/.claude/skills")" || { echo "uninstall left files"; exit 1; }
+          echo "install/uninstall OK"

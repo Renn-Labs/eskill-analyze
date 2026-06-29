@@ -7,5 +7,10 @@
 .omc/
 *.log
 
+# Python cruft (tests are stdlib; never commit caches)
+__pycache__/
+*.pyc
+.pytest_cache/
+
 # Local scratch
 /tmp/

@@ -1,0 +1,4 @@
+# eskill-analyze code owners.
+# Every pull request automatically requests review from the maintainers team.
+# Requires the team to have write (or higher) access to this repo.
+* @Renn-Labs/eskill-analyze-maintainers
