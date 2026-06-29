@@ -26,6 +26,13 @@ shared engine.
 - `install.sh` (symlink/copy, multi-harness), README, MIT license, DCO
   contributing guide, and Contributor Covenant code of conduct.
 
+### Packaging
+- Claude Code **plugin** support: `.claude-plugin/{plugin.json,marketplace.json}` so the
+  suite installs via `/plugin install eskill-analyze@renn-labs`. Verified end to end with a
+  real isolated `claude plugin install` — all cross-tier references resolve from the plugin cache.
+
 ### Portability
-- Removed the one hardcoded developer path; the fleet leg now resolves
-  `fleet-fuse` via `FLEET_FUSE_PY` (with `PATH` fallback).
+- Removed the one hardcoded developer path; the fleet leg resolves `fleet-fuse` via
+  `FLEET_FUSE_PY` (with `PATH` fallback).
+- Cross-skill references are relocatable (`${CLAUDE_SKILL_DIR}/../<sibling>/`), so the tiers
+  resolve under both the plugin cache layout and an `install.sh` (`~/.claude/skills/`) layout.

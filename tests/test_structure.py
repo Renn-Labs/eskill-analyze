@@ -14,6 +14,7 @@ Checks the invariants that keep the bundle installable and portable:
   5. install.sh exists.
 """
 from __future__ import annotations
+import json
 import pathlib
 import re
 import sys
@@ -54,14 +55,41 @@ def test_no_absolute_user_paths():
     assert not bad, "absolute user paths found:\n" + "\n".join(bad)
 
 
-def test_cross_references_resolve():
-    pat = re.compile(r"~/\.claude/skills/([a-z0-9-]+)/")
+def test_no_legacy_absolute_cross_refs():
+    # Cross-skill refs must be relocatable (${CLAUDE_SKILL_DIR}/../<sib>/...), not
+    # ~/.claude/skills/<sib>/... — the absolute form breaks when installed as a plugin
+    # (skills live in the plugin cache dir, not ~/.claude/skills).
     bad = []
     for p in SKILLS_DIR.rglob("*.md"):
-        for ref in pat.findall(p.read_text(encoding="utf-8")):
-            if ref not in SKILLS:
-                bad.append(f"{p.relative_to(ROOT)} -> unknown skill '{ref}'")
-    assert not bad, "dangling cross-references:\n" + "\n".join(bad)
+        for ln, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
+            if "~/.claude/skills/" in line:
+                bad.append(f"{p.relative_to(ROOT)}:{ln}")
+    assert not bad, "legacy ~/.claude/skills cross-refs (break plugin install):\n" + "\n".join(bad)
+
+
+def test_relocatable_cross_refs_resolve():
+    # Every ${CLAUDE_SKILL_DIR}/../<sib>/<path> must point at a real bundled file.
+    # CLAUDE_SKILL_DIR == skills/<owner>, so ../<sib>/<path> == skills/<sib>/<path>.
+    pat = re.compile(r"\$\{CLAUDE_SKILL_DIR\}/\.\./([a-z0-9-]+)/([^\s`)]+)")
+    bad = []
+    for p in SKILLS_DIR.rglob("*.md"):
+        for sib, rel in pat.findall(p.read_text(encoding="utf-8")):
+            if sib not in SKILLS:
+                bad.append(f"{p.relative_to(ROOT)} -> unknown skill '{sib}'")
+            elif not (SKILLS_DIR / sib / rel).is_file():
+                bad.append(f"{p.relative_to(ROOT)} -> missing {sib}/{rel}")
+    assert not bad, "unresolved relocatable cross-references:\n" + "\n".join(bad)
+
+
+def test_plugin_manifests():
+    plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
+    assert plugin.get("name") == "eskill-analyze", "plugin.json name must be eskill-analyze"
+    mkt = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
+    assert mkt.get("name"), "marketplace.json needs a name"
+    assert mkt.get("owner", {}).get("name"), "marketplace.json needs owner.name"
+    plugins = mkt.get("plugins") or []
+    assert any(pl.get("name") == "eskill-analyze" and pl.get("source") for pl in plugins), \
+        "marketplace.json must list the eskill-analyze plugin with a source"
 
 
 def test_readme_documents_three_tiers():

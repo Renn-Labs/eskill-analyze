@@ -14,14 +14,13 @@ the core *selective, not exhaustive* and the three tiers strict supersets of eac
 
 - Three installable tiers (`/esa`, `/esat`, `/esat-fleet`) sharing one engine and output contract.
 - Triage-driven framework selection (13-model toolkit), evidence Phase 0, comparison mode.
-- `install.sh` (symlink/copy, multi-harness), structural CI, security/governance docs.
+- **Two install paths**: Claude Code plugin (`/plugin install eskill-analyze@renn-labs`) and `install.sh`
+  (symlink/copy, multi-harness). Cross-skill references are relocatable (`${CLAUDE_SKILL_DIR}/../<sibling>/`),
+  so the tiers resolve under both layouts.
+- Structural CI (frontmatter, no abs paths, cross-ref + manifest validation), security/governance docs.
 
 ## Next
 
-- **Plugin packaging** (`/plugin install eskill-analyze@renn-labs`). *Blocked on portability:* the tiers
-  cross-reference each other via `~/.claude/skills/...` absolute paths, which don't resolve from a plugin cache
-  dir. Requires converting cross-skill references to a relocatable form first, without breaking the verified
-  skill bodies. Tracked as the top pre-plugin task.
 - More worked **examples** under `examples/` (product, strategic, comparative — not just technical).
 - A short **rubric** for the output's confidence column so ratings are consistent across runs.
 

@@ -1,0 +1,13 @@
+{
+  "name": "eskill-analyze",
+  "version": "1.0.0",
+  "description": "World-class level-up analysis in three escalating tiers — eskill-analyze (native engine), esat (frontier trio: Claude + Codex + Grok), and esat-fleet (trio + OpenRouter OSS-swarm council). Triage-driven, selective, with a maker != checker stress-test phase.",
+  "author": {
+    "name": "Erik Ford",
+    "url": "https://github.com/Renn-Labs"
+  },
+  "homepage": "https://github.com/Renn-Labs/eskill-analyze",
+  "repository": "https://github.com/Renn-Labs/eskill-analyze",
+  "license": "MIT",
+  "keywords": ["analysis", "skill", "agent", "claude-code", "world-class", "first-principles", "multi-model", "review"]
+}

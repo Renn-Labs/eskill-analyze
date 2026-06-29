@@ -1,0 +1,15 @@
+{
+  "name": "renn-labs",
+  "description": "Renn Labs' Claude Code marketplace — eskill-analyze, the three-tier world-class level-up analysis suite (native engine, frontier trio, and OSS-swarm council).",
+  "owner": {
+    "name": "Renn Labs",
+    "url": "https://github.com/Renn-Labs"
+  },
+  "plugins": [
+    {
+      "name": "eskill-analyze",
+      "source": "./",
+      "description": "Three-tier world-class level-up analysis: /esa (native engine), /esat (Claude + Codex + Grok trio), /esat-fleet (trio + OpenRouter OSS-swarm council)."
+    }
+  ]
+}

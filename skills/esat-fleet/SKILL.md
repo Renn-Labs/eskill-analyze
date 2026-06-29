@@ -14,8 +14,8 @@ Use `esat-fleet` when you want both **frontier depth** (Opus + gpt-5.5 + grok) *
 
 Run `esat` exactly as written — do not re-derive it. Read and follow:
 
-1. `~/.claude/skills/esat/SKILL.md` — which itself reuses the eskill-analyze engine (Input Params, Triage, Delegation, mental models, Phase 0 + Steps 1–8, output template) and defines the trio panel.
-2. `~/.claude/skills/esat/references/trio-panel.md` — Phase 9 reviewers 1–3 (Claude `critic` + Codex + Grok via `peer trio`) and the untrusted-input synthesis rules.
+1. `${CLAUDE_SKILL_DIR}/../esat/SKILL.md` — which itself reuses the eskill-analyze engine (Input Params, Triage, Delegation, mental models, Phase 0 + Steps 1–8, output template) and defines the trio panel.
+2. `${CLAUDE_SKILL_DIR}/../esat/references/trio-panel.md` — Phase 9 reviewers 1–3 (Claude `critic` + Codex + Grok via `peer trio`) and the untrusted-input synthesis rules.
 
 `esat-fleet` changes **one thing**: Phase 9 gains a fourth leg — the fleet OSS swarm — folded into the **same** consensus / divergence / unique-catch synthesis.
 

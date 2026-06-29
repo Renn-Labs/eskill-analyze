@@ -61,13 +61,28 @@ The higher tiers **read the lower tiers' files at runtime**. They are designed t
 
 ## Install
 
+### Plugin (recommended, Claude Code)
+
+```text
+/plugin marketplace add Renn-Labs/eskill-analyze
+/plugin install eskill-analyze@renn-labs
+```
+
+One command, auto-updating through the normal plugin flow. The bundle's tiers reference each other with
+relocatable paths (`${CLAUDE_SKILL_DIR}/../<sibling>/`), so they resolve correctly from the plugin cache.
+
+### Manual / multi-harness (`install.sh`)
+
 ```bash
 git clone https://github.com/Renn-Labs/eskill-analyze
 cd eskill-analyze
 ./install.sh            # symlinks all four skills into ~/.claude/skills/
 ```
 
-`install.sh` symlinks (default) or copies (`--copy`) the skills into your harness skills directory. By default it targets Claude Code (`~/.claude/skills/`); pass `--harness codex` or `--harness grok` to additionally link into `~/.codex/skills/` and `~/.grok/skills/` (those harnesses also discover `~/.<harness>/skills/`). The canonical copy always lands in `~/.claude/skills/` so the inter-skill `~/.claude/skills/...` references resolve regardless of which harness invokes the skill.
+`install.sh` symlinks (default) or copies (`--copy`) the skills into your harness skills directory. By default it
+targets Claude Code (`~/.claude/skills/`); pass `--harness codex` or `--harness grok` to additionally link into
+`~/.codex/skills/` and `~/.grok/skills/`. The skills install as siblings under one root, and the relocatable
+cross-references resolve in any of these layouts.
 
 ```bash
 ./install.sh --copy                  # copy instead of symlink

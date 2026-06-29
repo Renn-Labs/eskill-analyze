@@ -14,11 +14,11 @@ Use `esat` when the stakes justify a triple-model cross-check (architecture bets
 
 Run the entire eskill-analyze protocol for Input Parameters, Triage, Delegation, Framework Selection, and Steps 1–8. Read and follow, in order:
 
-1. `~/.claude/skills/eskill-analyze/SKILL.md` — Input Parameters, Scope check, Triage gate, Delegation Strategy, Framework Selection, Comparison Mode, Project-Level Impact, Post-Analysis Routing. **Apply the two esat overrides below.**
-2. `~/.claude/skills/eskill-analyze/references/triage-guide.md` — classification
-3. `~/.claude/skills/eskill-analyze/references/mental-models.md` — model selection
-4. `~/.claude/skills/eskill-analyze/references/analysis-protocol.md` — Phase 0 + Steps 1–8. **Skip that file's "Phase 9: Stress Test"** — esat replaces it with the trio panel.
-5. `~/.claude/skills/eskill-analyze/references/world-class-signals.md`
+1. `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md` — Input Parameters, Scope check, Triage gate, Delegation Strategy, Framework Selection, Comparison Mode, Project-Level Impact, Post-Analysis Routing. **Apply the two esat overrides below.**
+2. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/triage-guide.md` — classification
+3. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/mental-models.md` — model selection
+4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — Phase 0 + Steps 1–8. **Skip that file's "Phase 9: Stress Test"** — esat replaces it with the trio panel.
+5. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/world-class-signals.md`
 
 ### esat overrides (only two differences from eskill-analyze)
 - **Phase 9 is the Tri-Model Panel** (this skill's `references/trio-panel.md`), not the single Claude critic.
@@ -30,7 +30,7 @@ After completing Steps 1–8 and producing the draft analysis, read and execute 
 
 ## Output
 
-Use the eskill-analyze output template (`~/.claude/skills/eskill-analyze/assets/output-template.md`) **plus** the `### Tri-Model Panel` block defined in `references/trio-panel.md`. Place the panel directly above `### Stress Test Notes`. The triage header should read `esat (trio)` so it's clear which skill produced the analysis.
+Use the eskill-analyze output template (`${CLAUDE_SKILL_DIR}/../eskill-analyze/assets/output-template.md`) **plus** the `### Tri-Model Panel` block defined in `references/trio-panel.md`. Place the panel directly above `### Stress Test Notes`. The triage header should read `esat (trio)` so it's clear which skill produced the analysis.
 
 Save the analysis output to `.omc/plans/esat-{date}-{focus}.md`.
 

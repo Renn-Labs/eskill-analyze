@@ -1,6 +1,6 @@
 # Phase 9 — Fleet Leg (esat-fleet)
 
-Adds a fourth council leg to esat's Phase 9: the **OpenRouter OSS swarm**, dispatched through `fleet-fuse` (which handles tiering, redaction, and fan-out). The frontier trio (Claude `critic` + Codex + Grok) still runs per `~/.claude/skills/esat/references/trio-panel.md`; this leg is **additive OSS breadth**, deliberately excluding Grok/Codex so it doesn't duplicate the trio.
+Adds a fourth council leg to esat's Phase 9: the **OpenRouter OSS swarm**, dispatched through `fleet-fuse` (which handles tiering, redaction, and fan-out). The frontier trio (Claude `critic` + Codex + Grok) still runs per `${CLAUDE_SKILL_DIR}/../esat/references/trio-panel.md`; this leg is **additive OSS breadth**, deliberately excluding Grok/Codex so it doesn't duplicate the trio.
 
 ## When it runs
 

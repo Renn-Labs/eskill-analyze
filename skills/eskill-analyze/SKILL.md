@@ -10,7 +10,7 @@ First-principles analysis engine that identifies what elevates any product, feat
 
 ## Quality Principles
 
-Read `~/.claude/skills/eskill-common/references/quality-principles.md`
+Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/quality-principles.md`
 
 ## Input Parameters
 
@@ -120,7 +120,7 @@ Read `${CLAUDE_SKILL_DIR}/references/world-class-signals.md`
 
 ## Project-Level Impact
 
-Read `~/.claude/skills/eskill-common/references/project-impact-protocol.md`
+Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/project-impact-protocol.md`
 
 If `{project}/.omc/project-context.json` and `{project}/.omc/business-context.md` exist, connect every recommended action to project priorities and business impact in the output.
 
