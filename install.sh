@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# eskill-analyze installer — links the three-tier suite into your harness skills dir.
+# eskill-analyze installer — links the frontier analysis suite into your harness skills dir.
 #
 #   ./install.sh                      # symlink into ~/.claude/skills/
 #   ./install.sh --copy               # copy instead of symlink
@@ -11,7 +11,7 @@
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/skills" && pwd)"
-SKILLS=(eskill-common eskill-analyze esat esat-fleet)
+SKILLS=(eskill-common eskill-analyze esat esat-fleet esat-frontier)
 
 MODE=symlink
 ACTION=install
@@ -59,5 +59,5 @@ done
 
 if [ "$ACTION" = install ]; then
   echo
-  echo "Done. Invoke inside your harness:  /esa   /esat   /esat-fleet"
+  echo "Done. Invoke inside your harness:  /esa   /esat   /esat-fleet   /esat-frontier"
 fi

@@ -28,10 +28,11 @@ H="$(mktemp -d)"; HOME="$H" bash install.sh && \
 
 ## Documentation claims
 
-- README first screen shows the three tiers and the zero-dependency install path before external tiers.
-- External tiers (`esat`, `esat-fleet`) are documented as sending the draft to third-party models, with the
-  `ESKILL_PEER` / `ESAT_FLEET_SENSITIVITY` controls and graceful degradation.
-- No claim that plugin install works until the cross-reference portability task lands (see ROADMAP).
+- README first screen shows the tiers and the zero-dependency install path before external tiers.
+- External tiers (`esat`, `esat-fleet`, `esat-frontier`) are documented as potentially sending the draft to
+  third-party models, with `ESKILL_PEER`, `ESAT_FLEET_SENSITIVITY`, and `ESAT_FRONTIER_*` controls plus
+  graceful degradation.
+- Plugin install claims are backed by relocatable cross-skill references and structural tests.
 - `CHANGELOG.md` updated for the tag.
 
 ## Review gate

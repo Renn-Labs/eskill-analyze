@@ -51,6 +51,5 @@ contract honest, not how to shave the existing one.
 
 ---
 
-> _Tiers 2 (`/esat`) and 3 (`/esat-fleet`) produce the same structure, plus a panel that records where Codex,
-> Grok, and (for the fleet) the OSS swarm agreed, diverged, or caught something the draft missed — and adjusts
-> the Confidence column accordingly._
+> _Higher tiers produce the same structure, plus a panel that records where the configured reviewers agreed,
+> diverged, or caught something the draft missed — and adjusts the Confidence column accordingly._

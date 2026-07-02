@@ -10,7 +10,7 @@ Checks the invariants that keep the bundle installable and portable:
   1. Every skill dir has a SKILL.md with `name:` and `description:` frontmatter.
   2. No bundled file contains an absolute, user-specific path (`/home/`, `/Users/`).
   3. Every `~/.claude/skills/<x>/...` cross-reference points to a skill bundled here.
-  4. The README documents all three tiers.
+  4. The README documents all tiers.
   5. install.sh exists.
 """
 from __future__ import annotations
@@ -21,7 +21,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
-SKILLS = ["eskill-common", "eskill-analyze", "esat", "esat-fleet"]
+SKILLS = ["eskill-common", "eskill-analyze", "esat", "esat-fleet", "esat-frontier"]
 
 
 def _frontmatter(text: str) -> str:
@@ -92,9 +92,9 @@ def test_plugin_manifests():
         "marketplace.json must list the eskill-analyze plugin with a source"
 
 
-def test_readme_documents_three_tiers():
+def test_readme_documents_tiers():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for tier in ("eskill-analyze", "esat", "esat-fleet"):
+    for tier in ("eskill-analyze", "esat", "esat-fleet", "esat-frontier"):
         assert tier in readme, f"README does not mention tier '{tier}'"
 
 

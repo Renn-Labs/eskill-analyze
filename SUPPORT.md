@@ -1,14 +1,14 @@
 # Support
 
 Use **GitHub Issues** for reproducible bugs, documentation gaps, and install problems. Use **GitHub Discussions**
-(if enabled) for open-ended usage questions — triage strategy, framework selection, comparing the three tiers.
+(if enabled) for open-ended usage questions — triage strategy, framework selection, comparing the tiers.
 
 ## Before opening an issue
 
 - Re-run with the triage line visible — the skill states `**Triage**: {type} / {scale}` and which agents/models
   it activated. Paste that; it's the fastest way to see why the output looked the way it did.
-- For the trio/fleet tiers, note whether `peer` / `fleet-fuse` were available, and which `ESKILL_PEER` /
-  `ESAT_FLEET` / `ESAT_FLEET_SENSITIVITY` values you ran with.
+- For external-review tiers, note whether `peer` / `fleet-fuse` were available, and which `ESKILL_PEER`,
+  `ESAT_FLEET`, `ESAT_FLEET_SENSITIVITY`, or `ESAT_FRONTIER_*` values you ran with.
 - Confirm the skills are installed where your harness looks (`~/.claude/skills/` by default — see `install.sh`).
 
 ## What to include

@@ -2,7 +2,7 @@
 
 eskill-analyze is a harness-neutral analysis engine: triage a request, apply only the frameworks that fit,
 stress-test at the rigor the stakes deserve, and emit a prioritized, buildable action plan. The roadmap keeps
-the core *selective, not exhaustive* and the three tiers strict supersets of each other.
+the core *selective, not exhaustive* and the tiers strict supersets of the shared engine.
 
 ## Who it's for
 
@@ -12,7 +12,7 @@ the core *selective, not exhaustive* and the three tiers strict supersets of eac
 
 ## Now (v1.0)
 
-- Three installable tiers (`/esa`, `/esat`, `/esat-fleet`) sharing one engine and output contract.
+- Four installable tiers (`/esa`, `/esat`, `/esat-fleet`, `/esat-frontier`) sharing one engine and output contract.
 - Triage-driven framework selection (13-model toolkit), evidence Phase 0, comparison mode.
 - **Two install paths**: Claude Code plugin (`/plugin install eskill-analyze@renn-labs`) and `install.sh`
   (symlink/copy, multi-harness). Cross-skill references are relocatable (`${CLAUDE_SKILL_DIR}/../<sibling>/`),
@@ -27,7 +27,8 @@ the core *selective, not exhaustive* and the three tiers strict supersets of eac
 ## Later / ideas
 
 - Optional machine-readable analysis output (JSON sidecar) for piping into a sprint planner.
-- Pluggable verifier panel — let the trio/fleet roster be configured rather than fixed.
+- Harden the frontier roster contract with harness profiles for model labels such as Fable, Sonnet 5, Codex Medium, and Grok.
+- Pluggable verifier panel — let every tier use a configured roster rather than fixed defaults.
 - Harness profiles (à la sibling tools) so non-Claude harnesses get first-class sub-agent delegation.
 
 Issues and discussions shape priority — see [SUPPORT.md](SUPPORT.md) and [CONTRIBUTING.md](CONTRIBUTING.md).

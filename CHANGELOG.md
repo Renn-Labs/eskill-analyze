@@ -4,6 +4,14 @@ All notable changes to this project are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project aims to
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Tier 4 — `esat-frontier`** (`/esat-frontier`): a frontier-led configurable
+  fusion panel. Reuses the `eskill-analyze` engine, then makes a frontier lead
+  such as Fable synthesize independent reviewers such as Sonnet 5, Codex Medium,
+  Grok, and optional fleet/OpenRouter voices.
+
 ## [1.0.0] — 2026-06-28
 
 First open-source release. Bundles the full three-tier analysis suite plus the

@@ -9,15 +9,16 @@
 
 **World-class level-up analysis for AI coding harnesses** — a first-principles analysis engine that identifies what elevates any product, feature, or system to world-class status, then produces a prioritized, sprint-ready action plan.
 
-It ships in **three tiers** that share one engine and escalate the rigor of the stress-test phase:
+It ships in **four tiers** that share one engine and escalate the rigor of the stress-test phase:
 
 | Tier | Skill | Stress test (Phase 9) | When to use |
 |-|-|-|-|
 | 1 — Native | `eskill-analyze` (`/esa`) | Single in-harness critic (discretionary) | Everyday analysis inside one harness (Claude Code, etc.) |
 | 2 — Trio | `esat` (`/esat`) | **Mandatory** 3-frontier-model panel: harness critic + Codex + Grok | High-stakes calls you want triple-checked across frontier models |
 | 3 — Council | `esat-fleet` (`/esat-fleet`) | Trio **+** an OpenRouter open-model swarm (sensitivity-tiered, redacted) | The widest cross-check: frontier depth **and** open-model breadth |
+| 4 — Frontier | `esat-frontier` (`/esat-frontier`) | Fable/frontier-led configurable fusion panel: Sonnet 5, Codex Medium, Grok, optional fleet | Highest-stakes calls where a lead frontier model should judge and reconcile a configurable council |
 
-Each tier is a strict superset of the one below it. `esat` reuses the entire `eskill-analyze` engine verbatim and only overrides Phase 9; `esat-fleet` reuses `esat` verbatim and only adds a fourth review leg.
+Each tier is a strict superset of the engine below it. `esat` reuses the entire `eskill-analyze` engine verbatim and only overrides Phase 9; `esat-fleet` reuses `esat` verbatim and only adds a fourth review leg; `esat-frontier` reuses the engine and replaces the fixed panel with a configurable frontier-led fusion panel.
 
 ---
 
@@ -53,6 +54,9 @@ esat/                 TIER 2 — reuses eskill-analyze, overrides Phase 9
 
 esat-fleet/           TIER 3 — reuses esat, adds a 4th leg
   └─ references/fleet-leg.md    OpenRouter OSS swarm via fleet-fuse, sensitivity gate
+
+esat-frontier/        TIER 4 — reuses the engine, configurable lead+council
+  └─ references/frontier-panel.md Fable/frontier lead, configurable reviewer roster
 ```
 
 The higher tiers **read the lower tiers' files at runtime**. They are designed to be installed as siblings under one skills root (canonically `~/.claude/skills/`), so the cross-references resolve for free.
@@ -76,7 +80,7 @@ relocatable paths (`${CLAUDE_SKILL_DIR}/../<sibling>/`), so they resolve correct
 ```bash
 git clone https://github.com/Renn-Labs/eskill-analyze
 cd eskill-analyze
-./install.sh            # symlinks all four skills into ~/.claude/skills/
+./install.sh            # symlinks the full suite into ~/.claude/skills/
 ```
 
 `install.sh` symlinks (default) or copies (`--copy`) the skills into your harness skills directory. By default it
@@ -100,6 +104,7 @@ Invoke by slash command or alias inside your harness:
 /esa  <your analysis request>        # Tier 1 — eskill-analyze  (aliases: /eo)
 /esat <your analysis request>        # Tier 2 — trio
 /esat-fleet <your analysis request>  # Tier 3 — council  (alias: esatf)
+/esat-frontier <your analysis request> # Tier 4 — frontier-led fusion
 ```
 
 The skill asks for the four required inputs (Project, Focus Area, Current State, World-Class Definition) if you don't supply them, states its triage decision, then runs. Output is saved to `.omc/plans/`.
@@ -115,6 +120,7 @@ The engine itself is pure prompt/markdown and needs no binaries. Each tier degra
 | 1 `eskill-analyze` | Harness sub-agents for delegation (Phase 0 / Phase 9 critic). Built for [oh-my-claudecode](https://github.com/) sub-agents (`analyst`, `explore`, `architect`, `critic`, …); adaptable to any harness that exposes a sub-agent primitive. | Falls back to in-context analysis (no parallel evidence agents). |
 | 2 `esat` | A `peer` CLI exposing `peer trio` (runs Codex + Grok in parallel, off your primary model's reserve). | `ESKILL_PEER=0` or `peer` not on `PATH` → degrades to the Tier-1 single-critic panel. |
 | 3 `esat-fleet` | `fleet-fuse` — a separate sensitivity-tiered multi-engine orchestrator with fail-closed redaction. Set `FLEET_FUSE_PY` to its `fleet-fuse.py` (or put it on `PATH`). Needs an OpenRouter key in `~/.config/fleet-fuse/env`. | Fleet leg is noted as skipped in the panel; `esat-fleet` degrades to `esat`. |
+| 4 `esat-frontier` | A harness that can route a lead frontier model such as Fable, plus optional `peer`/`fleet-fuse` reviewers. | Unavailable roster entries are skipped and recorded; the lead falls back to the strongest available frontier model. |
 
 > **Note:** `peer` and `fleet-fuse` are companion tools, not bundled here. The skills are written so they never hard-fail on their absence — they report degraded mode in the output panel.
 
@@ -127,6 +133,10 @@ The engine itself is pure prompt/markdown and needs no binaries. Each tier degra
 | `ESAT_FLEET_SENSITIVITY` | `medium` | `high` blocks external OSS (leg skipped); `medium` = OpenRouter ZDR; `low` = + low-tier pools. |
 | `ESAT_FLEET_BUDGET_USD` | — | Caps OpenRouter spend on the fleet leg. |
 | `FLEET_FUSE_PY` | `fleet-fuse.py` (PATH) | Path to your `fleet-fuse.py`. |
+| `ESAT_FRONTIER_LEAD` | `fable` | Preferred lead model label for `esat-frontier`. |
+| `ESAT_FRONTIER_ROSTER` | `sonnet-5,codex-medium,grok` | Reviewer roster for `esat-frontier`. |
+| `ESAT_FRONTIER_FLEET` | `0` | `1` adds an optional fleet leg to `esat-frontier`. |
+| `ESAT_FRONTIER_SENSITIVITY` | `medium` | Sensitivity tier for `esat-frontier` external reviewers. |
 
 ---
 
