@@ -11,6 +11,9 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   fusion panel. Reuses the `eskill-analyze` engine, then makes a frontier lead
   such as Fable synthesize independent reviewers such as Sonnet 5, Codex Medium,
   Grok, and optional fleet/OpenRouter voices.
+- Frontier model profile contract for `esat-frontier`: portable aliases,
+  fallback behavior, sensitivity gates, and requested-profile vs actual-route
+  disclosure for Fable, Sonnet 5, Codex Medium, Grok, and Fleet.
 
 ## [1.0.0] — 2026-06-28
 

@@ -56,7 +56,7 @@ esat-fleet/           TIER 3 — reuses esat, adds a 4th leg
   └─ references/fleet-leg.md    OpenRouter OSS swarm via fleet-fuse, sensitivity gate
 
 esat-frontier/        TIER 4 — reuses the engine, configurable lead+council
-  └─ references/frontier-panel.md Fable/frontier lead, configurable reviewer roster
+  └─ references/                model profile contract + frontier fusion panel
 ```
 
 The higher tiers **read the lower tiers' files at runtime**. They are designed to be installed as siblings under one skills root (canonically `~/.claude/skills/`), so the cross-references resolve for free.
@@ -137,6 +137,11 @@ The engine itself is pure prompt/markdown and needs no binaries. Each tier degra
 | `ESAT_FRONTIER_ROSTER` | `sonnet-5,codex-medium,grok` | Reviewer roster for `esat-frontier`. |
 | `ESAT_FRONTIER_FLEET` | `0` | `1` adds an optional fleet leg to `esat-frontier`. |
 | `ESAT_FRONTIER_SENSITIVITY` | `medium` | Sensitivity tier for `esat-frontier` external reviewers. |
+
+`esat-frontier` treats `fable`, `sonnet-5`, `codex-medium`, `grok`, and `fleet` as portable profiles rather
+than provider IDs. Aliases and fallbacks are defined in
+`skills/esat-frontier/references/model-profiles.md`; the output panel records both the requested profile and
+the actual route/model used.
 
 ---
 

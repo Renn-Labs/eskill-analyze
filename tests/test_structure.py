@@ -41,7 +41,8 @@ def test_skill_frontmatter():
 def test_no_absolute_user_paths():
     bad = []
     for p in ROOT.rglob("*"):
-        if not p.is_file() or ".git/" in str(p) or "/tests/" in str(p):
+        rel_parts = p.relative_to(ROOT).parts
+        if not p.is_file() or rel_parts[0] in {".git", ".omc", ".omx", "tests"}:
             continue
         if p.suffix not in (".md", ".sh", ".svg", ".txt", ".yml", ".yaml", ".json"):
             continue
@@ -96,6 +97,20 @@ def test_readme_documents_tiers():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     for tier in ("eskill-analyze", "esat", "esat-fleet", "esat-frontier"):
         assert tier in readme, f"README does not mention tier '{tier}'"
+
+
+def test_esat_frontier_model_profiles_documented():
+    skill = (SKILLS_DIR / "esat-frontier" / "SKILL.md").read_text(encoding="utf-8")
+    panel = (SKILLS_DIR / "esat-frontier" / "references" / "frontier-panel.md").read_text(encoding="utf-8")
+    profiles_path = SKILLS_DIR / "esat-frontier" / "references" / "model-profiles.md"
+    profiles = profiles_path.read_text(encoding="utf-8")
+
+    assert "references/model-profiles.md" in skill, "esat-frontier must load model profile mapping"
+    assert "model-profiles.md" in panel, "frontier panel must resolve roster through model profiles"
+    for label in ("fable", "sonnet-5", "codex-medium", "grok", "fleet"):
+        assert label in profiles, f"model profile '{label}' is not documented"
+    for rule in ("Drop duplicate profiles", "Keep the lead out of the reviewer roster", "Sensitivity"):
+        assert rule in profiles, f"model profile rule missing: {rule}"
 
 
 def test_installer_present():

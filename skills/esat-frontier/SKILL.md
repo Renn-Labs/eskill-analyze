@@ -27,10 +27,14 @@ Run the full `eskill-analyze` protocol for Input Parameters, Triage, Delegation,
 - **Phase 9 is mandatory** for `standard` and `deep`; for `quick`, run a compact two-voice panel unless the user explicitly asks for no panel.
 - **Phase 9 uses this skill's fusion panel**, not `eskill-analyze`'s single critic and not `esat`'s fixed trio.
 - **The lead is responsible for judgment**, not just summarization. It must verify claims against the item/repo before adopting reviewer output.
+- **Model labels are portable profiles**, not provider IDs. Resolve `Fable`, `Sonnet 5`, `Codex Medium`, and `Grok` through `references/model-profiles.md` before dispatching reviewers.
 
 ## Phase 9 — Frontier Fusion Panel
 
-After Steps 1-8 produce the draft analysis, read and execute `${CLAUDE_SKILL_DIR}/references/frontier-panel.md`.
+After Steps 1-8 produce the draft analysis, read and execute:
+
+1. `${CLAUDE_SKILL_DIR}/references/model-profiles.md`
+2. `${CLAUDE_SKILL_DIR}/references/frontier-panel.md`
 
 ## Configuration
 
@@ -38,8 +42,8 @@ Use environment variables when the harness or shell supports them:
 
 | Variable | Default | Effect |
 |-|-|-|
-| `ESAT_FRONTIER_LEAD` | `fable` | Preferred lead model label. If unavailable, use the strongest available frontier model and state the fallback. |
-| `ESAT_FRONTIER_ROSTER` | `sonnet-5,codex-medium,grok` | Comma-separated reviewer roster. Supported labels are harness-dependent; unknown labels are skipped with a panel note. |
+| `ESAT_FRONTIER_LEAD` | `fable` | Preferred lead profile. Resolve aliases through `model-profiles.md`; if unavailable, use the strongest available frontier profile and state the fallback. |
+| `ESAT_FRONTIER_ROSTER` | `sonnet-5,codex-medium,grok` | Comma-separated reviewer profiles. Resolve aliases through `model-profiles.md`; unknown or unavailable labels are skipped with a panel note. |
 | `ESAT_FRONTIER_FLEET` | `0` | `1` adds the `esat-fleet` OSS swarm leg through `fleet-fuse` when sensitivity allows. |
 | `ESAT_FRONTIER_SENSITIVITY` | `medium` | `high` keeps review local/first-party only; `medium` allows redacted external reviewers; `low` allows broader low-tier pools. |
 | `ESAT_FRONTIER_BUDGET_USD` | unset | Optional cap for external fleet calls. |

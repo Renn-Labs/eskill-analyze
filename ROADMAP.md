@@ -14,6 +14,8 @@ the core *selective, not exhaustive* and the tiers strict supersets of the share
 
 - Four installable tiers (`/esa`, `/esat`, `/esat-fleet`, `/esat-frontier`) sharing one engine and output contract.
 - Triage-driven framework selection (13-model toolkit), evidence Phase 0, comparison mode.
+- `esat-frontier` profile contract for Fable, Sonnet 5, Codex Medium, Grok, and optional Fleet routes:
+  aliases, fallbacks, sensitivity gates, and actual-route disclosure.
 - **Two install paths**: Claude Code plugin (`/plugin install eskill-analyze@renn-labs`) and `install.sh`
   (symlink/copy, multi-harness). Cross-skill references are relocatable (`${CLAUDE_SKILL_DIR}/../<sibling>/`),
   so the tiers resolve under both layouts.
@@ -27,7 +29,6 @@ the core *selective, not exhaustive* and the tiers strict supersets of the share
 ## Later / ideas
 
 - Optional machine-readable analysis output (JSON sidecar) for piping into a sprint planner.
-- Harden the frontier roster contract with harness profiles for model labels such as Fable, Sonnet 5, Codex Medium, and Grok.
 - Pluggable verifier panel — let every tier use a configured roster rather than fixed defaults.
 - Harness profiles (à la sibling tools) so non-Claude harnesses get first-class sub-agent delegation.
 
