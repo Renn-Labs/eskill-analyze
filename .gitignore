@@ -5,7 +5,13 @@
 
 # Harness/runtime artifacts
 .omc/
+.omx/
 *.log
+
+# Local agent/session context. Keep these on your machine; do not publish.
+AGENTS.md
+CLAUDE.md
+docs/CONTEXT.md
 
 # Python cruft (tests are stdlib; never commit caches)
 __pycache__/
