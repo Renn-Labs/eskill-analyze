@@ -21,7 +21,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
-SKILLS = ["eskill-common", "eskill-analyze", "esat", "esat-fleet", "esat-frontier"]
+SKILLS = ["eskill-common", "eskill-analyze", "esa", "esat", "esat-fleet", "esat-frontier"]
 
 
 def _frontmatter(text: str) -> str:
@@ -95,7 +95,7 @@ def test_plugin_manifests():
 
 def test_readme_documents_tiers():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for tier in ("eskill-analyze", "esat", "esat-fleet", "esat-frontier"):
+    for tier in ("eskill-analyze", "esa", "esat", "esat-fleet", "esat-frontier"):
         assert tier in readme, f"README does not mention tier '{tier}'"
 
 

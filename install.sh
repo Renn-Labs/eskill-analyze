@@ -11,7 +11,7 @@
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/skills" && pwd)"
-SKILLS=(eskill-common eskill-analyze esat esat-fleet esat-frontier)
+SKILLS=(eskill-common eskill-analyze esa esat esat-fleet esat-frontier)
 
 MODE=symlink
 ACTION=install

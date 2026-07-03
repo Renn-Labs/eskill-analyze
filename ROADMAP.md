@@ -13,6 +13,7 @@ the core *selective, not exhaustive* and the tiers strict supersets of the share
 ## Now (v1.0)
 
 - Four installable tiers (`/esa`, `/esat`, `/esat-fleet`, `/esat-frontier`) sharing one engine and output contract.
+- First-class `esa` wrapper so folder-based catalogs such as Codex expose the Tier-1 native analyzer directly.
 - Triage-driven framework selection (13-model toolkit), evidence Phase 0, comparison mode.
 - `esat-frontier` profile contract for Fable, Sonnet 5, Codex Medium, Grok, and optional Fleet routes:
   aliases, fallbacks, sensitivity gates, and actual-route disclosure.

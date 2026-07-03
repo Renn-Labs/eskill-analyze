@@ -13,12 +13,12 @@ It ships in **four tiers** that share one engine and escalate the rigor of the s
 
 | Tier | Skill | Stress test (Phase 9) | When to use |
 |-|-|-|-|
-| 1 — Native | `eskill-analyze` (`/esa`) | Single in-harness critic (discretionary) | Everyday analysis inside one harness (Claude Code, etc.) |
+| 1 — Native | `esa` (`/esa`) / `eskill-analyze` | Single in-harness critic (discretionary) | Everyday analysis inside one harness (Claude Code, Codex, Grok, etc.) |
 | 2 — Trio | `esat` (`/esat`) | **Mandatory** 3-frontier-model panel: harness critic + Codex + Grok | High-stakes calls you want triple-checked across frontier models |
 | 3 — Council | `esat-fleet` (`/esat-fleet`) | Trio **+** an OpenRouter open-model swarm (sensitivity-tiered, redacted) | The widest cross-check: frontier depth **and** open-model breadth |
 | 4 — Frontier | `esat-frontier` (`/esat-frontier`) | Fable/frontier-led configurable fusion panel: Sonnet 5, Codex Medium, Grok, optional fleet | Highest-stakes calls where a lead frontier model should judge and reconcile a configurable council |
 
-Each tier is a strict superset of the engine below it. `esat` reuses the entire `eskill-analyze` engine verbatim and only overrides Phase 9; `esat-fleet` reuses `esat` verbatim and only adds a fourth review leg; `esat-frontier` reuses the engine and replaces the fixed panel with a configurable frontier-led fusion panel.
+Each tier is a strict superset of the engine below it. `esa` is the short, user-facing Tier-1 entry point for the `eskill-analyze` engine. `esat` reuses the entire `eskill-analyze` engine verbatim and only overrides Phase 9; `esat-fleet` reuses `esat` verbatim and only adds a fourth review leg; `esat-frontier` reuses the engine and replaces the fixed panel with a configurable frontier-led fusion panel.
 
 ---
 
@@ -48,6 +48,8 @@ eskill-analyze/       TIER 1 — the engine
   ├─ SKILL.md                   input params, triage, delegation, framework selection, output
   ├─ references/                triage-guide, mental-models, analysis-protocol, world-class-signals
   └─ assets/output-template.md  standard + comparison output templates
+
+esa/                  TIER 1 — short callable wrapper for the engine
 
 esat/                 TIER 2 — reuses eskill-analyze, overrides Phase 9
   └─ references/trio-panel.md   harness critic + Codex + Grok, untrusted-input synthesis
@@ -101,7 +103,7 @@ cross-references resolve in any of these layouts.
 Invoke by slash command or alias inside your harness:
 
 ```
-/esa  <your analysis request>        # Tier 1 — eskill-analyze  (aliases: /eo)
+/esa  <your analysis request>        # Tier 1 — native in-session analysis
 /esat <your analysis request>        # Tier 2 — trio
 /esat-fleet <your analysis request>  # Tier 3 — council  (alias: esatf)
 /esat-frontier <your analysis request> # Tier 4 — frontier-led fusion
@@ -117,7 +119,7 @@ The engine itself is pure prompt/markdown and needs no binaries. Each tier degra
 
 | Tier | Needs | If absent |
 |-|-|-|
-| 1 `eskill-analyze` | Harness sub-agents for delegation (Phase 0 / Phase 9 critic). Built for [oh-my-claudecode](https://github.com/) sub-agents (`analyst`, `explore`, `architect`, `critic`, …); adaptable to any harness that exposes a sub-agent primitive. | Falls back to in-context analysis (no parallel evidence agents). |
+| 1 `esa` / `eskill-analyze` | Harness sub-agents for delegation (Phase 0 / Phase 9 critic). Built for [oh-my-claudecode](https://github.com/) sub-agents (`analyst`, `explore`, `architect`, `critic`, …); adaptable to any harness that exposes a sub-agent primitive. | Falls back to in-context analysis (no parallel evidence agents). |
 | 2 `esat` | A `peer` CLI exposing `peer trio` (runs Codex + Grok in parallel, off your primary model's reserve). | `ESKILL_PEER=0` or `peer` not on `PATH` → degrades to the Tier-1 single-critic panel. |
 | 3 `esat-fleet` | `fleet-fuse` — a separate sensitivity-tiered multi-engine orchestrator with fail-closed redaction. Set `FLEET_FUSE_PY` to its `fleet-fuse.py` (or put it on `PATH`). Needs an OpenRouter key in `~/.config/fleet-fuse/env`. | Fleet leg is noted as skipped in the panel; `esat-fleet` degrades to `esat`. |
 | 4 `esat-frontier` | A harness that can route a lead frontier model such as Fable, plus optional `peer`/`fleet-fuse` reviewers. | Unavailable roster entries are skipped and recorded; the lead falls back to the strongest available frontier model. |

@@ -7,6 +7,9 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- **`esa`** (`/esa`): a first-class short Tier-1 wrapper around the original
+  `eskill-analyze` engine so Codex and other folder-based skill catalogs expose
+  the native in-session analyzer directly instead of relying on alias metadata.
 - **Tier 4 — `esat-frontier`** (`/esat-frontier`): a frontier-led configurable
   fusion panel. Reuses the `eskill-analyze` engine, then makes a frontier lead
   such as Fable synthesize independent reviewers such as Sonnet 5, Codex Medium,
