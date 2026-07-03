@@ -54,7 +54,7 @@ jobs:
         run: |
           H="$(mktemp -d)"
           HOME="$H" bash install.sh
-          for s in eskill-common eskill-analyze esat esat-fleet; do
+          for s in eskill-common eskill-analyze esa esat esat-fleet esat-frontier; do
             test -L "$H/.claude/skills/$s" || { echo "missing link: $s"; exit 1; }
           done
           HOME="$H" bash install.sh --uninstall

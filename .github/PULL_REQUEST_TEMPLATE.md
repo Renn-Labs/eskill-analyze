@@ -11,7 +11,7 @@
 
 ## Invariants (eskill-analyze keeps these — confirm none are broken)
 - [ ] **Selective, not exhaustive** — no forced/empty sections; a change must be able to alter a recommendation
-- [ ] Tier supersets intact — `esat` reuses `eskill-analyze` verbatim; `esat-fleet` reuses `esat` verbatim; only Phase 9 is overridden
+- [ ] Tier supersets intact — `esa` wraps `eskill-analyze`; `esat` reuses `eskill-analyze` verbatim; `esat-fleet` reuses `esat` verbatim; `esat-frontier` reuses the engine and only replaces Phase 9
 - [ ] No absolute, user-specific paths (`~/.claude/skills/...` or env vars only)
 - [ ] No new hard dependency; graceful degradation when `peer` / `fleet-fuse` / sub-agents are absent
 - [ ] External model output stays untrusted advisory — maker ≠ checker
