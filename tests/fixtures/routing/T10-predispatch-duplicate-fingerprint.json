@@ -1,0 +1,58 @@
+{
+  "id": "T10-predispatch-duplicate-fingerprint",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "peer-codex",
+      "codex-medium"
+    ],
+    "sensitivity_scopes": [
+      "low"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "fingerprints": {
+      "peer-codex": "codex-ctx-1",
+      "codex-medium": "codex-ctx-1"
+    },
+    "route_classes": {
+      "peer-codex": "external",
+      "codex-medium": "external"
+    },
+    "route_outcomes": {
+      "peer-codex": {
+        "outcome": "ran",
+        "observed_route": "peer-codex"
+      }
+    }
+  },
+  "expected_plan": {
+    "peer-codex": {
+      "readiness": "ready",
+      "reason": null
+    },
+    "codex-medium": {
+      "readiness": "skipped",
+      "reason": "duplicate-planned-fingerprint"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-codex",
+      "observed_route": "peer-codex",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    },
+    {
+      "lane": "codex-medium",
+      "observed_route": null,
+      "outcome": "skipped",
+      "reason": "duplicate-planned-fingerprint",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "full"
+}

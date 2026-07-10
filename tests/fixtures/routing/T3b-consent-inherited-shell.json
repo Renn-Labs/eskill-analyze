@@ -1,0 +1,38 @@
+{
+  "id": "T3b-consent-inherited-shell",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "fleet"
+    ],
+    "sensitivity_scopes": [
+      "medium"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "inherited-shell",
+      "status": "invalid"
+    },
+    "budget_usd": 1.0
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "blocked",
+      "reason": "consent-inherited-shell-rejected"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "consent-inherited-shell-rejected",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": false
+}

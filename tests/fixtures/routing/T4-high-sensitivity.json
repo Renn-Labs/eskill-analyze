@@ -1,0 +1,62 @@
+{
+  "id": "T4-high-sensitivity",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "fleet",
+      "peer-codex",
+      "peer-grok"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "budget_usd": 1.0
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "blocked",
+      "reason": "high-sensitivity"
+    },
+    "peer-codex": {
+      "readiness": "blocked",
+      "reason": "high-sensitivity"
+    },
+    "peer-grok": {
+      "readiness": "blocked",
+      "reason": "high-sensitivity"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "high-sensitivity",
+      "independent": false
+    },
+    {
+      "lane": "peer-codex",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "high-sensitivity",
+      "independent": false
+    },
+    {
+      "lane": "peer-grok",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "high-sensitivity",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": false
+}

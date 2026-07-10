@@ -17,6 +17,47 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Frontier model profile contract for `esat-frontier`: portable aliases,
   fallback behavior, sensitivity gates, and requested-profile vs actual-route
   disclosure for Fable, Sonnet 5, Codex Medium, Grok, and Fleet.
+- **Harness-aware Phase-9 routing contract** in
+  `skills/eskill-common/references/model-routing.md`: semantic role vs
+  requested vs actual route vs policy; preference precedence (invocation >
+  session > project > user > legacy environment > harness > portable default);
+  Claude/Codex/Grok/generic harness mappings; strict pins; disclosed automatic
+  fallback; strongest-restriction policy; external-route permission; sensitivity
+  and redaction gates; per-run metered consent; optional budget with
+  provider/account-cap-only disclosure; two-phase deduplication; two-stage
+  panel manifest (immutable plan + append-only terminal results).
+- Stdlib **contract-oracle** tests and JSON fixture matrix under `tests/`
+  (contract evidence; not live harness conformance).
+
+### Changed
+- **`esat-fleet`**: caller-owned draft retained across trio and fleet consumers
+  with single cleanup after success/skip/failure/timeout; FleetFuse uses
+  `--yes-metered` only after accepted current-run consent; blocked/skipped lanes
+  record terminal results with `observed_route: null`.
+- **`esat-frontier`**: independent `peer codex` / `peer grok` dispatch (no
+  roster-driven `peer trio`); exact pins fail closed; actual/account-default
+  model disclosure; fleet consent and budget gates align with Tier 3.
+- **`esat` trio panel**: explicit standalone vs caller-owned draft contract;
+  panel templates disclose actual model or account default instead of a fixed
+  Codex version label.
+- Skill frontmatter limited to `name` + `description` (unsupported `aliases` /
+  `user-invocable` keys removed; activation language preserved in descriptions).
+- README/ROADMAP document routing inputs, precedence, preview/manifest, consent,
+  degradation, and delivered harness-aware Phase-9 status.
+
+### Fixed
+- Fleet leg no longer depends on a draft deleted by the trio panel.
+- Non-interactive metered FleetFuse path no longer omits required per-run consent.
+- Frontier Codex-only / Grok-only rosters no longer over-dispatch via `peer trio`.
+- **Medium Tier-3 peer egress**: caller-owned `peer trio` consumes
+  `$PEER_DISPATCH_INPUT` (verified redacted artifact) rather than raw `$DRAFT`;
+  missing/failing `IDENTIFIED_REDACTION_PATH` blocks peer dispatch.
+- **Timeout-safe temp cleanup**: owner-scoped EXIT traps for DRAFT / REVIEW /
+  REDACTED temps in standalone `esat`, `esat-fleet`, and `esat-frontier`
+  (normal path cleans once then disarms; timeout still hits the trap).
+- Routing oracle panel status: local independent voices with no external
+  independent voice yield `local-only` (not `partial`); high-sensitivity reasons
+  are not masked by fleet/peer availability ordering.
 
 ## [1.0.0] — 2026-06-28
 

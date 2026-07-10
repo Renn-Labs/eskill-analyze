@@ -1,0 +1,66 @@
+{
+  "id": "T20-all-planned-have-terminal",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "fleet",
+      "peer-codex",
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "route_outcomes": {
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native"
+      }
+    }
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "blocked",
+      "reason": "high-sensitivity"
+    },
+    "peer-codex": {
+      "readiness": "blocked",
+      "reason": "high-sensitivity"
+    },
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "high-sensitivity",
+      "independent": false
+    },
+    {
+      "lane": "peer-codex",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "high-sensitivity",
+      "independent": false
+    },
+    {
+      "lane": "critic",
+      "observed_route": "native",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "local-only"
+}

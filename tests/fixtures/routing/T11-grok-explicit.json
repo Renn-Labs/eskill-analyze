@@ -1,0 +1,40 @@
+{
+  "id": "T11-grok-explicit",
+  "input": {
+    "harness": {
+      "explicit": "grok",
+      "available_clis": [
+        "claude"
+      ]
+    },
+    "requested_routes": [
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "route_outcomes": {
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native"
+      }
+    }
+  },
+  "expected_harness_identity": "grok",
+  "expected_plan": {
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "critic",
+      "observed_route": "native",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

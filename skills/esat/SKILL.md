@@ -1,14 +1,15 @@
 ---
 name: esat
-aliases: [eskill-analyze-trio, eskill-trio]
-description: "Tri-model (Claude + Codex + Grok) world-class level-up analysis. Same engine as eskill-analyze, but the stress-test phase is a mandatory 3-SOTA-model panel — Claude critic + Codex (gpt-5.5) + Grok (grok-build) independently review the item, then Claude synthesizes consensus / divergence / unique catches. Use for high-stakes analysis you want triple-checked across frontier models. Triggers: /esat, eskill analyze trio, trio analysis, three-model review."
+description: "Tri-model (Claude + Codex + Grok) world-class level-up analysis. Same engine as eskill-analyze, but the stress-test phase is a mandatory 3-SOTA-model panel — Claude critic + Codex + Grok independently review the item, then Claude synthesizes consensus / divergence / unique catches. Fixed trio product (not a configurable roster). Use for high-stakes analysis you want triple-checked across frontier models. Triggers: /esat, eskill analyze trio, eskill-analyze-trio, eskill-trio, trio analysis, three-model review."
 ---
 
 # eSkill: Analyze Trio (esat) — 3-SOTA-Model Level-Up Analyzer
 
-`esat` = `eskill-analyze` **+ a mandatory tri-model review panel**. It runs the full world-class analysis engine, then has three frontier models — **Claude** (`critic`), **Codex** (gpt-5.5), **Grok** (grok-build) — independently stress-test the item and the draft in parallel. You (Claude) are the only trusted integrator: you synthesize their verdicts into one panel and adjust the analysis accordingly.
+`esat` = `eskill-analyze` **+ a mandatory tri-model review panel**. It runs the full world-class analysis engine, then has three frontier models — **Claude** (`critic`), **Codex**, **Grok** — independently stress-test the item and the draft in parallel. You (Claude) are the only trusted integrator: you synthesize their verdicts into one panel and adjust the analysis accordingly.
 
 Use `esat` when the stakes justify a triple-model cross-check (architecture bets, strategy calls, build-vs-buy, anything you want frontier-model consensus on). For a lighter single-model pass, use `/esa` (eskill-analyze).
+
+**Product boundary:** Tier 2 is a deliberately **fixed trio**. Configurable rosters and harness-aware multi-route selection live in Phase 9 of `esat-fleet` / `esat-frontier`, not here.
 
 ## Engine — reuse eskill-analyze verbatim
 
@@ -26,7 +27,7 @@ Run the entire eskill-analyze protocol for Input Parameters, Triage, Delegation,
 
 ## Phase 9 — Tri-Model Panel
 
-After completing Steps 1–8 and producing the draft analysis, read and execute `${CLAUDE_SKILL_DIR}/references/trio-panel.md`. That file specifies the three concurrent reviewers, the untrusted-input synthesis rules, the gates/kill-switches, and the output block.
+After completing Steps 1–8 and producing the draft analysis, read and execute `${CLAUDE_SKILL_DIR}/references/trio-panel.md`. That file specifies the three concurrent reviewers, the untrusted-input synthesis rules, the gates/kill-switches, draft ownership for standalone vs caller-owned modes, and the output block.
 
 ## Output
 

@@ -1,0 +1,44 @@
+{
+  "id": "T5-medium-no-redactor",
+  "input": {
+    "harness": {
+      "explicit": "codex",
+      "host": "codex",
+      "available_clis": [
+        "claude",
+        "grok"
+      ]
+    },
+    "preference_sources": [],
+    "requested_routes": [
+      "fleet"
+    ],
+    "sensitivity_scopes": [
+      "medium"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": false,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "budget_usd": 1.0
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "blocked",
+      "reason": "redactor-unavailable"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "redactor-unavailable",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": false
+}

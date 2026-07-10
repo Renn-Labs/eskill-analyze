@@ -1,0 +1,48 @@
+{
+  "id": "T18-precedence-harness-over-portable-default",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "preference_sources": [
+      {
+        "source": "portable-default",
+        "model": "from-portable-default"
+      },
+      {
+        "source": "harness",
+        "model": "from-harness"
+      }
+    ],
+    "requested_routes": [
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "route_outcomes": {
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native"
+      }
+    }
+  },
+  "expected_preference_source": "harness",
+  "expected_preference_value": "from-harness",
+  "expected_plan": {
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "critic",
+      "observed_route": "native",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

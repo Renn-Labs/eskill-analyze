@@ -1,0 +1,38 @@
+{
+  "id": "T3c-budget-nonfinite",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "fleet"
+    ],
+    "sensitivity_scopes": [
+      "medium"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "budget_usd": "NaN"
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "blocked",
+      "reason": "invalid-budget"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "invalid-budget",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": false
+}

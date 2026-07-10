@@ -1,0 +1,56 @@
+{
+  "id": "T10-postexec-duplicate-observed",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "peer-codex",
+      "peer-grok"
+    ],
+    "sensitivity_scopes": [
+      "low"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "route_outcomes": {
+      "peer-codex": {
+        "outcome": "ran",
+        "observed_route": "same-model",
+        "observed_key": "prov/model/ctx"
+      },
+      "peer-grok": {
+        "outcome": "ran",
+        "observed_route": "same-model",
+        "observed_key": "prov/model/ctx"
+      }
+    }
+  },
+  "expected_plan": {
+    "peer-codex": {
+      "readiness": "ready",
+      "reason": null
+    },
+    "peer-grok": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-codex",
+      "observed_route": "same-model",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    },
+    {
+      "lane": "peer-grok",
+      "observed_route": "same-model",
+      "outcome": "ran",
+      "reason": null,
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "partial"
+}

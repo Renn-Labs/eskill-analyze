@@ -1,0 +1,42 @@
+{
+  "id": "T7-grok-only-roster",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "peer-grok"
+    ],
+    "sensitivity_scopes": [
+      "low"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "absent",
+      "status": "missing"
+    },
+    "route_outcomes": {
+      "peer-grok": {
+        "outcome": "ran",
+        "observed_route": "peer-grok"
+      }
+    }
+  },
+  "expected_plan": {
+    "peer-grok": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-grok",
+      "observed_route": "peer-grok",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

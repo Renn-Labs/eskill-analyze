@@ -1,0 +1,39 @@
+{
+  "id": "T8-explicit-pin-unavailable",
+  "input": {
+    "harness": {
+      "explicit": "grok"
+    },
+    "requested_routes": [
+      "peer-grok"
+    ],
+    "sensitivity_scopes": [
+      "low"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "pins": {
+      "peer-grok": {
+        "strict": true,
+        "available": false,
+        "model": "nonexistent-model"
+      }
+    }
+  },
+  "expected_plan": {
+    "peer-grok": {
+      "readiness": "blocked",
+      "reason": "explicit-pin-unavailable"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-grok",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "explicit-pin-unavailable",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only"
+}

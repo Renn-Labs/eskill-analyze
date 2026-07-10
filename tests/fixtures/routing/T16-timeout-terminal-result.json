@@ -1,0 +1,60 @@
+{
+  "id": "T16-timeout-terminal-result",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "fleet",
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "medium"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "budget_usd": 1.0,
+    "route_outcomes": {
+      "fleet": {
+        "outcome": "timeout",
+        "reason": "timeout"
+      },
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native-critic"
+      }
+    }
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "ready",
+      "reason": null
+    },
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "timeout",
+      "reason": "timeout",
+      "independent": false
+    },
+    {
+      "lane": "critic",
+      "observed_route": "native-critic",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": true
+}

@@ -1,7 +1,6 @@
 ---
 name: eskill-analyze
-aliases: [orchestrate, eo, esa]
-description: "World-class level-up analysis with first-principles thinking, systems mapping, and strategic frameworks. Produces prioritized action plans with project-level impact assessment. Absorbs eskill-orchestrate routing."
+description: "World-class level-up analysis with first-principles thinking, systems mapping, and strategic frameworks. Produces prioritized action plans with project-level impact assessment. Absorbs eskill-orchestrate routing. Also known as orchestrate, eo, or the long-form native analyzer; for the short Tier-1 entry point prefer /esa."
 ---
 
 # eSkill: Analyze — World-Class Level-Up Analyzer

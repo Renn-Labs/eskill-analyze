@@ -1,0 +1,50 @@
+{
+  "id": "T9-auto-fallback-disclosed",
+  "input": {
+    "harness": {
+      "explicit": "codex"
+    },
+    "requested_routes": [
+      "peer-codex"
+    ],
+    "sensitivity_scopes": [
+      "low"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "pins": {
+      "peer-codex": {
+        "strict": false
+      }
+    },
+    "route_available": {
+      "peer-codex": true
+    },
+    "auto_fallback": {
+      "peer-codex": true
+    },
+    "route_outcomes": {
+      "peer-codex": {
+        "outcome": "ran",
+        "observed_route": "account-default",
+        "reason": "auto-fallback-disclosed"
+      }
+    }
+  },
+  "expected_plan": {
+    "peer-codex": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-codex",
+      "observed_route": "account-default",
+      "outcome": "ran",
+      "reason": "auto-fallback-disclosed",
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

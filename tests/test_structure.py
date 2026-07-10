@@ -15,13 +15,31 @@ Checks the invariants that keep the bundle installable and portable:
 """
 from __future__ import annotations
 import json
+import os
 import pathlib
 import re
+import subprocess
 import sys
+import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
 SKILLS = ["eskill-common", "eskill-analyze", "esa", "esat", "esat-fleet", "esat-frontier"]
+# Local harness / agent telemetry — never treated as shipped product surfaces.
+_NON_PRODUCT_TOP = {".git", ".omc", ".omx", ".grokprint", "tests", "__pycache__", ".pytest_cache"}
+_PRIVACY_SUFFIXES = {".md", ".sh", ".svg", ".txt", ".yml", ".yaml", ".json"}
+_PUBLIC_ROOT_DOCS = (
+    "README.md",
+    "CHANGELOG.md",
+    "ROADMAP.md",
+    "LICENSE",
+    "LICENSE.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "RELEASE.md",
+    "install.sh",
+)
 
 
 def _frontmatter(text: str) -> str:
@@ -29,23 +47,97 @@ def _frontmatter(text: str) -> str:
     return m.group(1) if m else ""
 
 
+def _is_product_text(path: pathlib.Path) -> bool:
+    return path.suffix in _PRIVACY_SUFFIXES or path.name in {"install.sh", "LICENSE"}
+
+
+def _product_paths_for_privacy() -> list[pathlib.Path]:
+    """Public/product surfaces only.
+
+    Covers skills/, public root docs/scripts/config, and tracked public files.
+    Does **not** treat untracked hidden Grok/agent telemetry (e.g. ``.grokprint``)
+    as shipped product. Does **not** broadly hide tracked leaks: any tracked file
+    outside non-product tops is still scanned.
+    """
+    found: set[pathlib.Path] = set()
+
+    # skills/ always (primary product surface)
+    if SKILLS_DIR.is_dir():
+        for p in SKILLS_DIR.rglob("*"):
+            if p.is_file() and _is_product_text(p):
+                found.add(p)
+
+    # Public root docs + installer
+    for name in _PUBLIC_ROOT_DOCS:
+        p = ROOT / name
+        if p.is_file():
+            found.add(p)
+
+    # scripts/ and public config manifests
+    for rel in ("scripts", ".claude-plugin"):
+        d = ROOT / rel
+        if d.is_dir():
+            for p in d.rglob("*"):
+                if p.is_file() and _is_product_text(p):
+                    found.add(p)
+
+    # Tracked public files (catches tracked leaks; skips non-product tops)
+    try:
+        r = subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files", "-z"],
+            capture_output=True,
+            check=False,
+        )
+        if r.returncode == 0:
+            for raw in r.stdout.split(b"\0"):
+                if not raw:
+                    continue
+                rel = raw.decode("utf-8", errors="replace")
+                p = ROOT / rel
+                parts = pathlib.Path(rel).parts
+                if not parts or parts[0] in _NON_PRODUCT_TOP:
+                    continue
+                if p.is_file() and _is_product_text(p):
+                    found.add(p)
+    except OSError:
+        pass
+
+    return sorted(found)
+
+
 def test_skill_frontmatter():
+    unsupported = re.compile(
+        r"^(aliases|user-invocable|allowed-tools|argument-hint)\s*:",
+        re.MULTILINE,
+    )
     for s in SKILLS:
         skill = SKILLS_DIR / s / "SKILL.md"
         assert skill.is_file(), f"missing {skill}"
         fm = _frontmatter(skill.read_text(encoding="utf-8"))
         assert re.search(r"^name:\s*\S", fm, re.MULTILINE), f"{s}: no name: in frontmatter"
         assert re.search(r"^description:\s*\S", fm, re.MULTILINE), f"{s}: no description: in frontmatter"
+        bad = unsupported.findall(fm)
+        assert not bad, f"{s}: unsupported frontmatter keys: {bad}"
+
+
+def test_shared_model_routing_contract_present():
+    path = SKILLS_DIR / "eskill-common" / "references" / "model-routing.md"
+    assert path.is_file(), "eskill-common must ship model-routing.md"
+    text = path.read_text(encoding="utf-8")
+    assert "Preference precedence" in text
+    assert "Two-stage panel manifest" in text
+    fleet = (SKILLS_DIR / "esat-fleet" / "SKILL.md").read_text(encoding="utf-8")
+    frontier = (SKILLS_DIR / "esat-frontier" / "SKILL.md").read_text(encoding="utf-8")
+    assert "model-routing.md" in fleet and "model-routing.md" in frontier
 
 
 def test_no_absolute_user_paths():
     bad = []
-    for p in ROOT.rglob("*"):
-        rel_parts = p.relative_to(ROOT).parts
-        if not p.is_file() or rel_parts[0] in {".git", ".omc", ".omx", "tests"}:
-            continue
-        if p.suffix not in (".md", ".sh", ".svg", ".txt", ".yml", ".yaml", ".json"):
-            continue
+    scanned = _product_paths_for_privacy()
+    assert any(p.relative_to(ROOT).parts[0] == "skills" for p in scanned), (
+        "privacy scan must cover skills/"
+    )
+    for p in scanned:
         try:
             text = p.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
@@ -115,6 +207,42 @@ def test_esat_frontier_model_profiles_documented():
 
 def test_installer_present():
     assert (ROOT / "install.sh").is_file(), "install.sh missing"
+
+
+def test_installer_rejects_harness_path_traversal():
+    """--harness must allowlist-only; traversal values must not touch the filesystem."""
+    install = ROOT / "install.sh"
+    assert install.is_file()
+    with tempfile.TemporaryDirectory(prefix="eskill-harness-sec-") as outer:
+        outer_path = pathlib.Path(outer)
+        home = outer_path / "home"
+        home.mkdir()
+        # Baseline: only the empty home dir under outer.
+        before = {p.relative_to(outer_path) for p in outer_path.rglob("*")}
+        env = {**os.environ, "HOME": str(home)}
+        # Would resolve to $HOME/../escape/skills → outer/escape/skills if accepted.
+        traversal = "../escape"
+        r = subprocess.run(
+            ["bash", str(install), "--harness", traversal],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert r.returncode == 2, f"expected exit 2, got {r.returncode}: {r.stdout!r} {r.stderr!r}"
+        err = r.stderr.strip()
+        assert err, "expected concise error on stderr"
+        assert "invalid" in err.lower() or "harness" in err.lower(), err
+        assert traversal in err or "allowed" in err.lower(), err
+        after = {p.relative_to(outer_path) for p in outer_path.rglob("*")}
+        assert after == before, (
+            f"installer created paths under temp root: before={sorted(before)} after={sorted(after)}"
+        )
+        # Explicitly: no escape dir outside HOME, no skills dirs under HOME.
+        assert not (outer_path / "escape").exists()
+        assert not (home / ".claude").exists()
+        assert not any(home.iterdir()), f"HOME not empty: {list(home.iterdir())}"
 
 
 def main() -> int:

@@ -1,0 +1,50 @@
+{
+  "id": "T19-low-external-permission-denied-peer",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "peer-codex",
+      "peer-grok"
+    ],
+    "sensitivity_scopes": [
+      "low"
+    ],
+    "external_route_permission": "deny",
+    "redactor_available": false,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "budget_usd": 1.0
+  },
+  "expected_plan": {
+    "peer-codex": {
+      "readiness": "blocked",
+      "reason": "external-route-denied"
+    },
+    "peer-grok": {
+      "readiness": "blocked",
+      "reason": "external-route-denied"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-codex",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "external-route-denied",
+      "independent": false
+    },
+    {
+      "lane": "peer-grok",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "external-route-denied",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": false
+}

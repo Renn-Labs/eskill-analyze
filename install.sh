@@ -17,13 +17,29 @@ MODE=symlink
 ACTION=install
 EXTRA_HARNESSES=()
 
+# Only claude|codex|grok may be interpolated into $HOME/.$h/skills.
+_validate_harness() {
+  local h="$1"
+  case "$h" in
+    claude|codex|grok) return 0 ;;
+    *)
+      echo "invalid --harness value: $h (allowed: claude, codex, grok)" >&2
+      exit 2
+      ;;
+  esac
+}
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --copy) MODE=copy; shift ;;
     --uninstall) ACTION=uninstall; shift ;;
     --harness)
       shift
-      while [ $# -gt 0 ] && [[ "$1" != --* ]]; do EXTRA_HARNESSES+=("$1"); shift; done ;;
+      while [ $# -gt 0 ] && [[ "$1" != --* ]]; do
+        _validate_harness "$1"
+        EXTRA_HARNESSES+=("$1")
+        shift
+      done ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
@@ -33,9 +49,10 @@ done
 TARGETS=("$HOME/.claude/skills")
 for h in "${EXTRA_HARNESSES[@]:-}"; do
   [ -n "$h" ] || continue
+  _validate_harness "$h"  # belt-and-suspenders before any path use
   case "$h" in
     claude) : ;;  # already present
-    *) TARGETS+=("$HOME/.$h/skills") ;;
+    codex|grok) TARGETS+=("$HOME/.$h/skills") ;;
   esac
 done
 

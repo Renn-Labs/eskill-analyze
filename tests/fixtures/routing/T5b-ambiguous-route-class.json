@@ -1,0 +1,39 @@
+{
+  "id": "T5b-ambiguous-route-class",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "requested_routes": [
+      "peer-codex"
+    ],
+    "sensitivity_scopes": [
+      "medium"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "current-invocation",
+      "status": "valid"
+    },
+    "route_classes": {
+      "peer-codex": "ambiguous"
+    }
+  },
+  "expected_plan": {
+    "peer-codex": {
+      "readiness": "blocked",
+      "reason": "ambiguous-route-class"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "peer-codex",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "ambiguous-route-class",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only"
+}

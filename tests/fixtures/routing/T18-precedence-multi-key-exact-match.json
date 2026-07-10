@@ -1,0 +1,61 @@
+{
+  "id": "T18-precedence-multi-key-exact-match",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "preference_sources": [
+      {
+        "source": "explicit-invocation",
+        "key": "temperature",
+        "value": "must-not-resolve-as-model"
+      },
+      {
+        "source": "explicit-invocation",
+        "key": "lead",
+        "value": "fable"
+      },
+      {
+        "source": "session",
+        "key": "model",
+        "value": "from-session-model-key"
+      },
+      {
+        "source": "project",
+        "model": "from-project-direct"
+      }
+    ],
+    "requested_routes": [
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "route_outcomes": {
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native",
+        "observed_provider": "native",
+        "observed_model": "critic"
+      }
+    }
+  },
+  "expected_preference_source": "session",
+  "expected_preference_value": "from-session-model-key",
+  "expected_plan": {
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "critic",
+      "observed_route": "native",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

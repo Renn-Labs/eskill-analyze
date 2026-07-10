@@ -1,0 +1,41 @@
+{
+  "id": "T11-codex-host",
+  "input": {
+    "harness": {
+      "host": "codex",
+      "available_clis": [
+        "claude",
+        "grok"
+      ]
+    },
+    "requested_routes": [
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "route_outcomes": {
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native-child"
+      }
+    }
+  },
+  "expected_harness_identity": "codex",
+  "expected_plan": {
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "critic",
+      "observed_route": "native-child",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

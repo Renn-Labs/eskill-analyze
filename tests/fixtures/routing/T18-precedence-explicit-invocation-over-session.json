@@ -1,0 +1,48 @@
+{
+  "id": "T18-precedence-explicit-invocation-over-session",
+  "input": {
+    "harness": {
+      "explicit": "claude"
+    },
+    "preference_sources": [
+      {
+        "source": "session",
+        "model": "from-session"
+      },
+      {
+        "source": "explicit-invocation",
+        "model": "from-explicit-invocation"
+      }
+    ],
+    "requested_routes": [
+      "critic"
+    ],
+    "sensitivity_scopes": [
+      "high"
+    ],
+    "route_outcomes": {
+      "critic": {
+        "outcome": "ran",
+        "observed_route": "native"
+      }
+    }
+  },
+  "expected_preference_source": "explicit-invocation",
+  "expected_preference_value": "from-explicit-invocation",
+  "expected_plan": {
+    "critic": {
+      "readiness": "ready",
+      "reason": null
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "critic",
+      "observed_route": "native",
+      "outcome": "ran",
+      "reason": null,
+      "independent": true
+    }
+  ],
+  "expected_panel_status": "full"
+}

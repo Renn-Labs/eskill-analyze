@@ -12,6 +12,14 @@ Default posture:
 - **Reviewers**: Sonnet 5, Codex Medium, Grok, plus optional fleet/OpenRouter voices when configured.
 - **Synthesis**: the lead does not average votes. It verifies claims, reconciles disagreements, and emits one evidence-backed verdict.
 
+## Shared routing contract (load first)
+
+Before Phase 9 dispatch, read and obey:
+
+`${CLAUDE_SKILL_DIR}/../eskill-common/references/model-routing.md`
+
+That contract defines semantic role vs requested vs actual route, preference precedence, harness identity, strict pins, disclosed automatic fallback, strongest-restriction policy, metered consent, two-stage manifest, and two-phase deduplication. This skill owns Phase-9 composition only.
+
 ## Engine — reuse eskill-analyze verbatim
 
 Run the full `eskill-analyze` protocol for Input Parameters, Triage, Delegation, Framework Selection, Evidence Gathering, and Steps 1-8. Read and follow, in order:
@@ -28,25 +36,31 @@ Run the full `eskill-analyze` protocol for Input Parameters, Triage, Delegation,
 - **Phase 9 uses this skill's fusion panel**, not `eskill-analyze`'s single critic and not `esat`'s fixed trio.
 - **The lead is responsible for judgment**, not just summarization. It must verify claims against the item/repo before adopting reviewer output.
 - **Model labels are portable profiles**, not provider IDs. Resolve `Fable`, `Sonnet 5`, `Codex Medium`, and `Grok` through `references/model-profiles.md` before dispatching reviewers.
+- **Preserve the current host model as host**; managed reviewer roles resolve independently and must not claim the host was hot-swapped.
+- **Codex and Grok dispatch independently** (`peer codex` / `peer grok`). Never use roster-driven `peer trio` for this tier.
+- **Exact pins are strict**; unavailable routes are reported, not silently substituted. Disclose actual model or account default — never stale fixed version labels.
 
 ## Phase 9 — Frontier Fusion Panel
 
 After Steps 1-8 produce the draft analysis, read and execute:
 
-1. `${CLAUDE_SKILL_DIR}/references/model-profiles.md`
-2. `${CLAUDE_SKILL_DIR}/references/frontier-panel.md`
+1. `${CLAUDE_SKILL_DIR}/../eskill-common/references/model-routing.md` (if not already loaded)
+2. `${CLAUDE_SKILL_DIR}/references/model-profiles.md`
+3. `${CLAUDE_SKILL_DIR}/references/frontier-panel.md`
 
 ## Configuration
 
-Use environment variables when the harness or shell supports them:
+Use environment variables when the harness or shell supports them (legacy environment tier in precedence; explicit invocation and session outrank them):
 
 | Variable | Default | Effect |
 |-|-|-|
 | `ESAT_FRONTIER_LEAD` | `fable` | Preferred lead profile. Resolve aliases through `model-profiles.md`; if unavailable, use the strongest available frontier profile and state the fallback. |
 | `ESAT_FRONTIER_ROSTER` | `sonnet-5,codex-medium,grok` | Comma-separated reviewer profiles. Resolve aliases through `model-profiles.md`; unknown or unavailable labels are skipped with a panel note. |
-| `ESAT_FRONTIER_FLEET` | `0` | `1` adds the `esat-fleet` OSS swarm leg through `fleet-fuse` when sensitivity allows. |
-| `ESAT_FRONTIER_SENSITIVITY` | `medium` | `high` keeps review local/first-party only; `medium` allows redacted external reviewers; `low` allows broader low-tier pools. |
-| `ESAT_FRONTIER_BUDGET_USD` | unset | Optional cap for external fleet calls. |
+| `ESAT_FRONTIER_FLEET` | `0` | `1` adds the `fleet` OSS swarm leg through `fleet-fuse` when sensitivity, redaction, permission, budget, and metered consent allow. |
+| `ESAT_FRONTIER_SENSITIVITY` | `medium` | `high` keeps review local/first-party only; `medium` allows redacted external reviewers; `low` allows broader low-tier pools; invalid fails closed. |
+| `ESAT_FRONTIER_BUDGET_USD` | unset | Optional positive numeric cap for external fleet calls. Absent → disclose `provider/account cap only`. Invalid → fail closed. |
+
+Preference precedence (from the shared contract): explicit invocation > session > project > user > legacy environment > harness > portable default.
 
 ## Output
 

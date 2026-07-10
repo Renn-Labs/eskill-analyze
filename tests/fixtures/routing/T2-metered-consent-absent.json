@@ -1,0 +1,43 @@
+{
+  "id": "T2-metered-consent-absent",
+  "input": {
+    "harness": {
+      "explicit": "claude",
+      "available_clis": [
+        "claude"
+      ]
+    },
+    "preference_sources": [],
+    "requested_routes": [
+      "fleet"
+    ],
+    "sensitivity_scopes": [
+      "medium"
+    ],
+    "external_route_permission": "allow",
+    "redactor_available": true,
+    "metered_consent": {
+      "source": "absent",
+      "status": "missing"
+    },
+    "budget_usd": 1.0,
+    "route_outcomes": {}
+  },
+  "expected_plan": {
+    "fleet": {
+      "readiness": "blocked",
+      "reason": "metered-consent-missing"
+    }
+  },
+  "expected_results": [
+    {
+      "lane": "fleet",
+      "observed_route": null,
+      "outcome": "blocked",
+      "reason": "metered-consent-missing",
+      "independent": false
+    }
+  ],
+  "expected_panel_status": "local-only",
+  "expected_yes_metered": false
+}
