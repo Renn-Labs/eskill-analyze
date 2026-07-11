@@ -30,6 +30,9 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   (contract evidence; not live harness conformance).
 
 ### Changed
+- **Installer safety**: installations now refuse unowned collisions by default,
+  mark owned copies, serialize concurrent runs, stage replacements, and restore
+  prior targets if a swap fails. `--force` remains the explicit destructive path.
 - **`esat-fleet`**: caller-owned draft retained across trio and fleet consumers
   with single cleanup after success/skip/failure/timeout; FleetFuse uses
   `--yes-metered` only after accepted current-run consent; blocked/skipped lanes

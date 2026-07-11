@@ -13,8 +13,9 @@ Run before tagging a version or changing repository visibility. Targets a standa
 ```bash
 python3 -m pytest -q
 python3 tests/test_structure.py                 # frontmatter, no abs paths, cross-refs resolve, README tiers
-python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/esa
-python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/esat-frontier
+for skill in skills/*; do
+  python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py "$skill"
+done
 shellcheck install.sh                            # installer is clean
 # install/uninstall round-trip into a throwaway HOME:
 H="$(mktemp -d)"; HOME="$H" bash install.sh && \

@@ -1721,7 +1721,14 @@ def test_copy_install_uninstall_codex_grok_temp_home():
         assert r2.returncode == 0, r2.stderr + r2.stdout
         for harness in ("claude", "codex", "grok"):
             base = pathlib.Path(tmp) / f".{harness}" / "skills"
-            for skill in ("eskill-common", "esat-fleet", "esat-frontier"):
+            for skill in (
+                "eskill-common",
+                "eskill-analyze",
+                "esa",
+                "esat",
+                "esat-fleet",
+                "esat-frontier",
+            ):
                 assert not (base / skill).exists(), f"uninstall left {base / skill}"
 
 

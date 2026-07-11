@@ -18,13 +18,21 @@ import json
 import os
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
-SKILLS = ["eskill-common", "eskill-analyze", "esa", "esat", "esat-fleet", "esat-frontier"]
+SKILLS = [
+    "eskill-common",
+    "eskill-analyze",
+    "esa",
+    "esat",
+    "esat-fleet",
+    "esat-frontier",
+]
 # Local harness / agent telemetry — never treated as shipped product surfaces.
 _NON_PRODUCT_TOP = {".git", ".omc", ".omx", ".grokprint", "tests", "__pycache__", ".pytest_cache"}
 _PRIVACY_SUFFIXES = {".md", ".sh", ".svg", ".txt", ".yml", ".yaml", ".json"}
@@ -209,8 +217,20 @@ def test_installer_present():
     assert (ROOT / "install.sh").is_file(), "install.sh missing"
 
 
+def test_installer_lists_all_skills():
+    text = (ROOT / "install.sh").read_text(encoding="utf-8")
+    match = re.search(r"^SKILLS=\(([^)]*)\)", text, re.MULTILINE)
+    assert match, "install.sh must declare SKILLS=(...)"
+    installed = set(match.group(1).split())
+    assert installed == set(SKILLS), (
+        f"installer skill set differs: expected={sorted(SKILLS)} actual={sorted(installed)}"
+    )
+
+
 def test_installer_rejects_harness_path_traversal():
     """--harness must allowlist-only; traversal values must not touch the filesystem."""
+    if os.name == "nt":
+        return  # Installer execution is covered by Bash-capable Linux/macOS jobs.
     install = ROOT / "install.sh"
     assert install.is_file()
     with tempfile.TemporaryDirectory(prefix="eskill-harness-sec-") as outer:
@@ -243,6 +263,146 @@ def test_installer_rejects_harness_path_traversal():
         assert not (outer_path / "escape").exists()
         assert not (home / ".claude").exists()
         assert not any(home.iterdir()), f"HOME not empty: {list(home.iterdir())}"
+
+
+def test_installer_preserves_foreign_skill():
+    """Install and uninstall must not destroy a same-named skill they do not own."""
+    if os.name == "nt":
+        return  # Installer execution is covered by Bash-capable Linux/macOS jobs.
+    install = ROOT / "install.sh"
+    with tempfile.TemporaryDirectory(prefix="eskill-collision-") as tmp:
+        home = pathlib.Path(tmp)
+        foreign = home / ".claude" / "skills" / "esa"
+        foreign.mkdir(parents=True)
+        sentinel = foreign / "USER_OWNED.txt"
+        sentinel.write_text("preserve me\n", encoding="utf-8")
+        env = {**os.environ, "HOME": str(home)}
+
+        attempted = subprocess.run(
+            ["bash", str(install), "--copy"],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert attempted.returncode == 3, attempted.stderr + attempted.stdout
+        assert sentinel.read_text(encoding="utf-8") == "preserve me\n"
+        assert not (home / ".claude" / "skills" / "eskill-common").exists(), (
+            "collision preflight must run before any skill target is mutated"
+        )
+
+        removed = subprocess.run(
+            ["bash", str(install), "--uninstall"],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert removed.returncode == 0, removed.stderr + removed.stdout
+        assert sentinel.read_text(encoding="utf-8") == "preserve me\n"
+
+        forced = subprocess.run(
+            ["bash", str(install), "--copy", "--force"],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert forced.returncode == 0, forced.stderr + forced.stdout
+        assert not sentinel.exists()
+        marker = foreign / ".eskill-analyze-installed"
+        assert marker.read_text(encoding="utf-8") == "eskill-analyze:esa\n"
+
+        owned_remove = subprocess.run(
+            ["bash", str(install), "--uninstall"],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert owned_remove.returncode == 0, owned_remove.stderr + owned_remove.stdout
+        assert not foreign.exists()
+
+
+def test_installer_lock_and_rollback():
+    """Active locks must fail closed; a failed swap must restore prior targets."""
+    if os.name == "nt":
+        return  # Installer execution is covered by Bash-capable Linux/macOS jobs.
+    install = ROOT / "install.sh"
+    with tempfile.TemporaryDirectory(prefix="eskill-rollback-") as tmp:
+        home = pathlib.Path(tmp) / "home"
+        skills_root = home / ".claude" / "skills"
+        skills_root.mkdir(parents=True)
+        env = {**os.environ, "HOME": str(home)}
+
+        lock = skills_root / ".eskill-analyze-install.lock"
+        lock.mkdir()
+        locked = subprocess.run(
+            ["bash", str(install), "--copy"],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert locked.returncode == 4, locked.stderr + locked.stdout
+        assert not (skills_root / "esa").exists()
+        lock.rmdir()
+
+        initial = subprocess.run(
+            ["bash", str(install), "--copy"],
+            cwd=str(ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert initial.returncode == 0, initial.stderr + initial.stdout
+        sentinel = skills_root / "esa" / "ROLLBACK_SENTINEL.txt"
+        sentinel.write_text("original\n", encoding="utf-8")
+
+        fake_bin = pathlib.Path(tmp) / "bin"
+        fake_bin.mkdir()
+        fake_mv = fake_bin / "mv"
+        fake_mv.write_text(
+            "#!/usr/bin/env bash\n"
+            "n=0\n"
+            "[ -f \"$MV_COUNTER\" ] && n=$(cat \"$MV_COUNTER\")\n"
+            "n=$((n + 1))\n"
+            "printf '%s\\n' \"$n\" > \"$MV_COUNTER\"\n"
+            "if [ \"$n\" -eq \"$MV_FAIL_AT\" ]; then exit 77; fi\n"
+            "exec \"$REAL_MV\" \"$@\"\n",
+            encoding="utf-8",
+        )
+        fake_mv.chmod(0o755)
+        counter = pathlib.Path(tmp) / "mv-counter"
+        injected_env = {
+            **env,
+            "PATH": f"{fake_bin}{os.pathsep}{env['PATH']}",
+            "REAL_MV": shutil.which("mv") or "mv",
+            "MV_COUNTER": str(counter),
+            "MV_FAIL_AT": "6",
+        }
+        failed = subprocess.run(
+            ["bash", str(install), "--copy"],
+            cwd=str(ROOT),
+            env=injected_env,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert failed.returncode == 77, failed.stderr + failed.stdout
+        assert sentinel.read_text(encoding="utf-8") == "original\n"
+        for skill in SKILLS:
+            assert (skills_root / skill / "SKILL.md").is_file(), (
+                f"failed swap did not restore {skill}"
+            )
+        assert not list(skills_root.glob(".eskill-analyze-backup-*"))
+        assert not list(skills_root.glob(".eskill-analyze-stage-*"))
 
 
 def main() -> int:

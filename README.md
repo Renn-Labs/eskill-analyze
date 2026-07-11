@@ -162,7 +162,8 @@ Invoke by slash command or natural-language trigger inside your harness:
 /esat-frontier <your analysis request> # Tier 4 — frontier-led fusion
 ```
 
-The skill asks for the four required inputs (Project, Focus Area, Current State, World-Class Definition) if you don't supply them, states its triage decision, then runs. Output is saved to `.omc/plans/`.
+The four analysis tiers ask for the required analysis inputs if you do not supply them, state the triage decision,
+and then run. Their output is saved to `.omc/plans/`.
 
 ---
 
