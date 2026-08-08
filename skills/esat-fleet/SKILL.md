@@ -21,7 +21,7 @@ That contract defines semantic role vs requested vs actual route, preference pre
 
 Run `esat` for the engine and trio reviewers, with **one ownership change**:
 
-1. `${CLAUDE_SKILL_DIR}/../esat/SKILL.md` — which reuses the eskill-analyze engine (Input Params, Triage, Delegation, mental models, Phase 0 + Steps 1–8, output template) and defines the fixed trio panel.
+1. `${CLAUDE_SKILL_DIR}/../esat/SKILL.md` — which reuses the eskill-analyze engine (Input Params, Triage, Delegation, mental models, Phase 0 + Steps 1–8 + Phase P Premortem (when activated), output template) and defines the fixed trio panel.
 2. `${CLAUDE_SKILL_DIR}/../esat/references/trio-panel.md` — Phase 9 reviewers 1–3. **Use the caller-owned draft lifecycle**: Tier 3 supplies `$DRAFT`, defines `$PEER_DISPATCH_INPUT` separately from raw `$DRAFT`, the trio must not delete the draft, and Tier 3 cleans once after all consumers finish.
 
 `esat-fleet` changes Phase 9 as follows:

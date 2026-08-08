@@ -13,12 +13,12 @@ Use `esat` when the stakes justify a triple-model cross-check (architecture bets
 
 ## Engine — reuse eskill-analyze verbatim
 
-Run the entire eskill-analyze protocol for Input Parameters, Triage, Delegation, Framework Selection, and Steps 1–8. Read and follow, in order:
+Run the entire eskill-analyze protocol for Input Parameters, Triage, Delegation, Framework Selection, Steps 1–8, and Phase P Premortem (when triage activates it). Read and follow, in order:
 
 1. `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md` — Input Parameters, Scope check, Triage gate, Delegation Strategy, Framework Selection, Comparison Mode, Project-Level Impact, Post-Analysis Routing. **Apply the two esat overrides below.**
 2. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/triage-guide.md` — classification
 3. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/mental-models.md` — model selection
-4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — Phase 0 + Steps 1–8. **Skip that file's "Phase 9: Stress Test"** — esat replaces it with the trio panel.
+4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — Phase 0 + Steps 1–8 + **Phase P Premortem** (when triage activates it). **Skip that file's "Phase 9: Stress Test"** — esat replaces Phase 9 with the trio panel.
 5. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/world-class-signals.md`
 
 ### esat overrides (only two differences from eskill-analyze)
@@ -27,7 +27,7 @@ Run the entire eskill-analyze protocol for Input Parameters, Triage, Delegation,
 
 ## Phase 9 — Tri-Model Panel
 
-After completing Steps 1–8 and producing the draft analysis, read and execute `${CLAUDE_SKILL_DIR}/references/trio-panel.md`. That file specifies the three concurrent reviewers, the untrusted-input synthesis rules, the gates/kill-switches, draft ownership for standalone vs caller-owned modes, and the output block.
+After completing Steps 1–8 and Phase P (when activated) and producing the draft analysis, read and execute `${CLAUDE_SKILL_DIR}/references/trio-panel.md`. That file specifies the three concurrent reviewers, the untrusted-input synthesis rules, the gates/kill-switches, draft ownership for standalone vs caller-owned modes, and the output block.
 
 ## Output
 

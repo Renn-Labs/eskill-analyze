@@ -9,6 +9,9 @@ Use this as the short callable wrapper for the original `eskill-analyze` engine.
 
 Run `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md` exactly as written.
 
+That engine includes **Phase P (Premortem Cycle)** when triage scale is `standard` /
+`deep` (or `quick` with premortem keywords). Phase P is not optional on those scales.
+
 ## Boundary
 
 - Do not run the `esat`, `esat-fleet`, or `esat-frontier` panel.

@@ -31,7 +31,8 @@ Given a project, focus area, current state, and a definition of "world-class", t
 1. **Triages** the request (`technical` / `product` / `strategic` / `comparative`; `quick` / `standard` / `deep`) and activates only the relevant agents, mental models, and phases.
 2. **Gathers evidence** (Phase 0) — codebase exploration, external benchmarks, quantitative data — only where the triage warrants it.
 3. **Analyzes** (Steps 1–8) with 3–4 selected mental models from a 13-model toolkit (First Principles, JTBD, Inversion, Feedback Loops, Coupling/Cohesion, Scalability Ceiling, Security Surface, …). Irrelevant steps are skipped, not padded.
-4. **Stress-tests** (Phase 9) at the rigor of the chosen tier.
+4. **Premortem (Phase P)** on standard/deep (or quick + keyword): freeze the bet, ranked failure modes, kill criteria, action deltas — *before* the stress test.
+5. **Stress-tests** (Phase 9) at the rigor of the chosen tier (analysis quality; may also attack Phase P kill criteria).
 5. **Outputs** a prioritized action table (impact / effort / confidence / reversibility / horizon) plus world-class criteria, ready to hand to a sprint.
 
 The guiding discipline is *selective, not exhaustive*: fewer better priorities, every recommendation buildable today, no filler sections. See `skills/eskill-common/references/quality-principles.md`.

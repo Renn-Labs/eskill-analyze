@@ -139,6 +139,48 @@ def test_shared_model_routing_contract_present():
     assert "model-routing.md" in fleet and "model-routing.md" in frontier
 
 
+def test_premortem_phase_p_contract():
+    """Phase P is a first-class cycle before Phase 9; template + triage must agree."""
+    protocol = (SKILLS_DIR / "eskill-analyze" / "references" / "analysis-protocol.md").read_text(
+        encoding="utf-8"
+    )
+    triage = (SKILLS_DIR / "eskill-analyze" / "references" / "triage-guide.md").read_text(
+        encoding="utf-8"
+    )
+    template = (SKILLS_DIR / "eskill-analyze" / "assets" / "output-template.md").read_text(
+        encoding="utf-8"
+    )
+    skill = (SKILLS_DIR / "eskill-analyze" / "SKILL.md").read_text(encoding="utf-8")
+    esa = (SKILLS_DIR / "esa" / "SKILL.md").read_text(encoding="utf-8")
+    anti = (SKILLS_DIR / "eskill-common" / "references" / "anti-slop-rules.md").read_text(
+        encoding="utf-8"
+    )
+    trio = (SKILLS_DIR / "esat" / "references" / "trio-panel.md").read_text(encoding="utf-8")
+
+    assert "## PHASE P: Premortem Cycle" in protocol
+    assert "PHASE 9: Stress Test" in protocol
+    # Phase P must be defined before Phase 9 in the protocol file
+    assert protocol.index("## PHASE P: Premortem Cycle") < protocol.index("## PHASE 9: Stress Test")
+    assert "Inversion Seed" in protocol
+    assert "Kill criteria" in protocol
+    assert "falsifiable" in protocol.lower()
+
+    assert "Phase P: Premortem Cycle" in triage or "Phase P" in triage
+    assert "premortem" in triage.lower() or "pre-mortem" in triage.lower()
+    assert "kill criteria" in triage.lower()
+
+    assert "### Premortem Cycle" in template
+    assert "**Kill criteria**" in template
+    assert "### Premortem Cycle (shared)" in template
+
+    assert "Phase P" in skill
+    assert "Premortem" in skill or "premortem" in skill.lower()
+    assert "Phase P" in esa
+
+    assert "Premortem is not boilerplate" in anti
+    assert "kill criteria" in trio.lower()
+
+
 def test_no_absolute_user_paths():
     bad = []
     scanned = _product_paths_for_privacy()

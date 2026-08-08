@@ -12,3 +12,4 @@ These rules override all other instructions during execution:
 8. **Delete > Comment.** If something is unused, remove it. Don't comment it out "for reference."
 9. **No AI tells.** No "// Added for better user experience", no "Enhanced version", no "Comprehensive solution". Just write the code.
 10. **Quality gate**: After each task, ask: "Would a senior engineer approve this PR?" If no, fix it before committing.
+11. **Premortem is not boilerplate.** When Phase P runs, every failure mode needs a project-specific mechanism and an earliest signal. Reject "execution risk", "communication risk", or "lack of resources" without mechanism. At least one kill criterion must be falsifiable without a meeting.

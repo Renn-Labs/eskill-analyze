@@ -1,6 +1,6 @@
 {
   "name": "renn-labs",
-  "description": "Renn Labs' Claude Code marketplace — eskill-analyze, the world-class level-up analysis suite (native engine, frontier trio, OSS-swarm council, and frontier-led fusion).",
+  "description": "Renn Labs' Claude Code marketplace \u2014 eskill-analyze, the world-class level-up analysis suite (native engine, frontier trio, OSS-swarm council, and frontier-led fusion).",
   "owner": {
     "name": "Renn Labs",
     "url": "https://github.com/Renn-Labs"
@@ -9,7 +9,8 @@
     {
       "name": "eskill-analyze",
       "source": "./",
-      "description": "World-class level-up analysis: /esa (native engine), /esat (frontier trio), /esat-fleet (trio + OpenRouter OSS council), /esat-frontier (Fable/frontier-led configurable fusion)."
+      "description": "World-class level-up analysis: /esa (native engine), /esat (frontier trio), /esat-fleet (trio + OpenRouter OSS council), /esat-frontier (Fable/frontier-led configurable fusion).",
+      "version": "1.1.0"
     }
   ]
 }

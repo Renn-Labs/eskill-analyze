@@ -22,11 +22,15 @@ If multiple types match, use the dominant one. When types are equally weighted, 
 
 ## Step 2: Classify Scale
 
-| Scale | Signals | Stress Test? |
-|-|-|-|
-| `quick` | Single focused question, narrow scope, "just tell me" | No |
-| `standard` | Feature, system, or product area analysis | Yes |
-| `deep` | Strategic, high-stakes, multi-system, "world-class" language | Yes (always) |
+| Scale | Signals | Premortem (Phase P)? | Stress Test (Phase 9)? |
+|-|-|-|-|
+| `quick` | Single focused question, narrow scope, "just tell me" | No* | No |
+| `standard` | Feature, system, or product area analysis | Yes (compact) | Yes |
+| `deep` | Strategic, high-stakes, multi-system, "world-class" language | Yes (mandatory, full) | Yes (always) |
+
+\* **Premortem keyword override:** activate Phase P even on `quick` when the user says
+premortem, pre-mortem, kill criteria, failure modes, "what if this fails", "what kills this",
+or asks for an explicit stop/abort plan.
 
 **Override rules:**
 - Bump `quick` → `standard` if the question requires codebase evidence to answer (e.g., "what's wrong with our test coverage?" is narrow but needs data).
@@ -77,9 +81,12 @@ Pick 3-4 max from the recommended set. Never force all models.
 |-|-|-|-|
 | Phase 0: Evidence Gathering | Skip | Activate relevant agents | Activate all applicable agents |
 | Steps 1-8: Analysis Protocol | Pick 3-4 relevant steps | Pick 4-6 relevant steps | All applicable steps with selected frameworks* |
+| **Phase P: Premortem Cycle** | Skip** | Compact cycle (3–5 modes) | Full cycle (5–8 modes, mandatory) |
 | Phase 9: Stress Test | Skip | Run critic | Run critic (mandatory) |
 
-\* Skip steps clearly irrelevant to the analysis type. E.g., AAARRR (Step 8) and Competitive Analysis (Step 7) are product/strategic only — skip for pure technical analyses. JTBD (Step 3) is product only — skip for pure engineering questions.
+\* Skip steps clearly irrelevant to the analysis type. E.g., AAARRR (Step 8) and Competitive Analysis (Step 7) are product/strategic only — skip for pure technical analyses. JTBD (Step 3) is product only — skip for pure engineering questions. Step 6 is an **inversion seed** only; the full premortem is Phase P.
+
+\** Activate Phase P on `quick` when the premortem keyword override fires (Step 2).
 
 ## Output
 

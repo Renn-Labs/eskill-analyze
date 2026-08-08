@@ -6,7 +6,7 @@ Apply as relevant — NOT every analysis needs every model.
 |-|-|
 | **First Principles** | What's fundamentally true? Strip everything away. |
 | **Jobs-to-be-Done** | What job is the user hiring this for? |
-| **Inversion** | What would guarantee failure? Avoid that. |
+| **Inversion** | What would guarantee failure? Avoid that. (Seeds **Phase P Premortem**; full cycle is not this model alone.) |
 | **7-Step Ahead** | What happens at each stage of the causal chain? |
 | **Feedback Loops** | What compounds? What decays? What's the flywheel? |
 | **Unit Economics** | CAC, LTV, payback — does this math work? |

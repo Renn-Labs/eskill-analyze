@@ -38,7 +38,7 @@ Classify the prompt:
 2. **Scale**: quick / standard / deep
 3. **Agents**: which of the 6 agents to activate
 4. **Models**: which 3-4 mental models to apply
-5. **Phases**: which phases are active (Phase 0, Steps 1-8, Phase 9)
+5. **Phases**: which phases are active (Phase 0, Steps 1-8, Phase P Premortem, Phase 9)
 
 State the triage result before proceeding. This determines everything that follows.
 
@@ -97,8 +97,9 @@ Read `${CLAUDE_SKILL_DIR}/references/analysis-protocol.md`
 
 Execute in order:
 1. **Phase 0: Evidence Gathering** — if triage activated it, run the evidence agents and synthesize
-2. **Steps 1-8: Core Analysis** — apply only selected frameworks, skip irrelevant steps entirely
-3. **Phase 9: Stress Test** — if triage activated it (standard/deep scale), run the critic agent and integrate feedback
+2. **Steps 1-8: Core Analysis** — apply only selected frameworks, skip irrelevant steps entirely; Step 6 is an inversion seed only
+3. **Phase P: Premortem Cycle** — if triage activated it (standard/deep, or quick + keyword), freeze the bet, generate failure modes + kill criteria, update provisional actions; see analysis-protocol Phase P
+4. **Phase 9: Stress Test** — if triage activated it (standard/deep scale), run the critic agent and integrate feedback (including attacks on kill criteria when Phase P ran)
 
 ## Comparison Mode
 
@@ -134,8 +135,9 @@ Present the analysis using the appropriate template variant:
 Include only the sections that are relevant:
 - Triage header: always
 - Evidence Summary: only when Phase 0 ran
+- Premortem Cycle: only when Phase P ran (standard/deep, or quick + keyword)
 - Stress Test Notes: only when Phase 9 surfaced material changes
-- Confidence column: only when stress test ran
+- Confidence column: only when stress test and/or Phase P adjusted ratings
 - Mermaid diagrams: only when system relationships are complex (3+ components)
 
 ## Post-Analysis Routing

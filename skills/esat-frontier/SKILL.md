@@ -27,7 +27,7 @@ Run the full `eskill-analyze` protocol for Input Parameters, Triage, Delegation,
 1. `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md`
 2. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/triage-guide.md`
 3. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/mental-models.md`
-4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — run Phase 0 + Steps 1-8. **Skip that file's Phase 9.**
+4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — run Phase 0 + Steps 1-8 + **Phase P Premortem** (when triage activates it). **Skip that file's Phase 9.**
 5. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/world-class-signals.md`
 
 ## Frontier overrides
@@ -42,7 +42,7 @@ Run the full `eskill-analyze` protocol for Input Parameters, Triage, Delegation,
 
 ## Phase 9 — Frontier Fusion Panel
 
-After Steps 1-8 produce the draft analysis, read and execute:
+After Steps 1-8 and Phase P (when activated) produce the draft analysis, read and execute:
 
 1. `${CLAUDE_SKILL_DIR}/../eskill-common/references/model-routing.md` (if not already loaded)
 2. `${CLAUDE_SKILL_DIR}/references/model-profiles.md`

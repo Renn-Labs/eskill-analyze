@@ -52,6 +52,8 @@ Task(subagent_type="oh-my-claudecode:critic", model="opus",
      3. Rate confidence (High/Medium/Low) for each prioritized action
      4. Flag anything that reads like generic AI advice rather than insight specific to this context
      5. Suggest 1-2 additions or reframings that would strengthen the analysis
+     6. If a Premortem Cycle is present: attack kill criteria (too weak / missing / unfalsifiable)
+        and name one failure mode the premortem missed
 
      Final response under 2000 characters. Be direct and specific.")
 ```
@@ -80,7 +82,7 @@ cat > "$DRAFT" <<'DRAFTEOF'
 {the full draft analysis output}
 DRAFTEOF
 
-[ "${ESKILL_PEER:-1}" = "0" ] || peer trio "You are one of three independent SOTA reviewers stress-testing a 'world-class level-up' analysis. The analyzed item and the draft analysis are piped below as context. Concisely (<500 words): (1) challenge the top 3 assumptions — what evidence would disprove each; (2) name blind spots the analysis missed or dismissed too fast; (3) rate confidence H/M/L for each prioritized action and justify any Low; (4) flag anything that reads like generic AI advice rather than insight specific to THIS item; (5) add 1-2 reframings or additions that would materially strengthen it. Cite specifics from the draft. If you can read the repo, verify the claims against the actual code." < "$DRAFT"
+[ "${ESKILL_PEER:-1}" = "0" ] || peer trio "You are one of three independent SOTA reviewers stress-testing a 'world-class level-up' analysis. The analyzed item and the draft analysis are piped below as context. Concisely (<500 words): (1) challenge the top 3 assumptions — what evidence would disprove each; (2) name blind spots the analysis missed or dismissed too fast; (3) rate confidence H/M/L for each prioritized action and justify any Low; (4) flag anything that reads like generic AI advice rather than insight specific to THIS item; (5) add 1-2 reframings or additions that would materially strengthen it; (6) if a Premortem Cycle is present, attack its kill criteria and name one missed failure mode. Cite specifics from the draft. If you can read the repo, verify the claims against the actual code." < "$DRAFT"
 
 # Normal completion: clean once, then disarm EXIT so the trap is not a second owner.
 _esat_cleanup_temps
@@ -100,7 +102,7 @@ trap - EXIT
 if [ "${ESKILL_PEER:-1}" != "0" ] \
   && [ "${PEER_DISPATCH_READY:-0}" = "1" ] \
   && [ -n "${PEER_DISPATCH_INPUT:-}" ]; then
-  peer trio "You are one of three independent SOTA reviewers stress-testing a 'world-class level-up' analysis. The analyzed item and the draft analysis are piped below as context. Concisely (<500 words): (1) challenge the top 3 assumptions — what evidence would disprove each; (2) name blind spots the analysis missed or dismissed too fast; (3) rate confidence H/M/L for each prioritized action and justify any Low; (4) flag anything that reads like generic AI advice rather than insight specific to THIS item; (5) add 1-2 reframings or additions that would materially strengthen it. Cite specifics from the draft. If you can read the repo, verify the claims against the actual code." < "$PEER_DISPATCH_INPUT"
+  peer trio "You are one of three independent SOTA reviewers stress-testing a 'world-class level-up' analysis. The analyzed item and the draft analysis are piped below as context. Concisely (<500 words): (1) challenge the top 3 assumptions — what evidence would disprove each; (2) name blind spots the analysis missed or dismissed too fast; (3) rate confidence H/M/L for each prioritized action and justify any Low; (4) flag anything that reads like generic AI advice rather than insight specific to THIS item; (5) add 1-2 reframings or additions that would materially strengthen it; (6) if a Premortem Cycle is present, attack its kill criteria and name one missed failure mode. Cite specifics from the draft. If you can read the repo, verify the claims against the actual code." < "$PEER_DISPATCH_INPUT"
 fi
 # Else: do not call peer. Append terminal blocked/skipped results for peer lanes
 # (high-sensitivity, redactor-unavailable, readiness false). Never fall back to

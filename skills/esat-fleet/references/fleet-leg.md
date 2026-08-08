@@ -172,7 +172,7 @@ TIER="${ESAT_FLEET_SENSITIVITY:-medium}"
 REVIEW="$(mktemp /tmp/esat-fleet-review.XXXXXX.md)"
 {
   echo "Independently review this 'world-class level-up' analysis. The analyzed item + draft analysis follow."
-  echo "Concisely per worker: (1) challenge the top assumptions; (2) name blind spots it missed; (3) flag any claim that is wrong or generic; (4) add the single highest-value improvement. Cite specifics from the draft."
+  echo "Concisely per worker: (1) challenge the top assumptions; (2) name blind spots it missed; (3) flag any claim that is wrong or generic; (4) add the single highest-value improvement; (5) if a Premortem Cycle is present, attack kill criteria or name one missed failure mode. Cite specifics from the draft."
   echo
   cat "$DRAFT"
 } > "$REVIEW"

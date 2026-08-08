@@ -35,11 +35,6 @@ graph TD
 | Lock-in | | | | |
 | Ecosystem | | | | |
 
-### Failure Modes (Pre-Mortem)
-| Risk | Likelihood | Impact | Prevention |
-|-|-|-|-|
-| | | | |
-
 ### Competitive Response
 [What competitors would do + our moat]
 
@@ -55,17 +50,42 @@ graph TD
 |-|-|-|-|-|
 | | | | | |
 
+### Premortem Cycle
+_Only include when Phase P ran (standard/deep, or quick + keyword override)._
+
+**Bet**: [one sentence — what must be true if we execute the actions]
+**Horizon**: 30d | 90d | 1y
+**Headline if failed**: [postmortem headline at the horizon]
+
+| # | Failure mode | Mechanism | L | I | Early signal | Owner | Mitigation / cut |
+|-|-|-|-|-|-|-|-|
+| 1 | | | H/M/L | H/M/L | | eng/product/ops/market | Action #n / new / drop |
+
+**Kill criteria**
+1. [falsifiable stop condition]
+2. …
+
+**Action deltas from premortem**
+- [confidence changes, added/deferred/killed actions]
+
+_If Phase P was skipped (quick without keyword): optional thin inversion table only:_
+
+| Risk | Likelihood | Impact | Prevention |
+|-|-|-|-|
+| | | | |
+
 ### Prioritized Actions
 | # | Action | Impact | Effort | Confidence | Reversible | Horizon | AAARRR | Why |
 |-|-|-|-|-|-|-|-|-|
 | 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | |
 
-_Confidence column populated when stress test ran. Otherwise omit._
+_Confidence column populated when Phase P and/or Phase 9 adjusted ratings. Otherwise omit._
+_Optional: note "mitigates premortem #k" or "exposed to #k" in Why._
 
 ### Stress Test Notes
 _Only include when Phase 9 ran and surfaced material changes._
 
-[Blind spots identified | Assumptions challenged | Adjustments made]
+[Blind spots identified | Assumptions challenged | Premortem kill-criteria attacks | Adjustments made]
 
 ### World-Class Criteria
 [3-5 specific, measurable signals that prove we're there]
@@ -98,15 +118,24 @@ _Per-option evidence if Phase 0 ran._
 ### System Maps
 _One diagram per option if warranted, or a combined diagram showing interaction._
 
-### Failure Modes
-| Risk | Option A | Option B |
-|-|-|-|
-| | likelihood/impact | likelihood/impact |
+### Premortem Cycle (shared)
+_Only when Phase P ran. Prefer one table with A/B severity rather than two full cycles._
+
+**Bet**: …
+**Horizon**: …
+
+| # | Failure mode | Mechanism | Worse for | L | I | Early signal | Mitigation / cut |
+|-|-|-|-|-|-|-|-|
+| 1 | | | A / B / both | H/M/L | H/M/L | | |
+
+**Kill criteria** (for the recommended path after pick)
+1. …
+2. …
 
 ### Recommendation
 **Winner**: [Option] for [context/constraints].
 **Tradeoff**: [What you give up by choosing the winner.]
-**When to reconsider**: [Conditions that would flip the recommendation.]
+**When to reconsider**: [Conditions that would flip the recommendation — include kill criteria.]
 
 ### Prioritized Actions (for recommended option)
 | # | Action | Impact | Effort | Confidence | Reversible | Horizon | Why |

@@ -6,6 +6,11 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Notes
+- Prior post-1.0.0 tree changes that were still listed as unreleased before the Phase P
+  ship are recorded under **[1.1.0]** only for Phase P; remaining historical unreleased
+  notes:
+
 ### Added
 - **`esa`** (`/esa`): a first-class short Tier-1 wrapper around the original
   `eskill-analyze` engine so Codex and other folder-based skill catalogs expose
@@ -61,6 +66,23 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Routing oracle panel status: local independent voices with no external
   independent voice yield `local-only` (not `partial`); high-sensitivity reasons
   are not masked by fleet/peer availability ordering.
+
+## [1.1.0] — 2026-08-08
+
+### Added
+- **Phase P — Premortem Cycle** in the shared analysis engine (`eskill-analyze` /
+  `/esa`): after provisional prioritized actions and **before** Phase 9, scale-gated
+  failure modes, kill criteria, and action deltas (standard compact / deep full;
+  quick only with premortem keywords).
+- Output template `### Premortem Cycle` (and shared comparison variant).
+- Phase P anti-slop rule (no boilerplate risks; falsifiable kill criteria).
+- Higher-tier Phase 9 prompts (`esat` trio, `esat-fleet` fleet leg, `esat-frontier`
+  fusion) attack premortem kill criteria when Phase P ran.
+
+### Changed
+- Step 6 retitled to **Inversion Seed** (feeds Phase P; not a full risk matrix).
+- Triage phase table includes Phase P activation by scale.
+- Example `examples/technical-rate-limiter.md` shows a full Premortem Cycle block.
 
 ## [1.0.0] — 2026-06-28
 
