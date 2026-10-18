@@ -31,7 +31,7 @@ After completing Steps 1–8 and Phase P (when activated) and producing the draf
 
 ## Output
 
-Use the eskill-analyze output template (`${CLAUDE_SKILL_DIR}/../eskill-analyze/assets/output-template.md`) **plus** the `### Tri-Model Panel` block defined in `references/trio-panel.md`. Place the panel directly above `### Stress Test Notes`. The triage header should read `esat (trio)` so it's clear which skill produced the analysis.
+Use the eskill-analyze output template (`${CLAUDE_SKILL_DIR}/../eskill-analyze/assets/output-template.md`) **plus** the `### Tri-Model Panel` block defined in `references/trio-panel.md`. Place the panel directly above `### Stress Test Notes`. Name the tier in the Route line as `esat (trio)` so it's clear which skill produced the analysis.
 
 Save the analysis output to `.omc/plans/esat-{date}-{focus}.md`.
 

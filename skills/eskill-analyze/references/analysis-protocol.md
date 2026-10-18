@@ -86,7 +86,7 @@ Quick inversion only — not the full premortem cycle.
 Write 2–3 bullets: **"This will fail because…"** with a one-line mechanism each.
 These seed **Phase P** (after provisional actions). Do not invent a full risk matrix here.
 
-If Phase P will be skipped (quick scale, no keyword override), expand each bullet with a
+If Phase P will not run, expand each bullet with a
 one-line prevention so the output still has a minimal Failure Modes table.
 
 ## STEP 7: Competitive Analysis (product/strategic)
@@ -112,8 +112,8 @@ Premortem assumes the **plan failed in the future**. Phase 9 stress-tests whethe
 
 ### Activation
 
-Router atom a6 (a decision expensive to undo) or premortem keywords. Scale sets size: `standard`
-compact, `deep` full and mandatory, `quick` only on keywords.
+Router atom a6 (a decision expensive to undo) or premortem keywords, at any scale. Scale sets size:
+`deep` full and mandatory, otherwise compact. `/esa premortem <plan>` uses the given plan as the action list.
 
 ### Horizon
 

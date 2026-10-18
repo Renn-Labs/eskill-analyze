@@ -16,10 +16,10 @@ Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/quality-principles.md`
 | Invocation | Runs |
 |-|-|
 | `/esa <ask>` or `eskill-analyze <ask>` | The router (`references/triage-guide.md`), then the modules it picks |
-| `/esa deepen <ask>` | Router Step 0 only: the deepened ask and the four answers |
-| `/esa evidence <ask>` | Phase 0 Evidence only, raw first |
-| `/esa premortem <plan>` | Phase P only, on the given plan or action list |
-| `/esa verify <draft>` | Phase 9 only, at this skill's tier, on the given draft |
+| `/esa deepen <ask>` | Router Step 0; prints the four answers and the deepened ask |
+| `/esa evidence <ask>` | Step 0 to name the rawest source, then Phase 0; prints the Evidence Summary and open gaps |
+| `/esa premortem <plan>` | Phase P on the given plan; prints the Premortem Cycle block |
+| `/esa verify <draft>` | Phase 9 at this skill's tier on the given draft; prints Stress Test Notes, not a rewrite |
 | Another skill's step | The one module that step names; follow that module's output contract |
 
 An orchestrator may run router Wave 1 itself and skip this skill when the ask can be answered from context.

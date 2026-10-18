@@ -11,11 +11,11 @@ Decide the least engine work that still gives a world-class answer. Work in thre
 | a3 Premise | Does the ask carry a premise that may be false, or a digested proxy (a dashboard number, a summary) for the real question? |
 | a4 Options | Is there a real choice between meaningfully different options? |
 
-Also answer the four deepening questions, internally (after Felix Rieseberg, "How to be more ambitious: A tutorial for humans with models", 2026-10-13): what a top practitioner would do here that wasn't asked; the rawest material they would start from; the field's instruments they would use; what, other than the model or the user, would show the result is right. Phrase each as an action, never a persona. They feed later atoms and surface where they belong — rawest material in Evidence, instruments in the analysis, the verifier in the Verifier column, the expert move as an action or a reframe — never as a block of their own.
+Also answer the four deepening questions, internally (after Felix Rieseberg, "How to be more ambitious: A tutorial for humans with models", 2026-10-13): what a top practitioner would do here that wasn't asked; the rawest material they would start from; the field's instruments they would use; what, other than the model or the user, would show the result is right. Phrase each as an action, never a persona. They feed later atoms and surface where they belong — rawest material in Evidence, instruments in the analysis, the verifier in the Verifier column, the expert move as an action or a reframe — never as a block of their own, except as the output of `/esa deepen`.
 
 If the answers change the ask, restate it in one line (`**Ask, deepened**:`). Proceed unless that changes scope materially — a different project or primary stakeholder, or work needing access, data, budget, or time the user has not granted; then ask one question offering both asks. Go one layer down; never add workstreams.
 
-**Contract:** "Given outcome a1, sufficiency a2, premise risk a3 and options a4, which modules run?"
+**Contract:** "Given outcome a1, sufficiency a2, premise risk a3 and options a4, which modules run?" Waves and contracts stay internal; the reader sees the Route line and results.
 
 ## Wave 2: Select Modules
 
@@ -28,9 +28,9 @@ If the answers change the ask, restate it in one line (`**Ask, deepened**:`). Pr
 
 Lenses generate atoms; they are not labels. **Depth** raises a5 and the Instruments rule when the answer turns on data, code, or instruments below the task's layer. **Range** raises a7 when the deliverable's verbs belong to other fields. **Altitude** turns a1 into a reframe when the ask is a task serving an unstated outcome (weak for creative work). Speed is the default.
 
-Run core-analysis steps (Steps 1-8) only where they answer an atom: Step 1 for a1 or a3; Step 2 whenever any analysis runs; Step 4 when 3+ parts interact; Steps 3, 5, 7, 8 for product or strategic asks only; Step 6 as the inversion seed when Phase P runs.
+Run core-analysis steps (Steps 1-8) only where they answer an atom: Step 1 for a1 or a3; Step 2 whenever any analysis runs; Step 4 when 3+ parts interact; Steps 3, 5, 7, 8 for product or strategic asks only; Step 6 whenever Actions run (the seed for Phase P, or the thin risk table without it). Phase P needs a provisional action list, so it brings Actions and the steps that produce them.
 
-If a2 is yes and a3, a4, a6 are no, run no modules: answer inline with a Verifier line.
+If a2 is yes and a3, a4, a6 are no, run no modules: answer inline with a Verifier line (security signals still get the reviewer; see Invariants).
 
 **Contract:** "Given the modules chosen and what is at stake, how much independent checking does this need?"
 
@@ -59,7 +59,7 @@ Not comparative: an "X or Y" that is really a technical decision; one option bei
 
 | Scale | Signals | Phase P | Phase 9 |
 |-|-|-|-|
-| `quick` | One focused question, "just tell me" | Only on premortem keywords | No |
+| `quick` | One focused question, "just tell me" | Compact, only when a6 or keywords | No |
 | `standard` | A feature, system, or product area | Compact (3–5 modes) when a6 | When a9 says so |
 | `deep` | Multi-system, high-stakes, "world-class" | Full (5–8 modes), mandatory | Mandatory |
 
@@ -80,10 +80,11 @@ Spawn only what the running modules name; skip explore when no codebase is relev
 
 - Every action that exists has an outside Verifier, or `none — unverifiable` with Confidence L.
 - Cited evidence carries a `raw` or `digested` tag.
-- Irreversible decisions get Phase P.
+- Irreversible decisions get Phase P, at any scale.
+- Security signals (auth, tokens, secrets, permissions, PII, payments, trading) get security-reviewer, even inline.
 - At `deep`, the checker is not the maker.
 
-**Escalate up:** when an atom's answer raises the stakes (an irreversible migration, money at risk), add the module and say so in one line. **Contradiction rule:** when evidence contradicts a route the user chose, say so and let them redirect; never override silently. **Stop:** after each wave, restate what remains in one sentence and drop resolved detail; stop when it is atomic or at budget, and name what stayed open.
+**Escalate up:** when an atom's answer raises the stakes (an irreversible migration, money at risk), add the module and say so in one line. **Contradiction rule:** when evidence contradicts a route the user chose, say so and let them redirect; never override silently. **Stop:** after each wave, restate what remains in one internal sentence and drop resolved detail; stop when it is atomic or at budget, and name what stayed open.
 
 ## Output
 
