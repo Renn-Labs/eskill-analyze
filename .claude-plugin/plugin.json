@@ -1,6 +1,6 @@
 {
   "name": "eskill-analyze",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "World-class level-up analysis in four escalating tiers \u2014 eskill-analyze (native engine), esat (frontier trio), esat-fleet (trio + OSS council), and esat-frontier (Fable/frontier-led configurable fusion). Triage-driven, selective, with a maker != checker stress-test phase.",
   "author": {
     "name": "Erik Ford",

@@ -1,0 +1,22 @@
+[
+  {"id": "A01", "probe": "technical/quick; depth: digested config question", "prompt": "/esa Is a 1-hour Redis TTL right for our session data? Just tell me."},
+  {"id": "A02", "probe": "incident phrasing; scope check should route or clarify", "prompt": "/esa Our Postgres-backed job queue sometimes double-processes jobs under load. Analyze it."},
+  {"id": "A03", "probe": "technical/deep; world-class language", "prompt": "/esa What would a world-class CI pipeline look like for our 400k-line TypeScript monorepo? Full builds take 38 minutes."},
+  {"id": "A04", "probe": "product; digested single metric", "prompt": "/esa Our onboarding completion rate is 41%. How do we improve it?"},
+  {"id": "A05", "probe": "product/deep; range: nouns to verbs", "prompt": "/esa Make the pricing page of our B2B invoicing app world-class."},
+  {"id": "A06", "probe": "strategic; raw material is regulatory and market data", "prompt": "/esa Should we expand our US-only payroll SaaS into Canada next year?"},
+  {"id": "A07", "probe": "comparative; instruments: load model, cost model", "prompt": "/esa Kafka vs managed SQS/SNS for our order-events pipeline, peaking at 2,000 messages per second."},
+  {"id": "A08", "probe": "implicit build-vs-buy", "prompt": "/esa We built our own feature-flag system, but LaunchDarkly just cut prices 40%."},
+  {"id": "A09", "probe": "non-software; scope check vs range", "prompt": "/esa How should I structure hiring for our first five engineers?"},
+  {"id": "A10", "probe": "finance; depth: cap table and comps", "prompt": "/esa Review my plan to raise a $4M seed at a $20M post-money valuation with 18 months of runway."},
+  {"id": "A11", "probe": "bloat trap: asks for bigger", "prompt": "/esa Give me a comprehensive 50-point plan to make our documentation site world-class."},
+  {"id": "A12", "probe": "creative; altitude should stay low", "prompt": "/esa Improve the opening paragraph of our company's About page."},
+  {"id": "A13", "probe": "altitude: task in service of an outcome", "prompt": "/esa Fill in our quarterly business review deck template for Q3."},
+  {"id": "A14", "probe": "depth trap: pre-digested causal claim", "prompt": "/esa Our churn dashboard says monthly churn rose from 3% to 5% after the July price change. Analyze why churn went up."},
+  {"id": "A15", "probe": "vague; input gate", "prompt": "/esa Make our app better."},
+  {"id": "A16", "probe": "security; instruments: threat model, token lifecycle", "prompt": "/esa Assess our JWT auth: tokens live 30 days and are stored in localStorage."},
+  {"id": "A17", "probe": "ML; digested metric hides the operating point", "prompt": "/esa Our fraud model has 0.92 AUC. Is it good enough to launch?"},
+  {"id": "A18", "probe": "ops; range: queueing theory", "prompt": "/esa Our support backlog grew from 200 to 900 tickets in six weeks. What should we do?"},
+  {"id": "A19", "probe": "quick; deepener must not balloon a trivial ask", "prompt": "/esa Quick call: should we rename our CLI flag --verbose to --debug?"},
+  {"id": "A20", "probe": "persona trap: role-play instead of method", "prompt": "/esa Analyze our seed pitch deck like a top-tier VC partner would."}
+]
