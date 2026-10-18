@@ -98,18 +98,38 @@ tutorial for humans with models" (2026-10-13).
 - One terse Route line replaces the Triage header; sections appear only when their module ran; body
   headings follow the question, not the framework; Evidence lists only what was read.
 - Phase 0 reads raw sources first; the document-specialist looks for primary sources, not benchmarks.
+- Mandatory checks (premortem keywords, invariants, stakes) run before the inline exit, and stakes override
+  scale. A missing input triggers a question when it would change the answer, not only the route. World-
+  Class Criteria run with Actions or world-class language. Execution principles trimmed to two.
 - `esa`, `esat`, `esat-fleet`, `esat-frontier` wording aligned to the router. README engine steps updated.
 
-### Evaluation (no-tool harness; Claude Sonnet generator; Codex judge, blind, both orders)
-- Round 1, 25 prompts: a pre-elastic draft beat 1.1.0 on content (23 of 25) but lost on leanness (3 vs
-  14) and in maintainer blind ratings; its display blocks were removed. Stripping them kept 21 of 25.
-- Held-out, 27 real prompts never used for tuning, elastic vs 1.1.0: overall 89%, shape 87%, lean 72%,
-  outside verifier 87%, raw material 93%; median length 1479 vs 1624 words. Noise band ±8–10% (the
-  same engine judged against itself scored 58% on 24 prompts).
-- Router: the inline-vs-analyze decision repeated in 22 of 23 reruns; the exact module set in 5 of 23.
-- Route audit: 17 of 19 probes. Known misses: an altitude reframe on "fill in this template", and an
-  evidence probe that a no-tool run cannot satisfy.
-- Not yet measured: a run with tools reading real material, and maintainer ratings on held-out pairs.
+### Evaluation (Claude Sonnet generator in a no-tool harness unless stated; blind pairwise judges)
+- What the scores measure: which analysis proposes rawer sources, runnable methods and outside checks —
+  not retrieval or checks actually carried out. Each prompt is judged in both orders and pooled; a prompt
+  whose winner flips with the order counts as a tie.
+- Round 1, 25 prompts: a pre-elastic draft beat 1.1.0 on content (23 of 25) but lost on leanness (3 vs 14)
+  and in maintainer blind ratings, so its display blocks were removed. Leave-one-out ablation, n=5 each,
+  indicative only: without the deepening step the draft lost 4 of 5; without the Verifier column, 3 of 5
+  (2 ties); without the lenses, 2 of 5 (2 ties).
+- Held-out, 27 real prompts never used for tuning, shipped engine vs 1.1.0, Codex judge: 22 wins, 4 ties,
+  1 loss (89%); shape 91%, lean 80%, proposed outside verifier 83%, raw material 93%; median 1457 vs 1624
+  words. Two of 27 prompts changed winner when the order was swapped.
+- Second judge family, GLM-5.2, on the 20 synthetic prompts: 18 wins, 1 tie, 1 loss (Codex: 20 of 20).
+  On an earlier build the two judges picked the same winner on 18 of 20 pairs.
+- Judge behavior, from 552 verdicts: the second slot wins 59%, which is why orders are swapped. Depth
+  criteria favor longer answers and lean/shape favor shorter ones; overall they roughly cancel.
+  Comparisons between close engine versions flipped on 7–11 of 24 prompts, and the same engine judged
+  against itself scored 9 wins, 10 ties, 5 losses on 24, so loop-to-loop differences were not resolvable.
+- Router, same engine twice on 20 prompts: inline-vs-analyze agreed 20 of 20 minus one (19), scale 19,
+  the exact module set 8. Flips concentrate in the stress test (7) and borrowed techniques (5); premortem
+  flipped once, security twice. Across 40 audited runs one required module was dropped: an evidence probe
+  a no-tool run cannot satisfy. Route audit: 18 and 19 of 19 probes.
+- Live, Claude Opus with read-only tools, 4 asks: every run read real material and tagged it raw (up to 36
+  distinct file references); one tested the installer twice in a throwaway home directory; one fit a
+  statistical model to 552 raw judge verdicts and proposed a padding experiment as its check.
+- Gains belong to the bundle: routing, wording, format and checks changed together. Adversarial reviews
+  by gpt-6-astra and GLM-5.2 found the inline exit could skip mandatory checks; fixed before the held-out
+  re-measurement above. Maintainer ratings on held-out pairs are pending.
 
 ## [1.1.0] — 2026-08-08
 
