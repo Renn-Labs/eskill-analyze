@@ -14,7 +14,9 @@ the calculation, the test), then:_
 **Verifier**: [what, other than the model or the user, would show this is right]
 
 ### Evidence Summary
-_Phase 0. Each item tagged `raw` or `digested`; start with the rawest material._
+_Phase 0. Only what was read, each item tagged `raw` or `digested`. No list of unread sources and no
+assumptions list: an unreachable source becomes Action #1 or a Verifier entry; an assumption is one clause
+where it is used._
 
 ### First-Principles View
 _Step 1. 3-5 sentences: the core truth, stripped to essentials._

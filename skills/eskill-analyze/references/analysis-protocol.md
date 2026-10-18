@@ -10,7 +10,8 @@ Run before analysis. The router names the agents; all run in parallel.
 
 **Raw first.** Start from the rawest material router Step 0 named and read it when reachable. Use digested
 sources (dashboards, summaries, benchmark articles, the prompt's own framing) to locate or cross-check it,
-not to replace it. Tag every Evidence Summary item `raw` or `digested`.
+not to replace it. Tag every Evidence Summary item `raw` or `digested`; an unreachable source becomes an
+action, never a list of what wasn't read.
 
 ```
 # Always (if codebase exists)
@@ -34,7 +35,6 @@ Task(subagent_type="oh-my-claudecode:scientist", model="sonnet",
      Final response under 2000 characters. List key numbers and what they mean.")
 ```
 
-Synthesize Phase 0 outputs into an Evidence Summary before proceeding to Step 1.
 
 ---
 
