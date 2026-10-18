@@ -17,7 +17,7 @@ Extract at start. If any are missing, ask before proceeding.
 
 **Scope check:**
 - **Bug/incident?** If the prompt describes broken behavior ("isn't working", "broke", "crashed", "dropped", "why did X fail") — clarify intent. If the user wants diagnosis, route to a debugger agent. eskill-analyze is for elevation, not incident triage.
-- **Non-software?** If the prompt is about hiring, org structure, team process, or other non-product/non-system topics — only First Principles, Inversion, and Reversibility models apply. Skip all system-specific steps (System Mapping, AAARRR, 7-Step Path, Competitive Analysis). Keep the analysis lightweight and framework-driven rather than forcing product/technical structure onto people or process decisions.
+- **Non-software?** If the prompt is about hiring, org structure, team process, or other non-product/non-system topics — only First Principles, Inversion, and Reversibility models apply, plus one borrowed field technique when the Range lens is tagged. Skip all system-specific steps (System Mapping, AAARRR, 7-Step Path, Competitive Analysis). Keep the analysis lightweight and framework-driven rather than forcing product/technical structure onto people or process decisions.
 
 | Parameter | Description | Required |
 |-|-|-|
@@ -33,14 +33,17 @@ Read `${CLAUDE_SKILL_DIR}/references/triage-guide.md`
 
 **Gate:** Do not triage until the required Input Parameters above are extracted or confirmed. If the prompt is too vague to determine Project, Focus Area, Current State, or World-Class Definition — ask first. Triage with missing context wastes agent dispatches on the wrong problem.
 
+First run triage Step 0, **Deepen the Ask**: four one-line answers (expert move, rawest material, instruments, verifier) and the deepened ask, which replaces Focus Area and World-Class Definition. Proceed unless it changes scope materially.
+
 Classify the prompt:
 1. **Type**: technical / product / strategic / comparative
 2. **Scale**: quick / standard / deep
-3. **Agents**: which of the 6 agents to activate
-4. **Models**: which 3-4 mental models to apply
-5. **Phases**: which phases are active (Phase 0, Steps 1-8, Phase P Premortem, Phase 9)
+3. **Lenses**: Depth / Range / Altitude, or none (Speed is the default)
+4. **Agents**: which of the 6 agents to activate
+5. **Models**: which 3-4 mental models to apply
+6. **Phases**: which phases are active (Phase 0, Steps 1-8, Phase P Premortem, Phase 9)
 
-State the triage result before proceeding. This determines everything that follows.
+State the Deepened Ask and the triage result before proceeding. This determines everything that follows.
 
 ## Delegation Strategy
 
@@ -66,7 +69,8 @@ Task(subagent_type="oh-my-claudecode:architect", model="opus",
 
 # Product or strategic analysis
 Task(subagent_type="oh-my-claudecode:document-specialist", model="sonnet",
-     prompt="Research world-class benchmarks and best practices for: {domain}/{focus_area}.
+     prompt="Find primary sources (filings, datasets, specs, source code, raw user evidence)
+     and the instruments practitioners use for: {domain}/{focus_area}. Tag each finding raw or digested.
      Final response under 2000 characters.")
 
 # When quantitative data exists
@@ -96,7 +100,7 @@ NOT every analysis needs every framework. After triage:
 Read `${CLAUDE_SKILL_DIR}/references/analysis-protocol.md`
 
 Execute in order:
-1. **Phase 0: Evidence Gathering** — if triage activated it, run the evidence agents and synthesize
+1. **Phase 0: Evidence Gathering** — if triage activated it, run the evidence agents raw-first (start from the rawest material Step 0 named) and synthesize
 2. **Steps 1-8: Core Analysis** — apply only selected frameworks, skip irrelevant steps entirely; Step 6 is an inversion seed only
 3. **Phase P: Premortem Cycle** — if triage activated it (standard/deep, or quick + keyword), freeze the bet, generate failure modes + kill criteria, update provisional actions; see analysis-protocol Phase P
 4. **Phase 9: Stress Test** — if triage activated it (standard/deep scale), run the critic agent and integrate feedback (including attacks on kill criteria when Phase P ran)
@@ -133,7 +137,8 @@ Present the analysis using the appropriate template variant:
 - **Comparison template**: for comparative analyses
 
 Include only the sections that are relevant:
-- Triage header: always
+- Deepened Ask and Triage header (with Lenses): always
+- Verifier column in Prioritized Actions: always
 - Evidence Summary: only when Phase 0 ran
 - Premortem Cycle: only when Phase P ran (standard/deep, or quick + keyword)
 - Stress Test Notes: only when Phase 9 surfaced material changes

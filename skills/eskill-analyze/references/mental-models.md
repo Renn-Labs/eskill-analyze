@@ -33,6 +33,21 @@ Apply as relevant — NOT every analysis needs every model.
 - Competitive positioning: Inversion + Four Levels + Reversibility
 - Comparative analysis: First Principles + Inversion + Reversibility (per option)
 
+## Depth: Instruments Over Vocabulary
+
+A model name is a question, not a method. Under the Depth lens, when a field instrument answers the same
+question as a selected model, use it and name it: Scalability Ceiling → a load test with a stated load
+profile; Unit Economics → cohort LTV/CAC from raw billing records; Inversion → a fault tree over the real
+call graph. The model stays selected; the instrument does the work.
+
+## Range: Borrow One Field
+
+Under the Range lens, rewrite the deliverable's nouns as verbs ("a pricing page" → price, persuade, test),
+find the field that does each verb best, and borrow one concrete technique from outside the task's own
+field (queueing theory for a support backlog, survival analysis for churn, red-team drills for a launch
+plan). Name the field, the technique, and what it changed in the analysis. Do what that field's
+practitioners do; do not role-play them.
+
 ## Auto-Selection
 
 Detect project type from codebase signals and pre-select the relevant category:

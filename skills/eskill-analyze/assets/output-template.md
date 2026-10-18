@@ -2,13 +2,21 @@
 
 ## Analysis: [Focus Area]
 
+### Deepened Ask
+**Expert move**: [what a top practitioner would do here that wasn't asked for]
+**Rawest material**: [primary source — reachable now / not reachable]
+**Instruments**: [the field's methods and tools]
+**Verifier**: [what, other than the model or the user, shows the result is right]
+**Ask, deepened**: [1-3 sentences; on quick, "unchanged" if it didn't change]
+
 ### Triage
 **Type**: {technical|product|strategic|comparative} / **Scale**: {quick|standard|deep}
+**Lenses**: {Depth, Range, Altitude — or Speed (default)}
 **Agents**: {list activated agents}
 **Models**: {list selected mental models}
 
 ### Evidence Summary
-_Only include when Phase 0 ran. Summarize key findings from explore/document-specialist/scientist agents._
+_Only include when Phase 0 ran. Summarize key findings from explore/document-specialist/scientist agents. Tag each item `raw` or `digested`._
 
 [Codebase signals | External benchmarks | Quantitative data — as applicable]
 
@@ -75,11 +83,12 @@ _If Phase P was skipped (quick without keyword): optional thin inversion table o
 | | | | |
 
 ### Prioritized Actions
-| # | Action | Impact | Effort | Confidence | Reversible | Horizon | AAARRR | Why |
-|-|-|-|-|-|-|-|-|-|
-| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | |
+| # | Action | Impact | Effort | Confidence | Reversible | Horizon | AAARRR | Verifier | Why |
+|-|-|-|-|-|-|-|-|-|-|
+| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | | |
 
 _Confidence column populated when Phase P and/or Phase 9 adjusted ratings. Otherwise omit._
+_Verifier: what, other than the model or the user, shows the action worked (a test, metric, counterparty signal). `same as #n` is fine; `none — unverifiable` forces Confidence to L._
 _Optional: note "mitigates premortem #k" or "exposed to #k" in Why._
 
 ### Stress Test Notes
@@ -98,8 +107,12 @@ _Use this variant when triage classifies as `comparative`._
 
 ## Comparison: [Option A] vs [Option B]
 
+### Deepened Ask
+_Same five lines as the standard template, written for the decision, not per option._
+
 ### Triage
 **Type**: comparative + {technical|product|strategic} / **Scale**: {quick|standard|deep}
+**Lenses**: {Depth, Range, Altitude — or Speed (default)}
 
 ### Evidence Summary
 _Per-option evidence if Phase 0 ran._
@@ -138,6 +151,6 @@ _Only when Phase P ran. Prefer one table with A/B severity rather than two full 
 **When to reconsider**: [Conditions that would flip the recommendation — include kill criteria.]
 
 ### Prioritized Actions (for recommended option)
-| # | Action | Impact | Effort | Confidence | Reversible | Horizon | Why |
-|-|-|-|-|-|-|-|-|
-| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | |
+| # | Action | Impact | Effort | Confidence | Reversible | Horizon | Verifier | Why |
+|-|-|-|-|-|-|-|-|-|
+| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | |

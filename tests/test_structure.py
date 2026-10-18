@@ -181,6 +181,53 @@ def test_premortem_phase_p_contract():
     assert "kill criteria" in trio.lower()
 
 
+def test_depth_contract():
+    """Deepen step, ambition lenses, raw-first evidence and the Verifier field agree across files."""
+    def read(rel: str) -> str:
+        return (SKILLS_DIR / rel).read_text(encoding="utf-8")
+
+    triage = read("eskill-analyze/references/triage-guide.md")
+    protocol = read("eskill-analyze/references/analysis-protocol.md")
+    template = read("eskill-analyze/assets/output-template.md")
+    skill = read("eskill-analyze/SKILL.md")
+    models = read("eskill-analyze/references/mental-models.md")
+    anti = read("eskill-common/references/anti-slop-rules.md")
+    trio = read("esat/references/trio-panel.md")
+    frontier = read("esat-frontier/references/frontier-panel.md")
+    fleet = read("esat-fleet/references/fleet-leg.md")
+
+    # Step 0 sits inside triage, before type classification; no phase renumbering
+    assert "## Step 0: Deepen the Ask" in triage
+    assert triage.index("## Step 0: Deepen the Ask") < triage.index("## Step 1: Classify Type")
+    for token in ("rawest", "instruments", "verifier", "materially", "2026-10-13"):
+        assert token in triage.lower(), f"triage Step 0 missing: {token}"
+    assert "## Ambition Lenses" in triage
+    for lens in ("Altitude", "Depth", "Range"):
+        assert f"**{lens}**" in triage, f"triage missing lens: {lens}"
+    assert "**Lenses**:" in triage
+    assert "Steps 1-8" in skill and "Phase 9" in skill
+
+    # Engine wiring
+    assert "Step 0" in skill and "Deepened Ask" in skill
+    assert "Range lens" in skill, "non-software scope check must allow the Range lens"
+    assert "Range" in models and "nouns" in models
+
+    # Phase 0 raw-first and Phase 9 depth check
+    assert "rawest" in protocol and "digested" in protocol
+    assert protocol.count("Depth check") >= 1
+    assert "Depth check" in trio
+    assert "depth check" in fleet.lower()
+    assert frontier.count("Depth check") >= 2, "frontier critic prompt and PEER_PROMPT both need it"
+
+    # Output template: Deepened Ask, lenses, Verifier in both action tables, escape hatch
+    assert "### Deepened Ask" in template
+    assert "**Lenses**:" in template
+    assert template.count("| Verifier |") >= 2
+    assert "none — unverifiable" in template
+
+    assert "Vocabulary is not a method" in anti
+
+
 def test_no_absolute_user_paths():
     bad = []
     scanned = _product_paths_for_privacy()

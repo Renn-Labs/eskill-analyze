@@ -45,7 +45,7 @@ Use the harness-native agent primitive when possible:
 
 ```text
 Task(subagent_type="critic", model="{actual_model_for_resolved_profile}",
-     prompt="Independently stress-test this world-class level-up analysis. Challenge top assumptions, identify blind spots, rate action confidence H/M/L, flag generic advice, and propose one high-leverage reframing. If a Premortem Cycle is present, attack kill criteria and name one missed failure mode. Return findings under 1200 words.")
+     prompt="Independently stress-test this world-class level-up analysis. Challenge top assumptions, identify blind spots, rate action confidence H/M/L, flag generic advice, and propose one high-leverage reframing. If a Premortem Cycle is present, attack kill criteria and name one missed failure mode. Depth check: flag claims resting on digested sources when raw material was reachable, framework names standing in for field instruments, and Verifier entries that are the model, the user, or blank. Return findings under 1200 words.")
 ```
 
 ### Independent Codex / Grok peer lanes (not peer trio)
@@ -118,7 +118,7 @@ if [ "${EXTERNAL_PEER_READY:-0}" = "1" ] && [ "$TIER" = "medium" ]; then
   fi
 fi
 
-PEER_PROMPT='You are an independent reviewer in a frontier-led model-fusion panel. Review the piped item and draft. Challenge assumptions, identify blind spots, rate action confidence H/M/L, flag generic advice, and add one high-value reframing. If a Premortem Cycle is present, attack kill criteria and name one missed failure mode. If comparing options, pick A/B and explain the strongest reason.'
+PEER_PROMPT='You are an independent reviewer in a frontier-led model-fusion panel. Review the piped item and draft. Challenge assumptions, identify blind spots, rate action confidence H/M/L, flag generic advice, and add one high-value reframing. If a Premortem Cycle is present, attack kill criteria and name one missed failure mode. Depth check: flag digested-only evidence, framework names standing in for field instruments, and Verifier entries that are the model, the user, or blank. If comparing options, pick A/B and explain the strongest reason.'
 
 # Fail-closed positive dispatch gate: EXTERNAL_PEER_READY=1 AND TIER is not high.
 # Do NOT use TIER=low (or any sensitivity) as an alternate positive gate via ||.

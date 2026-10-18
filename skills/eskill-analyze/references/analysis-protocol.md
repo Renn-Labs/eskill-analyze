@@ -10,6 +10,10 @@ See `${CLAUDE_SKILL_DIR}/references/mental-models.md` for framework selection gu
 
 Run before analysis. Triage determines which agents activate. All run in parallel.
 
+**Raw first.** Start from the rawest material triage Step 0 named and read it when reachable. Use digested
+sources (dashboards, summaries, benchmark articles, the prompt's own framing) to locate or cross-check it,
+not to replace it. Tag every Evidence Summary item `raw` or `digested`.
+
 ```
 # Always (if codebase exists)
 Task(subagent_type="oh-my-claudecode:explore", model="sonnet",
@@ -23,12 +27,14 @@ Task(subagent_type="oh-my-claudecode:explore", model="sonnet",
 # When triage activates document-specialist (product, strategic)
 Task(subagent_type="oh-my-claudecode:document-specialist", model="sonnet",
      prompt="Research what world-class looks like for: {domain} / {focus_area}.
-     Find: industry benchmarks, best-in-class examples, emerging patterns, common pitfalls.
+     Find primary sources first (filings, datasets, specs, source code, raw user evidence), then
+     best-in-class examples and the instruments practitioners use. Tag each finding raw or digested.
      Final response under 2000 characters. List findings with sources.")
 
 # When triage activates scientist (data/metrics available)
 Task(subagent_type="oh-my-claudecode:scientist", model="sonnet",
      prompt="Analyze available quantitative data for: {focus_area}.
+     Start from raw records (logs, events, exports), not dashboards.
      Look for: usage patterns, performance metrics, error rates, trends.
      Final response under 2000 characters. List key numbers and what they mean.")
 ```
@@ -50,6 +56,7 @@ Answer these 5 questions:
 ## STEP 2: Mental Model Application
 
 Pick 3-4 from `${CLAUDE_SKILL_DIR}/references/mental-models.md` and apply only those. Do not force all 8.
+Under the Depth or Range lens, apply that file's Instruments and Range rules.
 
 ## STEP 3: Jobs-to-be-Done (product, product+strategic only — skip for pure technical)
 
@@ -210,12 +217,16 @@ Task(subagent_type="oh-my-claudecode:critic", model="opus",
      5. Suggest 1-2 additions or reframings that would strengthen the analysis
      6. If a Premortem Cycle block is present: attack the kill criteria (too weak / missing /
         unfalsifiable) and name one failure mode the premortem missed
+     7. Depth check: flag claims resting on digested sources when raw material was reachable,
+        framework names standing in for field instruments, and Verifier entries that are the
+        model, the user, or blank
 
      Final response under 2000 characters. Be direct and specific.")
 ```
 
 Integrate critic feedback:
 - Adjust confidence ratings in the Prioritized Actions table
+- Fix what the depth check flags: go to the raw source, name the instrument, or mark the Verifier `none — unverifiable`
 - Incorporate blind spots as new risks or amended recommendations
 - Remove or rewrite anything flagged as generic/slop
 - Strengthen kill criteria or failure modes when the critic attacks Phase P

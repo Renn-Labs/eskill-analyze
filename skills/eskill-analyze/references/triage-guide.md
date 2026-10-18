@@ -2,6 +2,33 @@
 
 Classify every analysis prompt before executing. This determines which phases, agents, and mental models activate.
 
+## Step 0: Deepen the Ask
+
+Ask for a deeper version of the task, not a bigger one (after Felix Rieseberg, "How to be more ambitious: A tutorial for humans with models", 2026-10-13). Run after Input Parameters are confirmed, before Step 1. One line each:
+
+1. **Expert move** — what a top practitioner in this field would do here that the user did not ask for. Name the action, not a persona: "reproduce the churn curve from raw events", not "think like a growth lead".
+2. **Rawest material** — the most primary source they would start from instead of what has been digested (event logs, source code, filings, transcripts, measurements; not summaries, dashboards, or the prompt's own framing). Say whether it is reachable now.
+3. **Instruments** — the field's specific methods and tools they would use (a load test, a DCF, a cohort survival curve, a fault tree). A framework name alone is not an instrument.
+4. **Verifier** — what, other than the model or the user, would show the result is right: a test, a measurement, a counterparty or market signal, a third-party check. Prefer one the analysis can run.
+
+Then restate the ask as the deeper version in 1-3 sentences and show it. It replaces Focus Area and World-Class Definition for the rest of the run.
+
+- **Proceed or ask:** proceed unless the deepened ask changes scope materially — a different project or primary stakeholder, or work needing access, data, budget, or time the user has not granted. Then ask one question offering the deepened and the original ask.
+- **Deeper, not bigger:** go one layer down; do not add workstreams. If the deepened ask would double the action list, it is bigger — cut back.
+- **Quick scale:** four half-lines; restate only if the ask changed.
+
+## Ambition Lenses
+
+Speed (the same work in less time) is the default and needs no lens. Tag lenses from the Step 0 answers; each routes work:
+
+| Lens | Tag when | Routes to |
+|-|-|-|
+| **Depth** | The answer turns on data, code, or instruments below the task's layer; "why", "prove", "is it really"; Step 0 found reachable raw material | Phase 0 raw-first (on `quick`, at least one raw read in-session); name the field instrument wherever a selected model asks the same question |
+| **Range** | The deliverable's verbs belong to other fields; a single-field answer would be generic | One borrowed field technique (mental-models Range rule) |
+| **Altitude** | The ask is a task in service of an unstated outcome (a deck, report, ticket, one-off fix) | Step 1 plus "what should happen next" and "what is the goal beyond the goal"; weaker for creative work |
+
+Tag at most two unless scale is `deep`. An untagged lens adds nothing.
+
 ## Step 1: Classify Type
 
 | Type | Trigger Keywords / Signals | Example |
@@ -79,7 +106,7 @@ Pick 3-4 max from the recommended set. Never force all models.
 
 | Phase | Quick | Standard | Deep |
 |-|-|-|-|
-| Phase 0: Evidence Gathering | Skip | Activate relevant agents | Activate all applicable agents |
+| Phase 0: Evidence Gathering | Skip*** | Activate relevant agents | Activate all applicable agents |
 | Steps 1-8: Analysis Protocol | Pick 3-4 relevant steps | Pick 4-6 relevant steps | All applicable steps with selected frameworks* |
 | **Phase P: Premortem Cycle** | Skip** | Compact cycle (3–5 modes) | Full cycle (5–8 modes, mandatory) |
 | Phase 9: Stress Test | Skip | Run critic | Run critic (mandatory) |
@@ -88,12 +115,15 @@ Pick 3-4 max from the recommended set. Never force all models.
 
 \** Activate Phase P on `quick` when the premortem keyword override fires (Step 2).
 
+\*** Under the Depth lens, make at least one raw read in-session even on `quick`.
+
 ## Output
 
-State your triage result at the start of every analysis:
+State the Deepened Ask (Step 0), then your triage result, at the start of every analysis:
 
 ```
 **Triage**: {type} / {scale}
+**Lenses**: {Depth, Range, Altitude — or Speed (default)}
 **Agents**: {list of activated agents}
 **Models**: {list of selected mental models}
 **Phases**: {which phases are active}
