@@ -72,7 +72,7 @@ _Only with project context files:_ | Action | Project Impact | Business Impact |
 _Phase 9, only when it changed something material: blind spots, challenged assumptions, kill-criteria attacks, adjustments._
 
 ### World-Class Criteria
-_3-5 specific, measurable signals that prove we're there, each checkable by someone other than the author._
+_With Actions, or when the ask says world-class: 3-5 measurable signals, each checkable by someone other than the author._
 
 ---
 
