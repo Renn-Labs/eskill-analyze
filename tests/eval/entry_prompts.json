@@ -1,0 +1,6 @@
+[
+  {"id": "E1", "probe": "entry point: deepen", "prompt": "/esa deepen Our churn dashboard says monthly churn rose from 3% to 5% after the July price change. Analyze why."},
+  {"id": "E2", "probe": "entry point: evidence", "prompt": "/esa evidence Is our 41% onboarding completion rate low for a B2B SaaS product?"},
+  {"id": "E3", "probe": "entry point: premortem", "prompt": "/esa premortem Plan: 1) migrate all customers from our Heroku Postgres to self-managed Postgres on EC2 in one weekend; 2) cut over DNS Sunday 2am; 3) keep Heroku read-only for 7 days, then delete it."},
+  {"id": "E4", "probe": "entry point: verify", "prompt": "/esa verify Draft: We should raise prices 20% on all plans next month. Churn will not move because customers love the product. Actions: 1) announce by email; 2) update the pricing page; 3) monitor churn."}
+]
