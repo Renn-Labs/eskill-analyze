@@ -18,9 +18,10 @@ _Phase 0. Each item tagged `raw` or `digested`; start with the rawest material._
 ### First-Principles View
 _Step 1. 3-5 sentences: the core truth, stripped to essentials._
 
-### Analysis
-_Step 2 models with their instruments; a borrowed technique (Range) and what it changed; Steps 3, 5, 7, 8 as
-the route lists them. Prose or a compact table — no empty framework headings._
+### [The question's own parts]
+_Headings are the parts of the user's question ("Options", "Routes to money", "What to bring to counsel"),
+never model or framework names. Under them: model findings with their instruments, a borrowed technique and
+what it changed, Steps 3, 5, 7, 8 as the route lists them._
 
 ### System Map
 _Step 4, when 3+ components interact:_
