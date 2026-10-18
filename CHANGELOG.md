@@ -67,6 +67,50 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   independent voice yield `local-only` (not `partial`); high-sensitivity reasons
   are not masked by fleet/peer availability ordering.
 
+## [1.2.0] — 2026-10-18 (not tagged)
+
+Depth without bulk: the engine asks for a deeper version of each task, not a bigger one, and runs only
+the modules a question needs. Deepening questions follow Felix Rieseberg, "How to be more ambitious: A
+tutorial for humans with models" (2026-10-13).
+
+### Added
+- **Elastic router** (`references/triage-guide.md`): Atom-of-Thoughts waves. Wave 1 answers outcome,
+  sufficiency, premise and options in-session; wave 2 selects modules (evidence, premortem, borrow,
+  actions); wave 3 sizes the independent check. Invariants: an outside verifier per action, raw/digested
+  tags on cited evidence, Phase P on irreversible decisions at any scale, security-reviewer on security
+  signals, checker ≠ maker at `deep`. Escalate-up and contradiction rules.
+- **Module entry points**: `/esa deepen`, `/esa evidence`, `/esa premortem`, `/esa verify`, each with an
+  output contract, so a harness or another skill can call one module.
+- **Deepening questions**, answered internally: the expert move, the rawest material, the field's
+  instruments, and what other than the model or user shows the result is right. Each surfaces where it
+  belongs (Evidence, the analysis, the Verifier column, an action or reframe), never as its own block.
+- **Lenses as atom generators**: Depth (instruments over vocabulary), Range (borrow one field's
+  technique), Altitude (outcome reframe).
+- **Verifier column** in both action tables, with `none — unverifiable` forcing Confidence L.
+- **Depth check** in every Phase 9 reviewer prompt (critic, `esat` trio, `esat-fleet` fleet leg,
+  `esat-frontier` critic and peers). Anti-slop rule 12: vocabulary is not a method.
+- **Depth eval harness** (`tests/eval/`): engine builder with leave-one-out ablation, isolated no-tool
+  runner, blind order-swapped pairwise judge on another model family, deterministic metrics, route audit,
+  route stability, 20 adversarial prompts and 4 entry-point prompts.
+- `test_depth_contract`; `test_engine_word_budget` holds the engine at or below the 1.1.0 size (4969 words).
+
+### Changed
+- One terse Route line replaces the Triage header; sections appear only when their module ran; body
+  headings follow the question, not the framework; Evidence lists only what was read.
+- Phase 0 reads raw sources first; the document-specialist looks for primary sources, not benchmarks.
+- `esa`, `esat`, `esat-fleet`, `esat-frontier` wording aligned to the router. README engine steps updated.
+
+### Evaluation (no-tool harness; Claude Sonnet generator; Codex judge, blind, both orders)
+- Round 1, 25 prompts: a pre-elastic draft beat 1.1.0 on content (23 of 25) but lost on leanness (3 vs
+  14) and in maintainer blind ratings; its display blocks were removed. Stripping them kept 21 of 25.
+- Held-out, 27 real prompts never used for tuning, elastic vs 1.1.0: overall 89%, shape 87%, lean 72%,
+  outside verifier 87%, raw material 93%; median length 1479 vs 1624 words. Noise band ±8–10% (the
+  same engine judged against itself scored 58% on 24 prompts).
+- Router: the inline-vs-analyze decision repeated in 22 of 23 reruns; the exact module set in 5 of 23.
+- Route audit: 17 of 19 probes. Known misses: an altitude reframe on "fill in this template", and an
+  evidence probe that a no-tool run cannot satisfy.
+- Not yet measured: a run with tools reading real material, and maintainer ratings on held-out pairs.
+
 ## [1.1.0] — 2026-08-08
 
 ### Added
