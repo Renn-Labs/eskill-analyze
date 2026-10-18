@@ -58,6 +58,8 @@ def main() -> None:
     print(f"{args.a} vs {args.b}: {len(rows)} prompts")
     print(f"inline-vs-modules agree {inline}/{len(rows)} · scale agree {scale}/{len(rows)} · "
           f"identical module set {exact}/{len(rows)} · mean module Jaccard {sum(jacc) / (len(jacc) or 1):.2f}")
+    flips = {m: sum((m in ra["modules"]) != (m in rb["modules"]) for _, ra, rb in rows) for m in MODULES}
+    print("per-module flips: " + " · ".join(f"{m} {k}/{len(rows)}" for m, k in flips.items()))
     for i, ra, rb in rows:
         if ra["inline"] != rb["inline"] or ra["scale"] != rb["scale"]:
             print(f"  flip {i}: {ra['scale']}/{'inline' if ra['inline'] else sorted(ra['modules'])}"
