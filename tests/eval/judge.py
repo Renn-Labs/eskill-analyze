@@ -15,6 +15,7 @@ import pathlib
 import re
 import subprocess
 import tempfile
+import urllib.request
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
@@ -60,21 +61,38 @@ def parse_verdict(text: str) -> dict | None:
     return None
 
 
-def judge_one(job: tuple, runs: pathlib.Path, a: str, b: str, prompts: dict[str, str]) -> dict:
+def ask(judge: str, body: str, cwd: str) -> str:
+    """`codex` runs `peer codex` (body on stdin); `litellm:<model>` posts to the local LiteLLM proxy."""
+    if judge == "codex":
+        return subprocess.run(["peer", "codex", INSTRUCTION], input=body, capture_output=True,
+                              text=True, timeout=900, cwd=cwd).stdout
+    req = urllib.request.Request(
+        "http://localhost:4000/v1/chat/completions",
+        data=json.dumps({"model": judge.split(":", 1)[1], "temperature": 0,
+                         "messages": [{"role": "user", "content": body + "\n" + INSTRUCTION}]}).encode(),
+        headers={"Content-Type": "application/json", "Authorization": "Bearer x"})
+    with urllib.request.urlopen(req, timeout=600) as resp:
+        return json.load(resp)["choices"][0]["message"]["content"] or ""
+
+
+def judge_one(job: tuple, runs: pathlib.Path, a: str, b: str, prompts: dict[str, str], judge: str = "codex") -> dict:
     pid, order = job
     first, second = (a, b) if order == "ab" else (b, a)
     body = (f"{RUBRIC}\n=== REQUEST ===\n{prompts[pid]}\n\n=== ANALYSIS 1 ===\n"
             f"{(runs / first / f'{pid}.md').read_text(encoding='utf-8')}\n\n=== ANALYSIS 2 ===\n"
             f"{(runs / second / f'{pid}.md').read_text(encoding='utf-8')}\n")
     with tempfile.TemporaryDirectory() as cwd:
+        out = ""
         for _ in range(2):
-            proc = subprocess.run(["peer", "codex", INSTRUCTION], input=body, capture_output=True,
-                                  text=True, timeout=900, cwd=cwd)
-            verdict = parse_verdict(proc.stdout)
+            try:
+                out = ask(judge, body, cwd)
+            except Exception as exc:  # network or proxy failure: retry once, then record
+                out = f"judge error: {exc}"
+            verdict = parse_verdict(out)
             if verdict:
                 break
     if not verdict:
-        return {"id": pid, "order": order, "error": (proc.stdout + proc.stderr)[-300:]}
+        return {"id": pid, "order": order, "error": out[-300:]}
     # Map "1"/"2" back to arm names so orders can be pooled.
     named = {c: {"1": first, "2": second, "tie": "tie"}[str(verdict[c])] for c in CRITERIA}
     return {"id": pid, "order": order, **named, "why": verdict.get("why", "")}
@@ -110,9 +128,11 @@ def main() -> None:
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--ids")
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--judge", default="codex", help="codex, or litellm:<model> (e.g. litellm:or/glm-5.2)")
     args = ap.parse_args()
 
-    out = args.runs / f"judge-{args.a}-vs-{args.b}.jsonl"
+    tag = "" if args.judge == "codex" else "-" + args.judge.split(":", 1)[1].replace("/", "_")
+    out = args.runs / f"judge-{args.a}-vs-{args.b}{tag}.jsonl"
     if args.report:
         report(out, args.a, args.b)
         return
@@ -124,7 +144,7 @@ def main() -> None:
         done = {(r["id"], r["order"]) for r in map(json.loads, out.read_text().splitlines()) if "error" not in r}
     jobs = [(i, o) for i in ids for o in ("ab", "ba") if (i, o) not in done]
     with ThreadPoolExecutor(args.jobs) as pool, out.open("a", encoding="utf-8") as fh:
-        for row in pool.map(lambda j: judge_one(j, args.runs, args.a, args.b, prompts), jobs):
+        for row in pool.map(lambda j: judge_one(j, args.runs, args.a, args.b, prompts, args.judge), jobs):
             fh.write(json.dumps(row) + "\n")
             fh.flush()
             print(row["id"], row["order"], row.get("overall", "ERROR"), flush=True)
