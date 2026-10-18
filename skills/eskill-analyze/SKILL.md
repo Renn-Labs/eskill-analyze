@@ -18,7 +18,7 @@ Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/quality-principles.md`
 | `/esa <ask>` or `eskill-analyze <ask>` | The router (`references/triage-guide.md`), then the modules it picks |
 | `/esa deepen <ask>` | Router Step 0; prints the four answers and the deepened ask |
 | `/esa evidence <ask>` | Step 0 to name the rawest source, then Phase 0; prints the Evidence Summary and open gaps |
-| `/esa premortem <plan>` | Phase P on the given plan; prints the Premortem Cycle block |
+| `/esa premortem <plan>` | Phase P on the given plan, which is the action list; prints only the Premortem Cycle block |
 | `/esa verify <draft>` | Phase 9 at this skill's tier on the given draft; prints Stress Test Notes, not a rewrite |
 | Another skill's step | The one module that step names; follow that module's output contract |
 

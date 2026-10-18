@@ -28,7 +28,7 @@ If the answers change the ask, restate it in one line (`**Ask, deepened**:`). Pr
 
 Lenses generate atoms; they are not labels. **Depth** raises a5 and the Instruments rule when the answer turns on data, code, or instruments below the task's layer. **Range** raises a7 when the deliverable's verbs belong to other fields. **Altitude** turns a1 into a reframe when the ask is a task serving an unstated outcome (weak for creative work). Speed is the default.
 
-Run core-analysis steps (Steps 1-8) only where they answer an atom: Step 1 for a1 or a3; Step 2 whenever any analysis runs; Step 4 when 3+ parts interact; Steps 3, 5, 7, 8 for product or strategic asks only; Step 6 whenever Actions run (the seed for Phase P, or the thin risk table without it). Phase P needs a provisional action list, so it brings Actions and the steps that produce them.
+Run core-analysis steps (Steps 1-8) only where they answer an atom: Step 1 for a1 or a3; Step 2 whenever any analysis runs; Step 4 when 3+ parts interact; Steps 3, 5, 7, 8 for product or strategic asks only; Step 6 whenever Actions run (the seed for Phase P, or the thin risk table without it). Phase P needs a provisional action list, so it brings Actions and the steps that produce them (`/esa premortem` uses the given plan).
 
 If a2 is yes and a3, a4, a6 are no, run no modules: answer inline with a Verifier line (security signals still get the reviewer; see Invariants).
 
