@@ -47,8 +47,9 @@ def check(text: str, exp: dict) -> list[str]:
     for pat in exp.get("require", []):
         if not re.search(pat, text, re.I):
             fails.append(f"missing /{pat}/")
+    body = ROUTE.sub("", text)  # a skipped module named in the Route line is not a violation
     for pat in exp.get("forbid", []):
-        if re.search(pat, text, re.I):
+        if re.search(pat, body, re.I):
             fails.append(f"forbidden /{pat}/")
     if "max_actions" in exp and action_rows(text) > exp["max_actions"]:
         fails.append(f"actions={action_rows(text)} > {exp['max_actions']}")
