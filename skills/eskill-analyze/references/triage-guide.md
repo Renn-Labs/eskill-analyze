@@ -81,7 +81,7 @@ Spawn only what the running modules name; skip explore when no codebase is relev
 - Every action that exists has an outside Verifier, or `none — unverifiable` with Confidence L.
 - Cited evidence carries a `raw` or `digested` tag.
 - Irreversible decisions get Phase P, at any scale.
-- Security signals (auth, tokens, secrets, permissions, PII, payments, trading) get security-reviewer, even inline, and the Route lists `security review`.
+- Security signals (auth, tokens, secrets, permissions, PII, payments, trading) get security-reviewer, even inline, and the Route lists `security-reviewer`.
 - At `deep`, the checker is not the maker.
 
 **Escalate up:** when an atom's answer raises the stakes (an irreversible migration, money at risk), add the module and say so in one line. **Contradiction rule:** when evidence contradicts a route the user chose, say so and let them redirect; never override silently. **Stop:** after each wave, restate what remains in one internal sentence and drop resolved detail; stop when it is atomic or at budget, and name what stayed open.
