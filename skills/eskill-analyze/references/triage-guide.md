@@ -71,7 +71,6 @@ Premortem keywords activate Phase P at any scale: premortem, pre-mortem, kill cr
 |-|-|
 | Phase 0 Evidence | explore (codebase), document-specialist (primary sources), scientist (raw data), security-reviewer (auth, tokens, secrets, PII, payments, trading) |
 | Core analysis | analyst; architect for technical or strategic systems |
-| Compare | per option: explore + architect + analyst if it exists, document-specialist + analyst if hypothetical |
 | Phase P, Phase 9 | critic |
 
 Spawn only what the running modules name; skip explore when no codebase is relevant.

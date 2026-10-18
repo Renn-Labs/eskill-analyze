@@ -9,7 +9,8 @@ Never print a section, or a reason, for a module that didn't run.
 **Ask, deepened**: {one line, only if router Step 0 changed the ask}
 
 ### Answer
-_Inline route only (no modules ran): the answer in 1-3 short paragraphs, then:_
+_Inline route only. No modules is not no method: apply the instrument Step 0 named (show the roll-forward,
+the calculation, the test), then:_
 **Verifier**: [what, other than the model or the user, would show this is right]
 
 ### Evidence Summary
