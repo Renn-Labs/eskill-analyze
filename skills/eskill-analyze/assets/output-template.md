@@ -1,11 +1,11 @@
 # Analysis Output Template
 
 Show results, not process. Print the Route line, then only the sections whose module ran, in this order.
-Never print a section to say it was skipped; the Route line already says so.
+Never print a section, or a reason, for a module that didn't run.
 
 ## Analysis: [Focus Area]
 
-**Route**: {type}/{scale} · modules: {list} · skipped: {module (reason), …} · models: {3-4, or none}
+**Route**: {type}/{scale} · modules: {those that ran, or none} · models: {3-4, or none}
 **Ask, deepened**: {one line, only if router Step 0 changed the ask}
 
 ### Answer
@@ -78,7 +78,7 @@ _Use when the router found a real choice (atom a4)._
 
 ## Comparison: [Option A] vs [Option B]
 
-**Route**: comparative + {type}/{scale} · modules: {list} · skipped: {…} · models: {…}
+**Route**: comparative + {type}/{scale} · modules: {those that ran} · models: {…}
 
 ### Evidence Summary
 _Per option, when Phase 0 ran; tagged `raw` or `digested`._

@@ -89,6 +89,8 @@ Spawn only what the running modules name; skip explore when no codebase is relev
 ## Output
 
 ```
-**Route**: {type}/{scale} · modules: {list} · skipped: {module (reason), …} · models: {3-4, or none}
+**Route**: {type}/{scale} · modules: {those that ran, or none} · models: {3-4, or none}
 **Ask, deepened**: {one line, only if Step 0 changed the ask}
 ```
+
+At most 20 words, no reasons: a skipped module is simply absent.
