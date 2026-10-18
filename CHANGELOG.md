@@ -120,7 +120,7 @@ tutorial for humans with models" (2026-10-13).
   criteria favor longer answers and lean/shape favor shorter ones; overall they roughly cancel.
   Comparisons between close engine versions flipped on 7–11 of 24 prompts, and the same engine judged
   against itself scored 9 wins, 10 ties, 5 losses on 24, so loop-to-loop differences were not resolvable.
-- Router, same engine twice on 20 prompts: inline-vs-analyze agreed 20 of 20 minus one (19), scale 19,
+- Router, same engine twice on 20 prompts: inline-vs-analyze agreed on 19 of 20, scale on 19,
   the exact module set 8. Flips concentrate in the stress test (7) and borrowed techniques (5); premortem
   flipped once, security twice. Across 40 audited runs one required module was dropped: an evidence probe
   a no-tool run cannot satisfy. Route audit: 18 and 19 of 19 probes.
