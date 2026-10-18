@@ -3,7 +3,7 @@
 
     build_engine.py SKILLS_DIR [--drop deepen|lenses|verifier ...] > engine.txt
 
---drop removes one 1.2.0 addition from a 1.2.0 engine (leave-one-out ablation).
+--drop removes one addition from the pre-elastic 1.2.0 engine (commit 437a9e8; round-1 ablation).
 Each removal asserts its anchor text exists, so a drifted engine fails loudly.
 """
 from __future__ import annotations
@@ -27,9 +27,10 @@ FILES = [
 
 HARNESS = """You are executing the eskill-analyze skill below in a non-interactive, no-tools evaluation.
 You cannot read files, run commands, browse, or spawn subagents. Where the skill says to dispatch an
-agent or read material, say in one line what you would read or run, then continue with in-session
-reasoning. Do not stop to ask the user questions: where the skill says to ask, state the question and
-the assumption you are making, then continue. Output only the final analysis in the skill's output format.
+agent or read material, reason in-session instead; name a source you could not read only where the
+answer depends on it. Do not stop to ask the user questions: where the skill says to ask, make the most
+reasonable assumption, state it in one line, and continue. Output only the final analysis in the skill's
+output format.
 """
 
 TRIAGE = "eskill-analyze/references/triage-guide.md"

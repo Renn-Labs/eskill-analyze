@@ -18,7 +18,7 @@ import tempfile
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
-CRITERIA = ["D1", "D2", "D3", "D4", "R", "A", "lean", "overall"]
+CRITERIA = ["D1", "D2", "D3", "D4", "R", "A", "lean", "shape", "overall"]
 
 RUBRIC = """You are a blind judge comparing two analyses written in answer to the same request. You do not
 know which system wrote which. Judge substance, not labels: a heading such as "Verifier" or "Rawest
@@ -35,10 +35,11 @@ For each criterion answer "1", "2" or "tie":
 - R: brings in a technique from another field that changes the answer.
 - A: connects the task to the outcome behind it where that helps; "tie" if neither needed it.
 - lean: delivers its substance without bloat (fewer, sharper points).
+- shape: reaches the substance fast; no process narration (how it was produced, what it skipped, meta labels).
 - overall: which would teach a field expert more and be more useful to act on. Deeper, not bigger.
 
 Reply with one JSON object only:
-{"D1":"1|2|tie","D2":"..","D3":"..","D4":"..","R":"..","A":"..","lean":"..","overall":"1|2|tie","why":"<=30 words"}
+{"D1":"1|2|tie","D2":"..","D3":"..","D4":"..","R":"..","A":"..","lean":"..","shape":"..","overall":"1|2|tie","why":"<=30 words"}
 """
 
 INSTRUCTION = "Follow the judging instructions in the piped input exactly. Output only the JSON object."
