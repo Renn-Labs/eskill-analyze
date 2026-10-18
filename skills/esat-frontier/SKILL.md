@@ -22,12 +22,12 @@ That contract defines semantic role vs requested vs actual route, preference pre
 
 ## Engine — reuse eskill-analyze verbatim
 
-Run the full `eskill-analyze` protocol for Input Parameters, Triage, Delegation, Framework Selection, Evidence Gathering, and Steps 1-8. Read and follow, in order:
+Run the `eskill-analyze` router and the modules it selects (Phase 0 Evidence, Steps 1-8, Phase P Premortem). Read and follow, in order:
 
 1. `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md`
 2. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/triage-guide.md`
 3. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/mental-models.md`
-4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — run Phase 0 + Steps 1-8 + **Phase P Premortem** (when triage activates it). **Skip that file's Phase 9.**
+4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — run Phase 0 + Steps 1-8 + **Phase P Premortem** (when the router selects them). **Skip that file's Phase 9.**
 5. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/world-class-signals.md`
 
 ## Frontier overrides
@@ -66,7 +66,7 @@ Preference precedence (from the shared contract): explicit invocation > session 
 
 Use `${CLAUDE_SKILL_DIR}/../eskill-analyze/assets/output-template.md` plus the `### Frontier Fusion Panel` block defined in `references/frontier-panel.md`.
 
-Set the triage header to `esat-frontier (frontier fusion)` and save output to `.omc/plans/esat-frontier-{date}-{focus}.md`.
+Name the tier in the Route line as `esat-frontier (frontier fusion)` and save output to `.omc/plans/esat-frontier-{date}-{focus}.md`.
 
 ## Post-Analysis Routing
 

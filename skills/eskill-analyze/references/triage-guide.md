@@ -1,130 +1,93 @@
-# Triage Guide
+# Router (Triage)
 
-Classify every analysis prompt before executing. This determines which phases, agents, and mental models activate.
+Decide the least engine work that still gives a world-class answer. Work in three waves, after Atom of Thoughts: answer the independent atoms first, then contract what is left into a smaller, self-contained question. Print the Route line before spending on agents or models.
 
-## Step 0: Deepen the Ask
+## Step 0: Atomize — Wave 1 (in-session, seconds)
 
-Ask for a deeper version of the task, not a bigger one (after Felix Rieseberg, "How to be more ambitious: A tutorial for humans with models", 2026-10-13). Run after Input Parameters are confirmed, before Step 1. One line each:
-
-1. **Expert move** — what a top practitioner in this field would do here that the user did not ask for. Name the action, not a persona: "reproduce the churn curve from raw events", not "think like a growth lead".
-2. **Rawest material** — the most primary source they would start from instead of what has been digested (event logs, source code, filings, transcripts, measurements; not summaries, dashboards, or the prompt's own framing). Say whether it is reachable now.
-3. **Instruments** — the field's specific methods and tools they would use (a load test, a DCF, a cohort survival curve, a fault tree). A framework name alone is not an instrument.
-4. **Verifier** — what, other than the model or the user, would show the result is right: a test, a measurement, a counterparty or market signal, a third-party check. Prefer one the analysis can run.
-
-Then restate the ask as the deeper version in 1-3 sentences and show it. It replaces Focus Area and World-Class Definition for the rest of the run.
-
-- **Proceed or ask:** proceed unless the deepened ask changes scope materially — a different project or primary stakeholder, or work needing access, data, budget, or time the user has not granted. Then ask one question offering the deepened and the original ask.
-- **Deeper, not bigger:** go one layer down; do not add workstreams. If the deepened ask would double the action list, it is bigger — cut back.
-- **Quick scale:** four half-lines; restate only if the ask changed.
-
-## Ambition Lenses
-
-Speed (the same work in less time) is the default and needs no lens. Tag lenses from the Step 0 answers; each routes work:
-
-| Lens | Tag when | Routes to |
-|-|-|-|
-| **Depth** | The answer turns on data, code, or instruments below the task's layer; "why", "prove", "is it really"; Step 0 found reachable raw material | Phase 0 raw-first (on `quick`, at least one raw read in-session); name the field instrument wherever a selected model asks the same question |
-| **Range** | The deliverable's verbs belong to other fields; a single-field answer would be generic | One borrowed field technique (mental-models Range rule) |
-| **Altitude** | The ask is a task in service of an unstated outcome (a deck, report, ticket, one-off fix) | Step 1 plus "what should happen next" and "what is the goal beyond the goal"; weaker for creative work |
-
-Tag at most two unless scale is `deep`. An untagged lens adds nothing.
-
-## Step 1: Classify Type
-
-| Type | Trigger Keywords / Signals | Example |
-|-|-|-|
-| `technical` | codebase, architecture, refactor, performance, API, database, infra, DX, tests, CI/CD, pipeline, latency | "Analyze our auth middleware" |
-| `product` | users, retention, growth, onboarding, UX, conversion, pricing, feature | "How do we improve onboarding?" |
-| `strategic` | roadmap, competitive, positioning, market, long-term, vision, pivot, moat, invest, next quarter | "Where should we invest next quarter?" |
-| `comparative` | "vs", "compare", "which is better", "trade-offs between", "A or B", implicit build-vs-buy* | "Monorepo vs polyrepo for our team" |
-
-\* **Implicit comparison detection:** Patterns like "we built X but [vendor/alternative] just launched/released/offers Y" signal a build-vs-buy decision even without explicit comparison language. Classify as `comparative` + the relevant secondary type.
-
-**Comparative false-positive filter:**
-- "or" alone is not enough — "should we use X or Y" is often a technical decision question, not a full comparison. Only classify as `comparative` when the prompt asks for side-by-side evaluation of meaningfully different approaches.
-- If one option is clearly "do nothing / keep current," treat as the non-comparative type with Reversibility model added.
-- **Benchmark vs choice:** "How does X compare to [abstract standard]" (e.g., "compared to what McKinsey would produce") is NOT a comparison — it's a standard analysis where the abstract standard becomes the World-Class Definition input. Route as the non-comparative type.
-
-If multiple types match, use the dominant one. When types are equally weighted, use this priority: **strategic > product > technical** (higher-level framing produces more actionable output; technical constraints surface as dependencies within the analysis). `comparative` can combine with any other type.
-
-## Step 2: Classify Scale
-
-| Scale | Signals | Premortem (Phase P)? | Stress Test (Phase 9)? |
-|-|-|-|-|
-| `quick` | Single focused question, narrow scope, "just tell me" | No* | No |
-| `standard` | Feature, system, or product area analysis | Yes (compact) | Yes |
-| `deep` | Strategic, high-stakes, multi-system, "world-class" language | Yes (mandatory, full) | Yes (always) |
-
-\* **Premortem keyword override:** activate Phase P even on `quick` when the user says
-premortem, pre-mortem, kill criteria, failure modes, "what if this fails", "what kills this",
-or asks for an explicit stop/abort plan.
-
-**Override rules:**
-- Bump `quick` → `standard` if the question requires codebase evidence to answer (e.g., "what's wrong with our test coverage?" is narrow but needs data).
-- "world-class" language always triggers `deep`, regardless of scope.
-
-## Step 3: Select Agents
-
-| Agent | Always | Technical | Product | Strategic | Comparative |
-|-|-|-|-|-|-|
-| analyst (opus) | Yes | Yes | Yes | Yes | Yes (per option) |
-| architect (opus) | - | Yes | - | Yes | Yes (per option) |
-| explore (sonnet) | Yes* | Yes | If codebase exists | Yes | Per option (skip for hypothetical options**) |
-| document-specialist (sonnet) | - | If deep scale or "world-class" | Yes | Yes | Yes (for framework/tool comparisons); otherwise if external context needed |
-| scientist (sonnet) | - | If metrics/data implied*** | If data available | If data available | If data/metrics implied*** |
-| security-reviewer (sonnet) | - | If security keywords**** | - | - | If security-relevant |
-| critic (opus) | - | If standard+ | If standard+ | Always | Always |
-
-\* Skip explore if no codebase is relevant (pure strategy/market analysis).
-\** For asymmetric comparisons (one option exists in codebase, one is hypothetical): run explore only for the existing option. For the hypothetical option, activate document-specialist instead.
-\*** Default to activating scientist if the domain strongly implies data exists (usage patterns, error rates, latency, metrics, logs, financial data). Explore output can deactivate if no evidence found.
-\**** Security keywords: auth, permissions, tokens, secrets, encryption, RBAC, CORS, injection, XSS, OWASP, trading, financial, order, payment, PII, HIPAA.
-
-**Comparative ceiling:** Cap at 2 options. For 3+ options, shortlist to 2 finalists first using a quick-triage pass before running full analysis.
-
-## Step 4: Select Mental Models
-
-| Analysis Type | Recommended Models |
+| Atom | Question |
 |-|-|
-| Technical / codebase | First Principles + Coupling/Cohesion + Complexity Budget + Scalability Ceiling |
-| Technical / performance | Scalability Ceiling + First Principles + Feedback Loops + Complexity Budget |
-| Technical / DX | DX Friction Mapping + First Principles + Feedback Loops |
-| Technical / security | Security Surface + Inversion + Coupling/Cohesion |
-| Technical / data-observability | First Principles + Feedback Loops + Scalability Ceiling + DX Friction Mapping |
-| Product / growth | JTBD + Unit Economics + 7-Step Ahead + AAARRR |
-| Product / UX | JTBD + Four Levels + Feedback Loops |
-| Strategic / positioning | Inversion + Feedback Loops + Unit Economics + Reversibility |
-| Comparative | First Principles + Inversion + Reversibility (applied to each option) |
+| a1 Outcome | What is the ask really for? |
+| a2 Sufficiency | Can it be answered well from what is already in context? |
+| a3 Premise | Does the ask carry a premise that may be false, or a digested proxy (a dashboard number, a summary) for the real question? |
+| a4 Options | Is there a real choice between meaningfully different options? |
 
-Pick 3-4 max from the recommended set. Never force all models.
+Also answer the four deepening questions, internally (after Felix Rieseberg, "How to be more ambitious: A tutorial for humans with models", 2026-10-13): what a top practitioner would do here that wasn't asked; the rawest material they would start from; the field's instruments they would use; what, other than the model or the user, would show the result is right. Phrase each as an action, never a persona. They feed later atoms and surface where they belong — rawest material in Evidence, instruments in the analysis, the verifier in the Verifier column, the expert move as an action or a reframe — never as a block of their own.
 
-**Sub-type overlap:** When a prompt spans two sub-types within the same type (e.g., onboarding = UX + growth), merge the recommended sets and pick 4 from the union.
+If the answers change the ask, restate it in one line (`**Ask, deepened**:`). Proceed unless that changes scope materially — a different project or primary stakeholder, or work needing access, data, budget, or time the user has not granted; then ask one question offering both asks. Go one layer down; never add workstreams.
 
-**Cross-type dependency:** When the primary type has a strong secondary constraint from another type (e.g., strategic decision with gnarly technical integration, or product feature with security implications), add 1 model from the secondary type's set. E.g., strategic + technical risk → add Complexity Budget or Coupling/Cohesion to the strategic set.
+**Contract:** "Given outcome a1, sufficiency a2, premise risk a3 and options a4, which modules run?"
 
-## Step 5: Select Phases
+## Wave 2: Select Modules
 
-| Phase | Quick | Standard | Deep |
+| Atom | Question | Module if yes |
+|-|-|-|
+| a5 Evidence | Is evidence missing that a raw source could supply? | Phase 0 Evidence, raw first (on `quick`: one raw read in-session, no agents) |
+| a6 Irreversibility | Is there a decision that is expensive to undo? | Phase P Premortem |
+| a7 Other fields | Would another field's instrument change the answer? | Borrow (Range) |
+| a8 Follow-on work | Will work follow from the answer? | Actions + Verifier; Project impact when project context exists |
+
+Lenses generate atoms; they are not labels. **Depth** raises a5 and the Instruments rule when the answer turns on data, code, or instruments below the task's layer. **Range** raises a7 when the deliverable's verbs belong to other fields. **Altitude** turns a1 into a reframe when the ask is a task serving an unstated outcome (weak for creative work). Speed is the default.
+
+Run core-analysis steps (Steps 1-8) only where they answer an atom: Step 1 for a1 or a3; Step 2 whenever any analysis runs; Step 4 when 3+ parts interact; Steps 3, 5, 7, 8 for product or strategic asks only; Step 6 as the inversion seed when Phase P runs.
+
+If a2 is yes and a3, a4, a6 are no, run no modules: answer inline with a Verifier line.
+
+**Contract:** "Given the modules chosen and what is at stake, how much independent checking does this need?"
+
+## Wave 3: Choose the Check (a9)
+
+| Stakes | Phase 9 |
+|-|-|
+| Inline answer, or reversible and low stakes | None |
+| A plan others will act on | Critic |
+| Irreversible; money-, security- or reputation-adjacent; "world-class" language | Critic, mandatory |
+
+Higher tiers (`esat`, `esat-fleet`, `esat-frontier`) are an explicit request for their panel: a9 is decided, and their panel replaces the critic.
+
+## Type and Scale
+
+Type picks models and agents; scale sets module depth.
+
+| Type | Signals |
+|-|-|
+| `technical` | codebase, architecture, performance, API, infra, DX, tests, CI/CD, latency |
+| `product` | users, retention, growth, onboarding, UX, conversion, pricing |
+| `strategic` | roadmap, competitive, positioning, market, moat, invest, pivot |
+| `comparative` | side-by-side evaluation of meaningfully different approaches; implicit build-vs-buy ("we built X, but vendor Y just launched Z") |
+
+Not comparative: an "X or Y" that is really a technical decision; one option being "do nothing" (add Reversibility instead); "compared to what McKinsey would produce" (that is the world-class definition). Ties: strategic > product > technical. `comparative` combines with any type.
+
+| Scale | Signals | Phase P | Phase 9 |
 |-|-|-|-|
-| Phase 0: Evidence Gathering | Skip*** | Activate relevant agents | Activate all applicable agents |
-| Steps 1-8: Analysis Protocol | Pick 3-4 relevant steps | Pick 4-6 relevant steps | All applicable steps with selected frameworks* |
-| **Phase P: Premortem Cycle** | Skip** | Compact cycle (3–5 modes) | Full cycle (5–8 modes, mandatory) |
-| Phase 9: Stress Test | Skip | Run critic | Run critic (mandatory) |
+| `quick` | One focused question, "just tell me" | Only on premortem keywords | No |
+| `standard` | A feature, system, or product area | Compact (3–5 modes) when a6 | When a9 says so |
+| `deep` | Multi-system, high-stakes, "world-class" | Full (5–8 modes), mandatory | Mandatory |
 
-\* Skip steps clearly irrelevant to the analysis type. E.g., AAARRR (Step 8) and Competitive Analysis (Step 7) are product/strategic only — skip for pure technical analyses. JTBD (Step 3) is product only — skip for pure engineering questions. Step 6 is an **inversion seed** only; the full premortem is Phase P.
+Premortem keywords activate Phase P at any scale: premortem, pre-mortem, kill criteria, failure modes, "what if this fails", "what kills this", or an explicit stop/abort plan. Bump `quick` → `standard` when the answer needs codebase evidence; "world-class" language means `deep`.
 
-\** Activate Phase P on `quick` when the premortem keyword override fires (Step 2).
+## Agents by Module
 
-\*** Under the Depth lens, make at least one raw read in-session even on `quick`.
+| Module | Agents |
+|-|-|
+| Phase 0 Evidence | explore (codebase), document-specialist (primary sources), scientist (raw data), security-reviewer (auth, tokens, secrets, PII, payments, trading) |
+| Core analysis | analyst; architect for technical or strategic systems |
+| Compare | per option: explore + architect + analyst if it exists, document-specialist + analyst if hypothetical |
+| Phase P, Phase 9 | critic |
+
+Spawn only what the running modules name; skip explore when no codebase is relevant.
+
+## Invariants (never skipped)
+
+- Every action that exists has an outside Verifier, or `none — unverifiable` with Confidence L.
+- Cited evidence carries a `raw` or `digested` tag.
+- Irreversible decisions get Phase P.
+- At `deep`, the checker is not the maker.
+
+**Escalate up:** when an atom's answer raises the stakes (an irreversible migration, money at risk), add the module and say so in one line. **Contradiction rule:** when evidence contradicts a route the user chose, say so and let them redirect; never override silently. **Stop:** after each wave, restate what remains in one sentence and drop resolved detail; stop when it is atomic or at budget, and name what stayed open.
 
 ## Output
 
-State the Deepened Ask (Step 0), then your triage result, at the start of every analysis:
-
 ```
-**Triage**: {type} / {scale}
-**Lenses**: {Depth, Range, Altitude — or Speed (default)}
-**Agents**: {list of activated agents}
-**Models**: {list of selected mental models}
-**Phases**: {which phases are active}
+**Route**: {type}/{scale} · modules: {list} · skipped: {module (reason), …} · models: {3-4, or none}
+**Ask, deepened**: {one line, only if Step 0 changed the ask}
 ```

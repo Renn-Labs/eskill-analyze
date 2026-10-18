@@ -13,17 +13,17 @@ Use `esat` when the stakes justify a triple-model cross-check (architecture bets
 
 ## Engine — reuse eskill-analyze verbatim
 
-Run the entire eskill-analyze protocol for Input Parameters, Triage, Delegation, Framework Selection, Steps 1–8, and Phase P Premortem (when triage activates it). Read and follow, in order:
+Run the eskill-analyze router and the modules it selects (Phase 0, Steps 1–8, Phase P Premortem). Read and follow, in order:
 
-1. `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md` — Input Parameters, Scope check, Triage gate, Delegation Strategy, Framework Selection, Comparison Mode, Project-Level Impact, Post-Analysis Routing. **Apply the two esat overrides below.**
-2. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/triage-guide.md` — classification
+1. `${CLAUDE_SKILL_DIR}/../eskill-analyze/SKILL.md` — Entry Points, Inputs, Scope check, Route, Modules, Comparison Mode, Output Format, Post-Analysis Routing. **Apply the two esat overrides below.**
+2. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/triage-guide.md` — the router
 3. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/mental-models.md` — model selection
-4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — Phase 0 + Steps 1–8 + **Phase P Premortem** (when triage activates it). **Skip that file's "Phase 9: Stress Test"** — esat replaces Phase 9 with the trio panel.
+4. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/analysis-protocol.md` — Phase 0 + Steps 1–8 + **Phase P Premortem** (when the router selects them). **Skip that file's "Phase 9: Stress Test"** — esat replaces Phase 9 with the trio panel.
 5. `${CLAUDE_SKILL_DIR}/../eskill-analyze/references/world-class-signals.md`
 
 ### esat overrides (only two differences from eskill-analyze)
 - **Phase 9 is the Tri-Model Panel** (this skill's `references/trio-panel.md`), not the single Claude critic.
-- **Phase 9 is mandatory, not discretionary.** The trio panel is the entire point of esat — triage may not skip it. (Kill-switch `ESKILL_PEER=0` degrades it to Claude-only; see below.)
+- **Phase 9 is mandatory, not discretionary.** The trio panel is the entire point of esat — the router may not skip it. (Kill-switch `ESKILL_PEER=0` degrades it to Claude-only; see below.)
 
 ## Phase 9 — Tri-Model Panel
 

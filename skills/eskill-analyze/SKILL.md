@@ -1,172 +1,79 @@
 ---
 name: eskill-analyze
-description: "World-class level-up analysis with first-principles thinking, systems mapping, and strategic frameworks. Produces prioritized action plans with project-level impact assessment. Absorbs eskill-orchestrate routing. Also known as orchestrate, eo, or the long-form native analyzer; for the short Tier-1 entry point prefer /esa."
+description: "World-class level-up analysis with first-principles thinking, systems mapping, and strategic frameworks. Elastic: a router runs only the modules a question needs (deepen, evidence, models, premortem, stress test, actions), and each module is callable alone. Produces prioritized action plans with project-level impact assessment. Absorbs eskill-orchestrate routing. Also known as orchestrate, eo, or the long-form native analyzer; for the short Tier-1 entry point prefer /esa."
 ---
 
 # eSkill: Analyze — World-Class Level-Up Analyzer
 
-First-principles analysis engine that identifies what elevates any product, feature, or system to world-class status. Produces a prioritized action plan ready for sprint execution.
+First-principles analysis engine that finds what would make a product, feature, or system world-class, and does the least work that gets there. A router decides which modules a question needs; nothing runs by default.
 
 ## Quality Principles
 
 Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/quality-principles.md`
 
-## Input Parameters
+## Entry Points
 
-Extract at start. If any are missing, ask before proceeding.
+| Invocation | Runs |
+|-|-|
+| `/esa <ask>` or `eskill-analyze <ask>` | The router (`references/triage-guide.md`), then the modules it picks |
+| `/esa deepen <ask>` | Router Step 0 only: the deepened ask and the four answers |
+| `/esa evidence <ask>` | Phase 0 Evidence only, raw first |
+| `/esa premortem <plan>` | Phase P only, on the given plan or action list |
+| `/esa verify <draft>` | Phase 9 only, at this skill's tier, on the given draft |
+| Another skill's step | The one module that step names; follow that module's output contract |
+
+An orchestrator may run router Wave 1 itself and skip this skill when the ask can be answered from context.
+
+## Inputs
+
+Infer Project, Focus Area, Current State, and World-Class Definition from the ask and the session. Ask only when one is missing **and** its answer would change the route.
 
 **Scope check:**
-- **Bug/incident?** If the prompt describes broken behavior ("isn't working", "broke", "crashed", "dropped", "why did X fail") — clarify intent. If the user wants diagnosis, route to a debugger agent. eskill-analyze is for elevation, not incident triage.
-- **Non-software?** If the prompt is about hiring, org structure, team process, or other non-product/non-system topics — only First Principles, Inversion, and Reversibility models apply, plus one borrowed field technique when the Range lens is tagged. Skip all system-specific steps (System Mapping, AAARRR, 7-Step Path, Competitive Analysis). Keep the analysis lightweight and framework-driven rather than forcing product/technical structure onto people or process decisions.
+- **Bug/incident?** Broken behavior ("isn't working", "crashed", "why did X fail") — clarify intent; route diagnosis to a debugger agent. This skill is for elevation, not incident triage.
+- **Non-software?** Hiring, org structure, team process — only First Principles, Inversion, Reversibility, plus one borrowed field technique when the Range lens produces an atom. Skip system-specific modules.
 
-| Parameter | Description | Required |
-|-|-|-|
-| **Project/Product** | What are we analyzing? | Yes |
-| **Focus Area** | Specific aspect to deep-dive | Yes |
-| **Current State** | What exists, what's built, what's broken | Yes |
-| **World-Class Definition** | What does "done" look like? | Yes |
-| **Constraints** | Timeline, resources, team size | No |
+## Route
 
-## Triage (After Parameters Confirmed)
+Read `${CLAUDE_SKILL_DIR}/references/triage-guide.md` (the router). It atomizes the ask in three waves, selects modules, and prints one **Route** line before any spend. That line determines everything that follows.
 
-Read `${CLAUDE_SKILL_DIR}/references/triage-guide.md`
+## Modules
 
-**Gate:** Do not triage until the required Input Parameters above are extracted or confirmed. If the prompt is too vague to determine Project, Focus Area, Current State, or World-Class Definition — ask first. Triage with missing context wastes agent dispatches on the wrong problem.
+Defined in `${CLAUDE_SKILL_DIR}/references/analysis-protocol.md` and `${CLAUDE_SKILL_DIR}/references/mental-models.md`. Spawn only the agents a running module names; run independent modules in parallel.
 
-First run triage Step 0, **Deepen the Ask**: four one-line answers (expert move, rawest material, instruments, verifier) and the deepened ask, which replaces Focus Area and World-Class Definition. Proceed unless it changes scope materially.
-
-Classify the prompt:
-1. **Type**: technical / product / strategic / comparative
-2. **Scale**: quick / standard / deep
-3. **Lenses**: Depth / Range / Altitude, or none (Speed is the default)
-4. **Agents**: which of the 6 agents to activate
-5. **Models**: which 3-4 mental models to apply
-6. **Phases**: which phases are active (Phase 0, Steps 1-8, Phase P Premortem, Phase 9)
-
-State the Deepened Ask and the triage result before proceeding. This determines everything that follows.
-
-## Delegation Strategy
-
-Spawn only the agents triage activates. All eligible agents run in parallel.
-
-### Always Active
-```
-Task(subagent_type="oh-my-claudecode:analyst", model="opus",
-     prompt="Analyze requirements and hidden constraints for: {focus_area}.
-     Final response under 2000 characters. List findings, not process.")
-
-Task(subagent_type="oh-my-claudecode:explore", model="sonnet",
-     prompt="Map existing codebase structure relevant to: {focus_area}.
-     Final response under 2000 characters. List findings, not process.")
-```
-
-### Activated by Triage
-```
-# Technical analysis
-Task(subagent_type="oh-my-claudecode:architect", model="opus",
-     prompt="Map system boundaries, interfaces, and long-term tradeoffs for: {focus_area}.
-     Final response under 2000 characters.")
-
-# Product or strategic analysis
-Task(subagent_type="oh-my-claudecode:document-specialist", model="sonnet",
-     prompt="Find primary sources (filings, datasets, specs, source code, raw user evidence)
-     and the instruments practitioners use for: {domain}/{focus_area}. Tag each finding raw or digested.
-     Final response under 2000 characters.")
-
-# When quantitative data exists
-Task(subagent_type="oh-my-claudecode:scientist", model="sonnet",
-     prompt="Analyze available metrics, logs, usage data for: {focus_area}.
-     Final response under 2000 characters.")
-
-# When security keywords detected
-Task(subagent_type="oh-my-claudecode:security-reviewer", model="sonnet",
-     prompt="Assess security surface, threat model, and blast radius for: {focus_area}.
-     Final response under 2000 characters.")
-```
-
-Run all activated agents in parallel. Synthesize their outputs before proceeding to analysis.
-
-## Framework Selection
-
-NOT every analysis needs every framework. After triage:
-
-1. Read `${CLAUDE_SKILL_DIR}/references/mental-models.md`
-2. Use the auto-selection logic based on triage type
-3. Pick 3-4 frameworks max from the recommended set
-4. Skip the rest — do not generate empty or forced sections
-
-## Analysis Protocol
-
-Read `${CLAUDE_SKILL_DIR}/references/analysis-protocol.md`
-
-Execute in order:
-1. **Phase 0: Evidence Gathering** — if triage activated it, run the evidence agents raw-first (start from the rawest material Step 0 named) and synthesize
-2. **Steps 1-8: Core Analysis** — apply only selected frameworks, skip irrelevant steps entirely; Step 6 is an inversion seed only
-3. **Phase P: Premortem Cycle** — if triage activated it (standard/deep, or quick + keyword), freeze the bet, generate failure modes + kill criteria, update provisional actions; see analysis-protocol Phase P
-4. **Phase 9: Stress Test** — if triage activated it (standard/deep scale), run the critic agent and integrate feedback (including attacks on kill criteria when Phase P ran)
+| Module | Name in protocol |
+|-|-|
+| Evidence (raw first) | Phase 0 |
+| Core analysis: first principles, models, system map, path, competition, funnel | Steps 1-8 (only the steps the route lists) |
+| Instruments (Depth) and Borrow (Range) | mental-models.md rules, applied inside Step 2 |
+| Premortem | Phase P |
+| Stress test | Phase 9 (higher tiers replace it with their panel) |
+| Compare | Comparison Mode below |
+| Actions + Verifier, Project impact | Output template; `${CLAUDE_SKILL_DIR}/../eskill-common/references/project-impact-protocol.md` |
 
 ## Comparison Mode
 
-When triage classifies as `comparative`:
-
-1. Cap at 2 options. For 3+, shortlist to 2 finalists first with a quick-triage pass
-2. Run triage + delegation for each option, but adapt per option:
-   - **Existing option** (code exists): run explore + architect + analyst
-   - **Hypothetical option** (no codebase): run document-specialist + analyst (skip explore)
-3. Use the Comparison Mode template from `${CLAUDE_SKILL_DIR}/assets/output-template.md`
-4. Produce a side-by-side table across key dimensions
-5. State a clear recommendation with tradeoffs and conditions to reconsider
-6. Generate prioritized actions for the recommended option only
+When the router finds a real choice (atom a4): cap at 2 options (shortlist first for 3+). Per option, existing code gets explore + architect + analyst; a hypothetical option gets document-specialist + analyst. Use the Comparison template, state a winner with tradeoffs and flip conditions, and list actions for the winner only.
 
 ## World-Class Signals
 
-Read `${CLAUDE_SKILL_DIR}/references/world-class-signals.md`
-
-## Project-Level Impact
-
-Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/project-impact-protocol.md`
-
-If `{project}/.omc/project-context.json` and `{project}/.omc/business-context.md` exist, connect every recommended action to project priorities and business impact in the output.
+Read `${CLAUDE_SKILL_DIR}/references/world-class-signals.md` when the route includes World-Class Criteria.
 
 ## Output Format
 
-Read `${CLAUDE_SKILL_DIR}/assets/output-template.md`
-
-Present the analysis using the appropriate template variant:
-- **Standard template**: for technical/product/strategic analyses
-- **Comparison template**: for comparative analyses
-
-Include only the sections that are relevant:
-- Deepened Ask and Triage header (with Lenses): always
-- Verifier column in Prioritized Actions: always
-- Evidence Summary: only when Phase 0 ran
-- Premortem Cycle: only when Phase P ran (standard/deep, or quick + keyword)
-- Stress Test Notes: only when Phase 9 surfaced material changes
-- Confidence column: only when stress test and/or Phase P adjusted ratings
-- Mermaid diagrams: only when system relationships are complex (3+ components)
+Read `${CLAUDE_SKILL_DIR}/assets/output-template.md`. Show results, not process: the Route line, then only the sections whose module ran. The four deepening answers surface inside those sections, never as their own block.
 
 ## Post-Analysis Routing
 
-After presenting the prioritized action list:
+Only when the Actions module ran:
 
-> "Here are the prioritized actions. Which do you want to execute?
-> - All of them
-> - Top N (specify)
-> - Specific items (list numbers)
->
-> Want to run this as an overnight sprint? Say `/eskill-overnight` with the confirmed list."
+> "Which do you want to execute? All / top N / specific numbers. For an overnight sprint, say `/eskill-overnight` with the list."
 
-**Auto-routing:**
-- < 10 tasks confirmed → invoke `/eskill-sprint`
-- 10+ tasks confirmed → invoke `/eskill-overnight`
-- User says "overnight" → always `/eskill-overnight`
-
-Save the analysis output to `.omc/plans/analysis-{date}-{focus}.md` for reference during execution.
+Fewer than 10 confirmed tasks → `/eskill-sprint`; 10+ or "overnight" → `/eskill-overnight`. Save the analysis to `.omc/plans/analysis-{date}-{focus}.md`.
 
 ## Execution Principles
 
-1. **Never accept "good enough"** — Ask "what would world-class look like?"
-2. **Start with why** — Reconnect to first principles before proposing
-3. **Think in systems** — Single features don't create world-class; ecosystems do
-4. **Assume competition copies** — Make it hard to replicate
-5. **Name the flywheel** — Can't describe compounding? Not ready.
+1. **Deeper, not bigger** — one layer down beats one more section.
+2. **Start with why** — reconnect to first principles before proposing.
+3. **Think in systems** — single features don't create world-class; ecosystems do.
+4. **Assume competition copies** — make it hard to replicate.
+5. **Name the flywheel** — can't describe compounding? Not ready.

@@ -1,37 +1,32 @@
 # Analysis Protocol
 
-Triage-driven analysis framework. Run Phase 0 before analysis, apply only relevant steps,
-run the **Premortem Cycle (Phase P)** when scale warrants it, then stress-test (Phase 9) if scale warrants it.
+Module definitions. The router (`${CLAUDE_SKILL_DIR}/references/triage-guide.md`) decides which run;
+order when several do: Phase 0 → Steps 1-8 → Phase P → Phase 9. Model selection:
+`${CLAUDE_SKILL_DIR}/references/mental-models.md`.
 
-See `${CLAUDE_SKILL_DIR}/references/triage-guide.md` for activation logic.
-See `${CLAUDE_SKILL_DIR}/references/mental-models.md` for framework selection guidance.
+## PHASE 0: Evidence Gathering (router atom a5)
 
-## PHASE 0: Evidence Gathering (Discretionary)
+Run before analysis. The router names the agents; all run in parallel.
 
-Run before analysis. Triage determines which agents activate. All run in parallel.
-
-**Raw first.** Start from the rawest material triage Step 0 named and read it when reachable. Use digested
+**Raw first.** Start from the rawest material router Step 0 named and read it when reachable. Use digested
 sources (dashboards, summaries, benchmark articles, the prompt's own framing) to locate or cross-check it,
 not to replace it. Tag every Evidence Summary item `raw` or `digested`.
 
 ```
 # Always (if codebase exists)
 Task(subagent_type="oh-my-claudecode:explore", model="sonnet",
-     prompt="Gather evidence for analysis of: {focus_area}.
-     - Git log: recent commits, active contributors, change velocity
-     - Code metrics: file count, largest files, dependency graph hotspots
-     - Test coverage: what's tested, what's not
-     - Architecture: key boundaries, entry points, data flow
+     prompt="Gather evidence for analysis of: {focus_area}. Read the code itself: git log and churn,
+     largest files and dependency hotspots, test coverage gaps, boundaries, entry points, data flow.
      Final response under 2000 characters. List findings, not process.")
 
-# When triage activates document-specialist (product, strategic)
+# Primary sources (product, strategic, external facts)
 Task(subagent_type="oh-my-claudecode:document-specialist", model="sonnet",
      prompt="Research what world-class looks like for: {domain} / {focus_area}.
      Find primary sources first (filings, datasets, specs, source code, raw user evidence), then
      best-in-class examples and the instruments practitioners use. Tag each finding raw or digested.
      Final response under 2000 characters. List findings with sources.")
 
-# When triage activates scientist (data/metrics available)
+# Raw data available
 Task(subagent_type="oh-my-claudecode:scientist", model="sonnet",
      prompt="Analyze available quantitative data for: {focus_area}.
      Start from raw records (logs, events, exports), not dashboards.
@@ -58,7 +53,7 @@ Answer these 5 questions:
 Pick 3-4 from `${CLAUDE_SKILL_DIR}/references/mental-models.md` and apply only those. Do not force all 8.
 Under the Depth or Range lens, apply that file's Instruments and Range rules.
 
-## STEP 3: Jobs-to-be-Done (product, product+strategic only — skip for pure technical)
+## STEP 3: Jobs-to-be-Done (product/strategic)
 
 For your core user:
 - What are they trying to accomplish?
@@ -75,28 +70,14 @@ Map the relationships:
 - **Unintended Consequences**: What could go wrong?
 - **Emergent Properties**: What could emerge that we haven't planned?
 
-When 3+ components interact, generate a Mermaid diagram instead of prose:
+When 3+ components interact, draw a Mermaid diagram instead of prose (`graph TD` for hierarchies,
+`graph LR` for flows), max 10-12 nodes.
 
-```mermaid
-graph TD
-    A[Component] -->|relationship| B[Component]
-    B -->|feedback| C[Component]
-    C -->|reinforces| A
-```
+## STEP 5: 7-Step Execution Path (product/strategic)
 
-Use `graph TD` for hierarchies, `graph LR` for flows, `flowchart` for complex branching. Keep diagrams focused — max 10-12 nodes.
-
-## STEP 5: 7-Step Execution Path (product, strategic — skip for pure technical)
-
-| Step | Timeframe | What Happens | Key Question |
-|-|-|-|-|
-| 1 | Day 1 | Immediate experience | Does it work? |
-| 2 | First session | First impression | Is this valuable? |
-| 3 | First week | Repeat behavior | Why would they come back? |
-| 4 | First month | Habit formation | What's the routine? |
-| 5 | First quarter | Advocacy | Do they tell others? |
-| 6 | First year | Lock-in | What would they lose by leaving? |
-| 7 | Beyond | Ecosystem | Can others build on this? |
+Trace day 1 (does it work?), first session (is it valuable?), first week (why come back?), first month
+(what's the routine?), first quarter (do they tell others?), first year (what would they lose by
+leaving?), and beyond (can others build on it?).
 
 ## STEP 6: Inversion Seed (feeds Phase P)
 
@@ -108,26 +89,21 @@ These seed **Phase P** (after provisional actions). Do not invent a full risk ma
 If Phase P will be skipped (quick scale, no keyword override), expand each bullet with a
 one-line prevention so the output still has a minimal Failure Modes table.
 
-## STEP 7: Competitive Analysis (product, strategic — skip for pure technical)
+## STEP 7: Competitive Analysis (product/strategic)
 
 1. What would competitors do if we launched this? (Assume they copy.)
 2. What's the moat? How do we make it hard to replicate?
 3. What's missing in the category? What does everyone fail at?
 4. What's the next frontier? What should we be early on?
 
-## STEP 8: AAARRR Funnel Mapping (product, strategic only — skip for pure technical)
+## STEP 8: AAARRR Funnel Mapping (product/strategic)
 
-| Funnel | What Needs to Happen |
-|-|-|
-| **Acquisition** | How do users find this? |
-| **Activation** | What's the "aha moment"? |
-| **Retention** | What brings them back? |
-| **Referral** | What makes them share? |
-| **Revenue** | What's the business model? |
+Acquisition (how do users find this?), Activation (the "aha moment"), Retention (what brings them back?),
+Referral (what makes them share?), Revenue (the business model).
 
 ---
 
-## PHASE P: Premortem Cycle (Scale-Gated)
+## PHASE P: Premortem Cycle (router atom a6)
 
 Run **after** Steps 1–8 produce a **provisional prioritized action list**, and **before Phase 9**.
 
@@ -136,11 +112,8 @@ Premortem assumes the **plan failed in the future**. Phase 9 stress-tests whethe
 
 ### Activation
 
-| Scale | Phase P |
-|-|-|
-| `quick` | **Skip**, unless the user asks for premortem / pre-mortem / kill criteria / failure modes / "what if this fails" / "what kills this" |
-| `standard` | **Activate** — compact cycle |
-| `deep` | **Mandatory** — full cycle |
+Router atom a6 (a decision expensive to undo) or premortem keywords. Scale sets size: `standard`
+compact, `deep` full and mandatory, `quick` only on keywords.
 
 ### Horizon
 
@@ -198,10 +171,10 @@ table after Phase P, then Phase 9.
 
 ---
 
-## PHASE 9: Stress Test (Discretionary)
+## PHASE 9: Stress Test (router atom a9)
 
 Run after Phase P (when Phase P ran) or after Steps 1–8 (when Phase P skipped).
-Before presenting to the user. Activated when triage scale is `standard` or `deep`.
+Before presenting to the user, when the router's a9 calls for an independent check.
 
 ```
 Task(subagent_type="oh-my-claudecode:critic", model="opus",
@@ -218,8 +191,8 @@ Task(subagent_type="oh-my-claudecode:critic", model="opus",
      6. If a Premortem Cycle block is present: attack the kill criteria (too weak / missing /
         unfalsifiable) and name one failure mode the premortem missed
      7. Depth check: flag claims resting on digested sources when raw material was reachable,
-        framework names standing in for field instruments, and Verifier entries that are the
-        model, the user, or blank
+        framework names standing in for field instruments, Verifier entries that are the
+        model, the user, or blank, and process narration the reader does not need
 
      Final response under 2000 characters. Be direct and specific.")
 ```

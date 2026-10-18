@@ -182,11 +182,11 @@ def test_premortem_phase_p_contract():
 
 
 def test_depth_contract():
-    """Deepen step, ambition lenses, raw-first evidence and the Verifier field agree across files."""
+    """Elastic router, deepening questions, raw-first evidence and the Verifier field agree across files."""
     def read(rel: str) -> str:
         return (SKILLS_DIR / rel).read_text(encoding="utf-8")
 
-    triage = read("eskill-analyze/references/triage-guide.md")
+    router = read("eskill-analyze/references/triage-guide.md")
     protocol = read("eskill-analyze/references/analysis-protocol.md")
     template = read("eskill-analyze/assets/output-template.md")
     skill = read("eskill-analyze/SKILL.md")
@@ -196,36 +196,53 @@ def test_depth_contract():
     frontier = read("esat-frontier/references/frontier-panel.md")
     fleet = read("esat-fleet/references/fleet-leg.md")
 
-    # Step 0 sits inside triage, before type classification; no phase renumbering
-    assert "## Step 0: Deepen the Ask" in triage
-    assert triage.index("## Step 0: Deepen the Ask") < triage.index("## Step 1: Classify Type")
-    for token in ("rawest", "instruments", "verifier", "materially", "2026-10-13"):
-        assert token in triage.lower(), f"triage Step 0 missing: {token}"
-    assert "## Ambition Lenses" in triage
-    for lens in ("Altitude", "Depth", "Range"):
-        assert f"**{lens}**" in triage, f"triage missing lens: {lens}"
-    assert "**Lenses**:" in triage
-    assert "Steps 1-8" in skill and "Phase 9" in skill
+    # Router: AoT waves, atoms, contraction, invariants; deepening questions run internally
+    assert "## Step 0: Atomize" in router
+    for token in ("Wave 2", "Wave 3", "**Contract:**", "a1 Outcome", "a5 Evidence", "a9",
+                  "## Invariants", "Escalate up", "Contradiction rule"):
+        assert token in router, f"router missing: {token}"
+    for token in ("rawest", "instruments", "verifier", "materially", "2026-10-13", "never a persona"):
+        assert token in router.lower(), f"router deepening missing: {token}"
+    for lens in ("Depth", "Range", "Altitude"):
+        assert f"**{lens}**" in router, f"router missing lens: {lens}"
+    assert "**Route**:" in router and "**Lenses**" not in router
+    assert "Steps 1-8" in skill and "Phase 9" in skill and "Phase P" in skill
 
-    # Engine wiring
-    assert "Step 0" in skill and "Deepened Ask" in skill
+    # Entry points: the harness can call one module
+    for mode in ("/esa deepen", "/esa evidence", "/esa premortem", "/esa verify"):
+        assert mode in skill, f"SKILL.md missing entry point: {mode}"
     assert "Range lens" in skill, "non-software scope check must allow the Range lens"
-    assert "Range" in models and "nouns" in models
+    assert "Range" in models and "nouns" in models and "Instruments Over Vocabulary" in models
 
-    # Phase 0 raw-first and Phase 9 depth check
+    # Modules keyed to router atoms; raw-first evidence; depth check in every reviewer prompt
+    for atom in ("router atom a5", "router atom a6", "router atom a9"):
+        assert atom in protocol, f"protocol missing {atom}"
     assert "rawest" in protocol and "digested" in protocol
-    assert protocol.count("Depth check") >= 1
-    assert "Depth check" in trio
-    assert "depth check" in fleet.lower()
+    assert "Depth check" in protocol and "Depth check" in trio and "depth check" in fleet.lower()
     assert frontier.count("Depth check") >= 2, "frontier critic prompt and PEER_PROMPT both need it"
 
-    # Output template: Deepened Ask, lenses, Verifier in both action tables, escape hatch
-    assert "### Deepened Ask" in template
-    assert "**Lenses**:" in template
+    # Output: one Route line, no ceremony blocks, Verifier in both action tables with an escape hatch
+    assert template.count("**Route**:") >= 2
+    assert "### Deepened Ask" not in template and "**Lenses**" not in template
     assert template.count("| Verifier |") >= 2
     assert "none — unverifiable" in template
+    assert "Show results, not process" in template
 
     assert "Vocabulary is not a method" in anti
+
+
+ENGINE_WORD_BUDGET = 4969  # 1.1.0 engine size: depth must come from routing, not more prompt
+
+
+def test_engine_word_budget():
+    files = [
+        SKILLS_DIR / "eskill-analyze" / "SKILL.md",
+        *sorted((SKILLS_DIR / "eskill-analyze" / "references").glob("*.md")),
+        *sorted((SKILLS_DIR / "eskill-analyze" / "assets").glob("*.md")),
+        SKILLS_DIR / "eskill-common" / "references" / "anti-slop-rules.md",
+    ]
+    words = sum(len(f.read_text(encoding="utf-8").split()) for f in files)
+    assert words <= ENGINE_WORD_BUDGET, f"engine is {words} words; budget {ENGINE_WORD_BUDGET}"
 
 
 def test_no_absolute_user_paths():

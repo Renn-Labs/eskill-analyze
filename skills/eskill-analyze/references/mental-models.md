@@ -1,6 +1,6 @@
 # Mental Model Toolkit
 
-Apply as relevant — NOT every analysis needs every model.
+Apply as relevant — NOT every analysis needs every model. Pick 3-4 max.
 
 | Model | Question It Answers |
 |-|-|
@@ -23,15 +23,27 @@ Apply as relevant — NOT every analysis needs every model.
 | **Scalability Ceiling** | What breaks first at 10x scale? Where are the bottlenecks? |
 | **Security Surface** | What's exposed? What's the blast radius of a breach? |
 
-## Selection Guide
+## Selection by Type
 
-- Codebase / architecture: Coupling/Cohesion + Complexity Budget + Scalability Ceiling
-- Developer experience: DX Friction Mapping + First Principles + Feedback Loops
-- Security review: Security Surface + Inversion + Coupling/Cohesion
-- Technical feature: First Principles + Inversion + Feedback Loops
-- Product/growth question: JTBD + Unit Economics + 7-Step Ahead
-- Competitive positioning: Inversion + Four Levels + Reversibility
-- Comparative analysis: First Principles + Inversion + Reversibility (per option)
+| Analysis Type | Recommended Models |
+|-|-|
+| Technical / codebase | First Principles + Coupling/Cohesion + Complexity Budget + Scalability Ceiling |
+| Technical / performance | Scalability Ceiling + First Principles + Feedback Loops + Complexity Budget |
+| Technical / DX | DX Friction Mapping + First Principles + Feedback Loops |
+| Technical / security | Security Surface + Inversion + Coupling/Cohesion |
+| Technical / data-observability | First Principles + Feedback Loops + Scalability Ceiling + DX Friction Mapping |
+| Product / growth | JTBD + Unit Economics + 7-Step Ahead + AAARRR |
+| Product / UX | JTBD + Four Levels + Feedback Loops |
+| Strategic / positioning | Inversion + Feedback Loops + Unit Economics + Reversibility |
+| Comparative | First Principles + Inversion + Reversibility (applied to each option) |
+
+Two sub-types of one type (onboarding = UX + growth): merge the sets and pick 4. A strong secondary type
+(strategy with gnarly integration, a feature with security exposure): add 1 model from its set.
+
+Codebase signals pre-select: `package.json` / `tsconfig.json` → DX Friction + Coupling/Cohesion;
+`Cargo.toml` → Scalability Ceiling + Coupling/Cohesion; `pyproject.toml` / `setup.py` → Complexity Budget +
+DX Friction; auth/, middleware/, RBAC → Security Surface + Inversion; no codebase → no technical models.
+The user's stated focus overrides.
 
 ## Depth: Instruments Over Vocabulary
 
@@ -45,16 +57,4 @@ call graph. The model stays selected; the instrument does the work.
 Under the Range lens, rewrite the deliverable's nouns as verbs ("a pricing page" → price, persuade, test),
 find the field that does each verb best, and borrow one concrete technique from outside the task's own
 field (queueing theory for a support backlog, survival analysis for churn, red-team drills for a launch
-plan). Name the field, the technique, and what it changed in the analysis. Do what that field's
-practitioners do; do not role-play them.
-
-## Auto-Selection
-
-Detect project type from codebase signals and pre-select the relevant category:
-- `package.json` / `tsconfig.json` → JS/TS project → DX Friction + Coupling/Cohesion
-- `Cargo.toml` → Rust → Scalability Ceiling + Coupling/Cohesion
-- `pyproject.toml` / `setup.py` → Python → Complexity Budget + DX Friction
-- Security-related files (auth/, middleware/, RBAC) → Security Surface + Inversion
-- No codebase (pure strategy) → skip technical models entirely
-
-Override with user-specified focus area.
+plan). Apply it and show what it changed. Do what that field's practitioners do; do not role-play them.

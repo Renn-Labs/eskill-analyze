@@ -1,30 +1,29 @@
 # Analysis Output Template
 
+Show results, not process. Print the Route line, then only the sections whose module ran, in this order.
+Never print a section to say it was skipped; the Route line already says so.
+
 ## Analysis: [Focus Area]
 
-### Deepened Ask
-**Expert move**: [what a top practitioner would do here that wasn't asked for]
-**Rawest material**: [primary source — reachable now / not reachable]
-**Instruments**: [the field's methods and tools]
-**Verifier**: [what, other than the model or the user, shows the result is right]
-**Ask, deepened**: [1-3 sentences; on quick, "unchanged" if it didn't change]
+**Route**: {type}/{scale} · modules: {list} · skipped: {module (reason), …} · models: {3-4, or none}
+**Ask, deepened**: {one line, only if router Step 0 changed the ask}
 
-### Triage
-**Type**: {technical|product|strategic|comparative} / **Scale**: {quick|standard|deep}
-**Lenses**: {Depth, Range, Altitude — or Speed (default)}
-**Agents**: {list activated agents}
-**Models**: {list selected mental models}
+### Answer
+_Inline route only (no modules ran): the answer in 1-3 short paragraphs, then:_
+**Verifier**: [what, other than the model or the user, would show this is right]
 
 ### Evidence Summary
-_Only include when Phase 0 ran. Summarize key findings from explore/document-specialist/scientist agents. Tag each item `raw` or `digested`._
-
-[Codebase signals | External benchmarks | Quantitative data — as applicable]
+_Phase 0. Each item tagged `raw` or `digested`; start with the rawest material._
 
 ### First-Principles View
-[3-5 sentences. Core truth, stripped to essentials.]
+_Step 1. 3-5 sentences: the core truth, stripped to essentials._
+
+### Analysis
+_Step 2 models with their instruments; a borrowed technique (Range) and what it changed; Steps 3, 5, 7, 8 as
+the route lists them. Prose or a compact table — no empty framework headings._
 
 ### System Map
-[When relationships are simple, use prose. When 3+ components interact, use Mermaid:]
+_Step 4, when 3+ components interact:_
 
 ```mermaid
 graph TD
@@ -32,34 +31,8 @@ graph TD
     B -->|feedback| C[Component]
 ```
 
-### 7-Step Path
-| Step | Now | 30 Days | 90 Days | 1 Year |
-|-|-|-|-|-|
-| Experience | | | | |
-| Value | | | | |
-| Retention | | | | |
-| Habit | | | | |
-| Advocacy | | | | |
-| Lock-in | | | | |
-| Ecosystem | | | | |
-
-### Competitive Response
-[What competitors would do + our moat]
-
-### AAARRR Breakdown
-- Acquisition:
-- Activation:
-- Retention:
-- Referral:
-- Revenue:
-
-### Project-Level Impact
-| Action | Project Impact | Business Impact | Dependencies | Priority Alignment |
-|-|-|-|-|-|
-| | | | | |
-
 ### Premortem Cycle
-_Only include when Phase P ran (standard/deep, or quick + keyword override)._
+_Phase P._
 
 **Bet**: [one sentence — what must be true if we execute the actions]
 **Horizon**: 30d | 90d | 1y
@@ -76,46 +49,39 @@ _Only include when Phase P ran (standard/deep, or quick + keyword override)._
 **Action deltas from premortem**
 - [confidence changes, added/deferred/killed actions]
 
-_If Phase P was skipped (quick without keyword): optional thin inversion table only:_
-
-| Risk | Likelihood | Impact | Prevention |
-|-|-|-|-|
-| | | | |
+_When Phase P is skipped but Step 6 ran: a thin table instead — | Risk | Likelihood | Impact | Prevention |_
 
 ### Prioritized Actions
+_Actions module._
+
 | # | Action | Impact | Effort | Confidence | Reversible | Horizon | AAARRR | Verifier | Why |
 |-|-|-|-|-|-|-|-|-|-|
 | 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | | |
 
-_Confidence column populated when Phase P and/or Phase 9 adjusted ratings. Otherwise omit._
+_Confidence only when Phase P or Phase 9 adjusted ratings; AAARRR only for product/strategic routes._
 _Verifier: what, other than the model or the user, shows the action worked (a test, metric, counterparty signal). `same as #n` is fine; `none — unverifiable` forces Confidence to L._
-_Optional: note "mitigates premortem #k" or "exposed to #k" in Why._
+
+### Project-Level Impact
+_Only with project context files:_ | Action | Project Impact | Business Impact | Dependencies | Priority Alignment |
 
 ### Stress Test Notes
-_Only include when Phase 9 ran and surfaced material changes._
-
-[Blind spots identified | Assumptions challenged | Premortem kill-criteria attacks | Adjustments made]
+_Phase 9, only when it changed something material: blind spots, challenged assumptions, kill-criteria attacks, adjustments._
 
 ### World-Class Criteria
-[3-5 specific, measurable signals that prove we're there]
+_3-5 specific, measurable signals that prove we're there, each checkable by someone other than the author._
 
 ---
 
 ## Comparison Mode Template
 
-_Use this variant when triage classifies as `comparative`._
+_Use when the router found a real choice (atom a4)._
 
 ## Comparison: [Option A] vs [Option B]
 
-### Deepened Ask
-_Same five lines as the standard template, written for the decision, not per option._
-
-### Triage
-**Type**: comparative + {technical|product|strategic} / **Scale**: {quick|standard|deep}
-**Lenses**: {Depth, Range, Altitude — or Speed (default)}
+**Route**: comparative + {type}/{scale} · modules: {list} · skipped: {…} · models: {…}
 
 ### Evidence Summary
-_Per-option evidence if Phase 0 ran._
+_Per option, when Phase 0 ran; tagged `raw` or `digested`._
 
 ### Side-by-Side Analysis
 | Dimension | Option A | Option B |
@@ -128,11 +94,8 @@ _Per-option evidence if Phase 0 ran._
 | Risk Profile | | |
 | Team Fit | | |
 
-### System Maps
-_One diagram per option if warranted, or a combined diagram showing interaction._
-
 ### Premortem Cycle (shared)
-_Only when Phase P ran. Prefer one table with A/B severity rather than two full cycles._
+_Phase P. One table with A/B severity rather than two full cycles._
 
 **Bet**: …
 **Horizon**: …
