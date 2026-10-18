@@ -88,10 +88,15 @@ _Use when the router found a real choice (atom a4)._
 _Per option, when Phase 0 ran; tagged `raw` or `digested`._
 
 ### Side-by-Side Analysis
-_Rows are the decision's own criteria, not a fixed list (a fee term: economics, precedent, relationship)._
-| Criterion | Option A | Option B |
+| Dimension | Option A | Option B |
 |-|-|-|
-| | | |
+| First-Principles Fit | | |
+| Complexity | | |
+| Scalability | | |
+| Reversibility | | |
+| Time to Value | | |
+| Risk Profile | | |
+| Team Fit | | |
 
 ### Premortem Cycle (shared)
 _Phase P. One table with A/B severity rather than two full cycles._
