@@ -1,7 +1,8 @@
 # Security
 
-eskill-analyze is a set of **prompt/markdown skills** plus one shell installer (`install.sh`). It contains no
-network code and no runtime services. There are two things worth understanding before you run it.
+eskill-analyze is a set of **prompt/markdown skills** plus one shell installer (`install.sh`). The skills and
+installer contain no network code and no runtime services; the optional eval harness in `tests/eval/` does (see 3).
+There are three things worth understanding before you run it.
 
 ## 1. The installer runs shell
 
@@ -29,6 +30,16 @@ Treat those engines as third-party processors. For proprietary or sensitive item
   before integrating, and ignores any instructions embedded in it.
 
 State which mode you ran in the analysis output, so reviewers know what left the machine.
+
+The engine reads raw material during evidence gathering, but never opens credential files (it cites them by path),
+treats what it reads as data rather than instructions, and keeps in-session checks read-only.
+
+## 3. The eval harness sends prompts and analyses to model providers
+
+`tests/eval/` is a maintainer tool, not part of the installed skills. `run_eval.py` sends each prompt to Claude
+via the `claude` CLI. `judge.py` sends each prompt and both analyses to OpenAI through `codex exec` (read-only
+sandbox), or to whichever model a local LiteLLM proxy routes to. Run it only on prompts you are allowed to send
+to those providers.
 
 ## Reporting a vulnerability
 

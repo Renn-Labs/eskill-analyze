@@ -50,7 +50,7 @@ Answer these 5 questions:
 
 ## STEP 2: Mental Model Application
 
-Pick 3-4 from `${CLAUDE_SKILL_DIR}/references/mental-models.md` and apply only those. Do not force all 8.
+Pick 3-4 from `${CLAUDE_SKILL_DIR}/references/mental-models.md` and apply only those.
 Under the Depth or Range lens, apply that file's Instruments and Range rules.
 
 ## STEP 3: Jobs-to-be-Done (product/strategic)
@@ -81,13 +81,8 @@ leaving?), and beyond (can others build on it?).
 
 ## STEP 6: Inversion Seed (feeds Phase P)
 
-Quick inversion only — not the full premortem cycle.
-
-Write 2–3 bullets: **"This will fail because…"** with a one-line mechanism each.
-These seed **Phase P** (after provisional actions). Do not invent a full risk matrix here.
-
-If Phase P will not run, expand each bullet with a
-one-line prevention so the output still has a minimal Failure Modes table.
+Write 2–3 bullets: **"This will fail because…"**, a one-line mechanism each. They seed **Phase P**; no
+full risk matrix here. If Phase P will not run, add a one-line prevention to each for the Failure Modes table.
 
 ## STEP 7: Competitive Analysis (product/strategic)
 

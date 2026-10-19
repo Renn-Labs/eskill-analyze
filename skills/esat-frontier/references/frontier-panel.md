@@ -25,7 +25,7 @@ Treat resolved names as canonical role profiles and separately record the actual
 
 1. Build **one** draft file containing:
    - project / focus / current state / world-class definition
-   - triage result
+   - the Route line
    - full draft analysis from Steps 1-8 **and Phase P Premortem** when Phase P ran
 2. Resolve lead and reviewer labels through `model-profiles.md`; preserve requested order, suppress duplicate planned route fingerprints, and remove the lead from reviewer duty.
 3. Apply policy gates (sensitivity, external-route permission, redaction, budget, metered consent) **before** any peer/fleet send.

@@ -53,7 +53,8 @@ _Phase P._
 **Action deltas from premortem**
 - [confidence changes, added/deferred/killed actions]
 
-_When Phase P is skipped but Step 6 ran: a thin table instead — | Risk | Likelihood | Impact | Prevention |_
+### Failure Modes
+_Step 6 when Phase P did not run:_ | Risk | Likelihood | Impact | Prevention |
 
 ### Prioritized Actions
 _Actions module._
@@ -62,7 +63,7 @@ _Actions module._
 |-|-|-|-|-|-|-|-|-|-|
 | 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | | |
 
-_Confidence only when Phase P or Phase 9 adjusted ratings; AAARRR only for product/strategic routes._
+_Confidence only when Phase P or Phase 9 adjusted ratings, or a Verifier is `none — unverifiable`; AAARRR only for product/strategic routes._
 _Verifier: what, other than the model or the user, shows the action worked (a test, metric, counterparty signal). `same as #n` is fine; `none — unverifiable` forces Confidence to L._
 
 ### Project-Level Impact

@@ -38,7 +38,7 @@ def arm_metrics(arm_dir: pathlib.Path) -> dict:
     for f in files:
         t = f.read_text(encoding="utf-8")
         words.append(len(t.split()))
-        deepened += "Deepened Ask" in t
+        deepened += "Ask, deepened" in t or "Deepened Ask" in t  # current label, then the round-1 one
         lenses += "**Lenses**" in t
         cells = verifier_cells(t)
         ver_rows += len(cells)

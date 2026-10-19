@@ -1,5 +1,5 @@
 {
-  "_doc": "Deterministic route expectations per synthetic prompt (prompts.json, entry_prompts.json). Checks: max_modules, max_words, require (case-insensitive regex, any match), forbid (regex, none may match), max_actions.",
+  "_doc": "Deterministic route expectations per synthetic prompt (prompts.json, entry_prompts.json). Checks: max_modules, max_words, require (case-insensitive regex, any match), forbid (regex, none may match), max_actions; route_line false for one-block entry-point contracts.",
   "A01": {"why": "quick, answerable from context", "max_modules": 1, "max_words": 1000},
   "A02": {"why": "incident phrasing routes to diagnosis", "require": ["debugger|diagnos|incident"]},
   "A03": {"why": "deep world-class: evidence, premortem, stress test", "require": ["phase 0|evidence", "### Premortem Cycle", "phase 9|stress|critic"]},
@@ -9,6 +9,7 @@
   "A07": {"why": "real choice", "require": ["## Comparison:|comparative"], "forbid": []},
   "A08": {"why": "implicit build-vs-buy", "require": ["## Comparison:|comparative"]},
   "A09": {"why": "non-software: no system modules", "forbid": ["### System Map", "AAARRR"]},
+  "A10": {"why": "money at stake, hard to undo: premortem and an independent check", "require": ["### Premortem Cycle", "phase 9|stress|critic"]},
   "A11": {"why": "bloat trap", "max_actions": 15},
   "A12": {"why": "creative: stay low, no premortem", "max_words": 1200, "forbid": ["### Premortem Cycle"]},
   "A13": {"why": "altitude: the deck serves decisions", "require": ["Ask, deepened"]},
@@ -19,8 +20,8 @@
   "A18": {"why": "range: a backlog is a queue", "require": ["borrow|range|queue"]},
   "A19": {"why": "quick, trivial", "max_modules": 1, "max_words": 900},
   "A20": {"why": "do what a VC does, not role-play", "forbid": ["as a (top|tier|seasoned)[^.]{0,30}(vc|partner)", "wearing (my|a) vc hat", "put on (my|a) vc"]},
-  "E1": {"why": "/esa deepen contract", "require": ["Ask, deepened|deepened ask"], "forbid": ["### Prioritized Actions", "### Premortem Cycle"]},
-  "E2": {"why": "/esa evidence contract", "require": ["Evidence"], "forbid": ["### Prioritized Actions", "### Premortem Cycle"]},
-  "E3": {"why": "/esa premortem contract", "require": ["Kill criteria"], "forbid": ["### First-Principles View", "### System Map"]},
-  "E4": {"why": "/esa verify contract", "require": ["Stress Test Notes|confidence"], "forbid": ["### First-Principles View"]}
+  "E1": {"route_line": false, "why": "/esa deepen contract", "require": ["Ask, deepened|deepened ask"], "forbid": ["### Prioritized Actions", "### Premortem Cycle"]},
+  "E2": {"route_line": false, "why": "/esa evidence contract", "require": ["Evidence"], "forbid": ["### Prioritized Actions", "### Premortem Cycle"]},
+  "E3": {"route_line": false, "why": "/esa premortem contract", "require": ["Kill criteria"], "forbid": ["### First-Principles View", "### System Map"]},
+  "E4": {"route_line": false, "why": "/esa verify contract", "require": ["Stress Test Notes|confidence"], "forbid": ["### First-Principles View"]}
 }

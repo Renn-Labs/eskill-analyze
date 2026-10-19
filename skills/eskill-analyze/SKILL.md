@@ -22,7 +22,7 @@ Read `${CLAUDE_SKILL_DIR}/../eskill-common/references/quality-principles.md`
 | `/esa verify <draft>` | Phase 9 at this skill's tier on the given draft; prints Stress Test Notes, not a rewrite |
 | Another skill's step | The one module that step names; follow that module's output contract |
 
-An orchestrator may run router Wave 1 itself and skip this skill when the ask can be answered from context.
+An orchestrator may run router Wave 1 itself and answer inline when the router's inline exit applies.
 
 ## Inputs
 

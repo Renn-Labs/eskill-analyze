@@ -32,7 +32,7 @@ Given a project, focus area, current state, and a definition of "world-class", t
 2. **Triages** the request (`technical` / `product` / `strategic` / `comparative`; `quick` / `standard` / `deep`; Depth / Range / Altitude lenses) and activates only the relevant agents, mental models, and phases.
 3. **Gathers evidence** (Phase 0), raw first — codebase, primary sources, quantitative data — only where the triage warrants it.
 4. **Analyzes** (Steps 1–8) with 3–4 selected mental models from a 13-model toolkit (First Principles, JTBD, Inversion, Feedback Loops, Coupling/Cohesion, Scalability Ceiling, Security Surface, …). Irrelevant steps are skipped, not padded.
-5. **Premortem (Phase P)** on standard/deep (or quick + keyword): freeze the bet, ranked failure modes, kill criteria, action deltas — *before* the stress test.
+5. **Premortem (Phase P)** on irreversible decisions or premortem keywords at any scale, always at `deep`: freeze the bet, ranked failure modes, kill criteria, action deltas — *before* the stress test.
 6. **Stress-tests** (Phase 9) at the rigor of the chosen tier (analysis quality and depth; may also attack Phase P kill criteria).
 7. **Outputs** a prioritized action table (impact / effort / confidence / reversibility / horizon / verifier) plus world-class criteria, ready to hand to a sprint.
 
@@ -50,8 +50,8 @@ eskill-common/        shared engine references (non-invocable)
   └─ model-routing.md           Phase-9 harness-aware routing + manifest contract
 
 eskill-analyze/       TIER 1 — the engine
-  ├─ SKILL.md                   input params, triage, delegation, framework selection, output
-  ├─ references/                triage-guide, mental-models, analysis-protocol, world-class-signals
+  ├─ SKILL.md                   entry points, inputs, router, modules, output
+  ├─ references/                triage-guide (router), mental-models, analysis-protocol (modules), world-class-signals
   └─ assets/output-template.md  standard + comparison output templates
 
 esa/                  TIER 1 — short callable wrapper for the engine
@@ -164,8 +164,8 @@ Invoke by slash command or natural-language trigger inside your harness:
 /esat-frontier <your analysis request> # Tier 4 — frontier-led fusion
 ```
 
-The four analysis tiers ask for the required analysis inputs if you do not supply them, state the triage decision,
-and then run. Their output is saved to `.omc/plans/`.
+The four analysis tiers infer the analysis inputs and ask only when a missing one would change the answer, print a
+one-line Route, and then run. Their output is saved to `.omc/plans/`.
 
 ---
 

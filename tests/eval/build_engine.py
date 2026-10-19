@@ -45,58 +45,34 @@ MODELS = "eskill-analyze/references/mental-models.md"
 TEMPLATE = "eskill-analyze/assets/output-template.md"
 ANTI = "eskill-common/references/anti-slop-rules.md"
 
-# (file, pattern, replacement, is_regex)
+# (file, pattern, replacement, is_regex). Anchors track the shipped engine; test_structure builds every drop.
 DROPS: dict[str, list[tuple[str, str, str, bool]]] = {
     "deepen": [
-        (TRIAGE, r"## Step 0: Deepen the Ask\n.*?(?=## Ambition Lenses)", "", True),
-        (TRIAGE, "Tag lenses from the Step 0 answers;", "Tag lenses from the prompt;", False),
-        (TRIAGE, "; Step 0 found reachable raw material", "", False),
-        (TRIAGE, "State the Deepened Ask (Step 0), then your triage result, at the start",
-         "State your triage result at the start", False),
-        (SKILL, r"First run triage Step 0, \*\*Deepen the Ask\*\*.*?\n\n", "", True),
-        (SKILL, "State the Deepened Ask and the triage result", "State the triage result", False),
-        (SKILL, "- Deepened Ask and Triage header", "- Triage header", False),
-        (SKILL, "the rawest material Step 0 named", "the rawest material available", False),
-        (PROTOCOL, "the rawest material triage Step 0 named", "the rawest material available", False),
-        (TEMPLATE, r"### Deepened Ask\n\*\*Expert move\*\*.*?\n\n", "", True),
-        (TEMPLATE, r"### Deepened Ask\n_Same five lines.*?\n\n", "", True),
+        (TRIAGE, r"Also answer the four deepening questions.*?\n\n", "", True),
+        (TRIAGE, r"If the answers change the ask, restate it.*?\n\n", "", True),
+        (TRIAGE, "**Ask, deepened**: {one line, only if Step 0 changed the ask}\n", "", False),
+        (SKILL, "| `/esa deepen <ask>` | Router Step 0; prints the four answers and the deepened ask |\n", "", False),
+        (SKILL, " The four deepening answers surface inside those sections, never as their own block.", "", False),
+        (TEMPLATE, "**Ask, deepened**: {one line, only if router Step 0 changed the ask}\n", "", False),
     ],
     "lenses": [
-        (TRIAGE, r"## Ambition Lenses\n.*?(?=## Step 1: Classify Type)", "", True),
-        (TRIAGE, "| Phase 0: Evidence Gathering | Skip*** |", "| Phase 0: Evidence Gathering | Skip |", False),
-        (TRIAGE, "\n\\*** Under the Depth lens, make at least one raw read in-session even on `quick`.\n", "", False),
-        (TRIAGE, "**Lenses**: {Depth, Range, Altitude — or Speed (default)}\n", "", False),
-        (SKILL, ", plus one borrowed field technique when the Range lens is tagged", "", False),
-        (SKILL, "3. **Lenses**: Depth / Range / Altitude, or none (Speed is the default)\n4. **Agents**",
-         "3. **Agents**", False),
-        (SKILL, "5. **Models**", "4. **Models**", False),
-        (SKILL, "6. **Phases**", "5. **Phases**", False),
-        (SKILL, " raw-first (start from the rawest material Step 0 named)", "", False),
-        (SKILL, "Triage header (with Lenses)", "Triage header", False),
-        (SKILL, "Find primary sources (filings, datasets, specs, source code, raw user evidence)\n"
-                "     and the instruments practitioners use for: {domain}/{focus_area}. Tag each finding raw or digested.",
-         "Research world-class benchmarks and best practices for: {domain}/{focus_area}.", False),
-        (PROTOCOL, r"\*\*Raw first\.\*\*.*?\n\n", "", True),
-        (PROTOCOL, "     Find primary sources first (filings, datasets, specs, source code, raw user evidence), then\n"
-                   "     best-in-class examples and the instruments practitioners use. Tag each finding raw or digested.",
-         "     Find: industry benchmarks, best-in-class examples, emerging patterns, common pitfalls.", False),
-        (PROTOCOL, "     Start from raw records (logs, events, exports), not dashboards.\n", "", False),
+        (TRIAGE, r"Lenses generate atoms; they are not labels\..*?\n\n", "", True),
+        (SKILL, ", plus one borrowed field technique when the Range lens produces an atom", "", False),
         (PROTOCOL, "\nUnder the Depth or Range lens, apply that file's Instruments and Range rules.", "", False),
-        (MODELS, r"## Depth: Instruments Over Vocabulary\n.*?(?=## Auto-Selection)", "", True),
-        (TEMPLATE, "**Lenses**: {Depth, Range, Altitude — or Speed (default)}\n", "", False),
-        (TEMPLATE, " Tag each item `raw` or `digested`.", "", False),
+        (MODELS, r"\n## Depth: Instruments Over Vocabulary\n.*", "\n", True),
     ],
     "verifier": [
         (TEMPLATE, "| AAARRR | Verifier | Why |\n|-|-|-|-|-|-|-|-|-|-|\n"
                    "| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | | |",
          "| AAARRR | Why |\n|-|-|-|-|-|-|-|-|-|\n"
          "| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | |", False),
-        (TEMPLATE, r"_Verifier: what, other than.*?\n", "", True),
         (TEMPLATE, "| Horizon | Verifier | Why |\n|-|-|-|-|-|-|-|-|-|\n"
                    "| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | | |",
          "| Horizon | Why |\n|-|-|-|-|-|-|-|-|\n"
          "| 1 | | H/M/L | H/M/L | H/M/L | Y/N | Quick/Foundation/Long | |", False),
-        (SKILL, "- Verifier column in Prioritized Actions: always\n", "", False),
+        (TEMPLATE, r"_Verifier: what, other than.*?\n", "", True),
+        (TEMPLATE, r"\*\*Verifier\*\*: \[what, other than.*?\n", "", True),
+        (TRIAGE, r"- Every action that exists has an outside Verifier.*?\n", "", True),
         (ANTI, r"\n12\. \*\*Vocabulary is not a method\.\*\*.*", "", True),
     ],
 }

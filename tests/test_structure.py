@@ -245,6 +245,19 @@ def test_engine_word_budget():
     assert words <= ENGINE_WORD_BUDGET, f"engine is {words} words; budget {ENGINE_WORD_BUDGET}"
 
 
+
+def test_eval_ablation_anchors_resolve():
+    """Every `build_engine.py --drop` anchor must still match the shipped engine."""
+    sys.path.insert(0, str(ROOT / "tests" / "eval"))
+    try:
+        import build_engine
+    finally:
+        sys.path.pop(0)
+    full = build_engine.build(SKILLS_DIR, [])
+    for name in build_engine.DROPS:
+        dropped = build_engine.build(SKILLS_DIR, [name])  # exits on a stale anchor
+        assert len(dropped) < len(full), name
+
 def test_no_absolute_user_paths():
     bad = []
     scanned = _product_paths_for_privacy()
