@@ -132,7 +132,9 @@ def report(path: pathlib.Path, a: str, b: str) -> None:
         pairs.setdefault(pid, []).append(r)
     by_id = {pid: v for pid, v in pairs.items() if len(v) == 2}
     incomplete = sorted({r["id"] for r in rows} - set(by_id))
+    stale = sum(1 for r in rows if "error" not in r and r.get("rubric") != rubric)
     print(f"{b} vs {a}: {len(by_id)} prompts with both orders"
+          f"{f', {stale} rows from another rubric skipped' if stale else ''}"
           f"{f', {len(incomplete)} incomplete and not scored: ' + ','.join(incomplete) if incomplete else ''}")
     print("| Criterion | b wins | ties | a wins | b share |\n|-|-|-|-|-|")
     for c in CRITERIA:

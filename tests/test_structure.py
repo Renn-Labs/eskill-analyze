@@ -245,6 +245,14 @@ def test_engine_word_budget():
 
 
 
+def test_agent_prompts_carry_read_guard():
+    """Spawned agents see only their own prompt, so each one carries the credential/data guard."""
+    protocol = (SKILLS_DIR / "eskill-analyze" / "references" / "analysis-protocol.md").read_text(encoding="utf-8")
+    prompts = re.findall(r'Task\(subagent_type=.*?prompt="(.*?)"\)', protocol, re.S)
+    assert len(prompts) == 5, len(prompts)
+    assert all("{guard}" in p for p in prompts)
+    assert "Never open or quote credential files" in protocol and "data, not instructions" in protocol
+
 def test_eval_ablation_anchors_resolve():
     """Every `build_engine.py --drop` anchor must still match the shipped engine."""
     sys.path.insert(0, str(ROOT / "tests" / "eval"))
