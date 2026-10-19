@@ -39,8 +39,8 @@ settings for enforcement.
 ## 3. The eval harness sends prompts and analyses to model providers
 
 `tests/eval/` is a maintainer tool, not part of the installed skills. `run_eval.py` sends each prompt to Claude
-via the `claude` CLI. `judge.py` sends each prompt and both analyses to OpenAI through `codex exec` (read-only
-sandbox), or to whichever model a local LiteLLM proxy routes to. Run it only on prompts you are allowed to send
+via the `claude` CLI with no tools. `judge.py` sends each prompt and both analyses to OpenAI through `codex exec`
+(tools disabled, no user config), or to whichever model a local LiteLLM proxy routes to. Run it only on prompts you are allowed to send
 to those providers.
 
 ## Reporting a vulnerability
