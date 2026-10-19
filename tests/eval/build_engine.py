@@ -46,6 +46,8 @@ TEMPLATE = "eskill-analyze/assets/output-template.md"
 ANTI = "eskill-common/references/anti-slop-rules.md"
 
 # (file, pattern, replacement, is_regex). Anchors track the shipped engine; test_structure builds every drop.
+# A drop removes the feature's rule text; passing mentions elsewhere (a7's label, "the instrument Step 0
+# named") stay, so an ablated engine carries a little dangling vocabulary.
 DROPS: dict[str, list[tuple[str, str, str, bool]]] = {
     "deepen": [
         (TRIAGE, r"Also answer the four deepening questions.*?\n\n", "", True),

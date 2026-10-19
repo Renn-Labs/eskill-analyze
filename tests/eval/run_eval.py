@@ -5,7 +5,8 @@
                 [--model sonnet] [--jobs 4] [--ids A01,R3]
 
 Writes DIR/NAME/<id>.md. Existing outputs are kept, so a rerun resumes; an arm is pinned to the hash of
-its engine file, so a changed engine needs a new arm name. Exits 1 if any requested run failed.
+its engine file and model, so a change to either needs a new arm name; a prompt's text is keyed by its id, so
+an edited prompt needs a new id. Exits 1 if any requested run failed.
 """
 from __future__ import annotations
 
@@ -36,6 +37,9 @@ def load_prompts(paths: list[str], ids: set[str] | None) -> list[dict]:
     bad = [p["id"] for p in items if not SAFE_ID.match(p["id"])]
     if bad:
         raise SystemExit(f"unsafe prompt ids (used as file names): {bad}")
+    seen = [p["id"] for p in items]
+    if len(seen) != len(set(seen)):
+        raise SystemExit(f"duplicate prompt ids: {sorted({i for i in seen if seen.count(i) > 1})}")
     return [p for p in items if not ids or p["id"] in ids]
 
 
@@ -79,9 +83,11 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     engine = args.engine.resolve()
     pin = out_dir / ".engine.sha256"
-    digest = hashlib.sha256(engine.read_bytes()).hexdigest()
+    digest = hashlib.sha256(engine.read_bytes() + args.model.encode()).hexdigest()  # engine and model
     if pin.exists() and pin.read_text().strip() != digest:
         raise SystemExit(f"arm {args.arm} was generated with a different engine; use a new --arm name")
+    if not pin.exists() and any(out_dir.glob("*.md")):
+        raise SystemExit(f"arm {args.arm} has outputs from an unknown engine; use a new --arm name")
     pin.write_text(digest + "\n")
     items = load_prompts(args.prompts, set(args.ids.split(",")) if args.ids else None)
     failed = 0

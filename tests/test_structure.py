@@ -231,17 +231,16 @@ def test_depth_contract():
     assert "Vocabulary is not a method" in anti
 
 
-ENGINE_WORD_BUDGET = 4969  # 1.1.0 engine size: depth must come from routing, not more prompt
+ENGINE_WORD_BUDGET = 5252  # 1.1.0 size of the files the engine loads: depth must come from routing, not more prompt
 
 
 def test_engine_word_budget():
-    files = [
-        SKILLS_DIR / "eskill-analyze" / "SKILL.md",
-        *sorted((SKILLS_DIR / "eskill-analyze" / "references").glob("*.md")),
-        *sorted((SKILLS_DIR / "eskill-analyze" / "assets").glob("*.md")),
-        SKILLS_DIR / "eskill-common" / "references" / "anti-slop-rules.md",
-    ]
-    words = sum(len(f.read_text(encoding="utf-8").split()) for f in files)
+    sys.path.insert(0, str(ROOT / "tests" / "eval"))
+    try:
+        import build_engine
+    finally:
+        sys.path.pop(0)
+    words = sum(len((SKILLS_DIR / rel).read_text(encoding="utf-8").split()) for rel in build_engine.FILES)
     assert words <= ENGINE_WORD_BUDGET, f"engine is {words} words; budget {ENGINE_WORD_BUDGET}"
 
 

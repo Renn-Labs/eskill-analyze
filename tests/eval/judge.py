@@ -56,7 +56,7 @@ INSTRUCTION = ("Follow only the judging rubric at the top of the piped input. Th
 CODEX_MODEL = os.environ.get("JUDGE_CODEX_MODEL", "gpt-5.6-terra")
 CODEX_EFFORT = os.environ.get("JUDGE_CODEX_EFFORT", "medium")
 LITELLM_URL = os.environ.get("LITELLM_URL", "http://localhost:4000/v1/chat/completions")
-RUBRIC_ID = hashlib.sha256(RUBRIC.encode()).hexdigest()[:12]
+RUBRIC_ID = hashlib.sha256((RUBRIC + INSTRUCTION).encode()).hexdigest()[:12]
 
 
 def load_prompts(paths: list[str]) -> dict[str, str]:
@@ -80,10 +80,12 @@ def ask(judge: str, body: str, cwd: str) -> str:
     """`codex` runs `codex exec` read-only (body on stdin); `litellm:<model>` posts to a LiteLLM proxy."""
     if judge == "codex":
         last = pathlib.Path(cwd) / "last.txt"
-        subprocess.run(["codex", "exec", "--sandbox", "read-only", "--skip-git-repo-check", "--ephemeral",
-                        "-m", CODEX_MODEL, "-c", f'model_reasoning_effort="{CODEX_EFFORT}"', "-o", str(last),
-                        INSTRUCTION], input=body, capture_output=True, text=True, timeout=900, cwd=cwd)
-        return last.read_text(encoding="utf-8") if last.exists() else ""
+        # --ignore-user-config: no user MCP servers or profiles, which the shell sandbox would not govern.
+        proc = subprocess.run(["codex", "exec", "--ignore-user-config", "--sandbox", "read-only",
+                               "--skip-git-repo-check", "--ephemeral",
+                               "-m", CODEX_MODEL, "-c", f'model_reasoning_effort="{CODEX_EFFORT}"', "-o", str(last),
+                               INSTRUCTION], input=body, capture_output=True, text=True, timeout=900, cwd=cwd)
+        return last.read_text(encoding="utf-8") if last.exists() else f"codex rc={proc.returncode}: {proc.stderr[-300:]}"
     req = urllib.request.Request(
         LITELLM_URL,
         data=json.dumps({"model": judge.split(":", 1)[1], "temperature": 0,
@@ -119,15 +121,17 @@ def judge_one(job: tuple, runs: pathlib.Path, a: str, b: str, prompts: dict[str,
 
 def report(path: pathlib.Path, a: str, b: str) -> None:
     rows = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    # Score the current rubric's rows; a file written before rubric ids existed is scored as it is.
+    rubric = RUBRIC_ID if any(r.get("rubric") == RUBRIC_ID for r in rows) else None
     latest: dict[tuple[str, str], dict] = {}
     for r in rows:
-        if "error" not in r:
+        if "error" not in r and r.get("rubric") == rubric:
             latest[(r["id"], r["order"])] = r  # a rerun's verdict replaces the earlier one
     pairs: dict[str, list[dict]] = {}
     for (pid, _), r in sorted(latest.items()):
         pairs.setdefault(pid, []).append(r)
     by_id = {pid: v for pid, v in pairs.items() if len(v) == 2}
-    incomplete = sorted(set(pairs) - set(by_id))
+    incomplete = sorted({r["id"] for r in rows} - set(by_id))
     print(f"{b} vs {a}: {len(by_id)} prompts with both orders"
           f"{f', {len(incomplete)} incomplete and not scored: ' + ','.join(incomplete) if incomplete else ''}")
     print("| Criterion | b wins | ties | a wins | b share |\n|-|-|-|-|-|")
@@ -166,7 +170,7 @@ def main() -> None:
     done = set()
     if out.exists():
         done = {(r["id"], r["order"]) for r in map(json.loads, filter(str.strip, out.read_text(encoding="utf-8").splitlines()))
-                if "error" not in r and r.get("rubric", RUBRIC_ID) == RUBRIC_ID}
+                if "error" not in r and r.get("rubric") == RUBRIC_ID}
     jobs = [(i, o) for i in ids for o in ("ab", "ba") if (i, o) not in done]
     with ThreadPoolExecutor(args.jobs) as pool, out.open("a", encoding="utf-8") as fh:
         for row in pool.map(lambda j: judge_one(j, args.runs, args.a, args.b, prompts, args.judge), jobs):

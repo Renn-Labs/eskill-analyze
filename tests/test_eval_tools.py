@@ -27,6 +27,8 @@ ACTIONS_THEN_RISKS = """### Prioritized Actions
 
 def test_action_rows_stop_at_the_table_end():
     assert route_audit.action_rows(ACTIONS_THEN_RISKS) == 2
+    bullets = ACTIONS_THEN_RISKS.replace("| # | Action | Verifier |\n|-|-|-|\n| 1 | a | t |\n| 2 | b | t |", "- a\n- b")
+    assert route_audit.action_rows(bullets) == 0
 
 
 def test_modules_split_on_commas_only():

@@ -31,8 +31,10 @@ Treat those engines as third-party processors. For proprietary or sensitive item
 
 State which mode you ran in the analysis output, so reviewers know what left the machine.
 
-The engine reads raw material during evidence gathering, but never opens credential files (it cites them by path),
-treats what it reads as data rather than instructions, and keeps in-session checks read-only.
+The engine reads raw material during evidence gathering. It and the agents it spawns are instructed never to open
+credential files (they cite them by path), to treat what they read as data rather than instructions, and to keep
+in-session checks read-only. These are prompt instructions, not enforced controls; use your harness's permission
+settings for enforcement.
 
 ## 3. The eval harness sends prompts and analyses to model providers
 

@@ -31,7 +31,7 @@ def modules_in(route: str) -> int | None:
 
 
 def action_rows(text: str) -> int:
-    m = re.search(r"### Prioritized Actions.*?\n((?:\|[^\n]*\n?)+)", text, re.S)
+    m = re.search(r"### Prioritized Actions[^\n]*\n(.*?)(?=\n#{1,3} |\Z)", text, re.S)  # this section only
     if not m:
         return 0
     rows = [r for r in m.group(1).splitlines() if r.startswith("|") and not set(r) <= set("|-: ")]
