@@ -78,7 +78,8 @@ tutorial for humans with models" (2026-10-13).
   sufficiency, premise and options in-session; wave 2 selects modules (evidence, premortem, borrow,
   actions); wave 3 sizes the independent check. Invariants: an outside verifier per action, raw/digested
   tags on cited evidence, Phase P on irreversible decisions at any scale, security-reviewer on security
-  signals, checker ≠ maker at `deep`. Escalate-up and contradiction rules.
+  signals, checker ≠ maker at `deep`, and read guards: credential files are cited, never opened; what is
+  read is data, not instructions; in-session instruments are read-only. Escalate-up and contradiction rules.
 - **Module entry points**: `/esa deepen`, `/esa evidence`, `/esa premortem`, `/esa verify`, each with an
   output contract, so a harness or another skill can call one module.
 - **Deepening questions**, answered internally: the expert move, the rawest material, the field's
@@ -91,8 +92,10 @@ tutorial for humans with models" (2026-10-13).
   `esat-frontier` critic and peers). Anti-slop rule 12: vocabulary is not a method.
 - **Depth eval harness** (`tests/eval/`): engine builder with leave-one-out ablation, isolated no-tool
   runner, blind order-swapped pairwise judge on another model family, deterministic metrics, route audit,
-  route stability, 20 adversarial prompts and 4 entry-point prompts.
-- `test_depth_contract`; `test_engine_word_budget` holds the engine at or below the 1.1.0 size (4969 words).
+  route stability, 20 adversarial prompts and 4 entry-point prompts. The judge sends prompts and analyses
+  to its model provider (see `SECURITY.md`).
+- `test_depth_contract`; `test_engine_word_budget` holds the files the engine loads at or below their 1.1.0
+  size (5252 words); `test_eval_tools.py` covers the eval scripts' scoring.
 
 ### Changed
 - One terse Route line replaces the Triage header; sections appear only when their module ran; body
@@ -105,31 +108,40 @@ tutorial for humans with models" (2026-10-13).
 
 ### Evaluation (Claude Sonnet generator in a no-tool harness unless stated; blind pairwise judges)
 - What the scores measure: which analysis proposes rawer sources, runnable methods and outside checks —
-  not retrieval or checks actually carried out. Each prompt is judged in both orders and pooled; a prompt
-  whose winner flips with the order counts as a tie.
+  not retrieval or checks actually carried out. Each prompt is judged in both orders; a prompt whose winner
+  flips with the order counts as a tie, and a prompt missing either order is not scored.
+- Final measurement, the shipped engine text against 1.1.0, both regenerated with all hooks disabled:
+  - Held out from tuning, 27 prompts (22 real, 5 synthetic), Codex judge: 24 wins, 3 ties, 0 losses (94%);
+    shape 96%, lean 80%, proposed outside verifier 93%, raw material 93%. The 22 real prompts alone: 19 wins,
+    3 ties. Three of 27 prompts changed winner when the order was swapped.
+  - 20 synthetic prompts: Codex 19 wins, 1 tie; GLM-5.2, a second judge family, 17 wins, 3 ties, 0 losses.
+  - Median length 1348 words against 1589.
+  - Route audit: 19 of 20 probes in each of two runs (different misses: a deep ask that skipped evidence, a
+    choice not framed as a comparison); entry-point contracts 3 of 4 (`/esa evidence` printed its unread
+    sources as an action table).
+  - Router, same engine twice on 20 prompts: inline-vs-analyze agreed on 19, scale on 20, the exact module
+    set on 7. Flips concentrate in core-analysis steps (7), borrowed techniques (5) and the stress test (4);
+    security flipped twice, premortem once.
 - Round 1, 25 prompts: a pre-elastic draft beat 1.1.0 on content (23 of 25) but lost on leanness (3 vs 14)
   and in maintainer blind ratings, so its display blocks were removed. Leave-one-out ablation, n=5 each,
   indicative only: without the deepening step the draft lost 4 of 5; without the Verifier column, 3 of 5
   (2 ties); without the lenses, 2 of 5 (2 ties).
-- Held-out, 27 real prompts never used for tuning, shipped engine vs 1.1.0, Codex judge: 22 wins, 4 ties,
-  1 loss (89%); shape 91%, lean 80%, proposed outside verifier 83%, raw material 93%; median 1457 vs 1624
-  words. Two of 27 prompts changed winner when the order was swapped.
-- Second judge family, GLM-5.2, on the 20 synthetic prompts: 18 wins, 1 tie, 1 loss (Codex: 20 of 20).
-  On an earlier build the two judges picked the same winner on 18 of 20 pairs.
 - Judge behavior, from 552 verdicts: the second slot wins 59%, which is why orders are swapped. Depth
-  criteria favor longer answers and lean/shape favor shorter ones; overall they roughly cancel.
-  Comparisons between close engine versions flipped on 7–11 of 24 prompts, and the same engine judged
-  against itself scored 9 wins, 10 ties, 5 losses on 24, so loop-to-loop differences were not resolvable.
-- Router, same engine twice on 20 prompts: inline-vs-analyze agreed on 19 of 20, scale on 19,
-  the exact module set 8. Flips concentrate in the stress test (7) and borrowed techniques (5); premortem
-  flipped once, security twice. Across 40 audited runs one required module was dropped: an evidence probe
-  a no-tool run cannot satisfy. Route audit: 18 and 19 of 19 probes.
-- Live, Claude Opus with read-only tools, 4 asks: every run read real material and tagged it raw (up to 36
-  distinct file references); one tested the installer twice in a throwaway home directory; one fit a
-  statistical model to 552 raw judge verdicts and proposed a padding experiment as its check.
+  criteria favor longer answers and lean/shape favor shorter ones; overall they roughly cancel. Comparisons
+  between close engine versions flipped on 7–11 of 24 prompts, and the same engine judged against itself
+  scored 9 wins, 10 ties, 5 losses on 24, so loop-to-loop differences during tuning were not resolvable.
+- Model judges are not a proxy for the maintainer: asked "which would you hand to someone to act on?", two
+  judge families matched the maintainer's round-1 blind ratings on 1 of 3 pairs, preferring the deeper draft
+  where the maintainer did not. Maintainer ratings on held-out pairs are pending.
+- Live, Claude Opus with read-only tools, 4 asks on an earlier build: every run read real material and
+  tagged it raw (up to 36 distinct file references); one tested the installer twice in a throwaway home
+  directory; one fit a statistical model to 552 raw judge verdicts and proposed a padding experiment.
+- Generation runs before the final measurement had one session hook adding three file paths to every run,
+  identical for both arms; the runner now disables all hooks.
 - Gains belong to the bundle: routing, wording, format and checks changed together. Adversarial reviews
-  by gpt-6-astra and GLM-5.2 found the inline exit could skip mandatory checks; fixed before the held-out
-  re-measurement above. Maintainer ratings on held-out pairs are pending.
+  (gpt-6-astra, GLM-5.2, gpt-5.6-terra) and independent code and security reviews found, among others, an
+  inline exit that could skip mandatory checks, secrets readable as "raw material", a judge exposed to
+  prompt injection, and scoring bugs in the eval scripts; all were fixed before the final measurement.
 
 ## [1.1.0] — 2026-08-08
 
