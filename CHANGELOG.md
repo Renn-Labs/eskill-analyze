@@ -109,7 +109,8 @@ tutorial for humans with models" (2026-10-13).
 ### Evaluation (Claude Sonnet generator in a no-tool harness unless stated; blind pairwise judges)
 - What the scores measure: which analysis proposes rawer sources, runnable methods and outside checks —
   not retrieval or checks actually carried out. Each prompt is judged in both orders; a prompt whose winner
-  flips with the order counts as a tie, and a prompt missing either order is not scored.
+  flips with the order counts as a tie, and a prompt missing either order is not scored. Percentages count a
+  tie as half a win.
 - Final measurement, the shipped engine text against 1.1.0, both regenerated with all hooks disabled:
   - Held out from tuning, 27 prompts (22 real, 5 synthetic), Codex judge: 24 wins, 3 ties, 0 losses (94%);
     shape 96%, lean 80%, proposed outside verifier 93%, raw material 93%. The 22 real prompts alone: 19 wins,
