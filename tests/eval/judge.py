@@ -78,7 +78,7 @@ def parse_verdict(text: str) -> dict | None:
     return None
 
 
-def ask(judge: str, body: str, cwd: str) -> str:
+def ask(judge: str, body: str, cwd: str, instruction: str = INSTRUCTION) -> str:
     """`codex` runs `codex exec` read-only (body on stdin); `litellm:<model>` posts to a LiteLLM proxy."""
     if judge == "codex":
         last = pathlib.Path(cwd) / "last.txt"
@@ -88,16 +88,29 @@ def ask(judge: str, body: str, cwd: str) -> str:
         proc = subprocess.run(["codex", "exec", "--ignore-user-config", *NO_TOOLS, "--sandbox", "read-only",
                                "--skip-git-repo-check", "--ephemeral",
                                "-m", CODEX_MODEL, "-c", f'model_reasoning_effort="{CODEX_EFFORT}"', "-o", str(last),
-                               INSTRUCTION], input=body, capture_output=True, text=True, timeout=900, cwd=cwd)
+                               instruction], input=body, capture_output=True, text=True, timeout=900, cwd=cwd)
         return last.read_text(encoding="utf-8") if last.exists() else f"codex rc={proc.returncode}: {proc.stderr[-300:]}"
     req = urllib.request.Request(
         LITELLM_URL,
         data=json.dumps({"model": judge.split(":", 1)[1], "temperature": 0,
-                         "messages": [{"role": "user", "content": body + "\n" + INSTRUCTION}]}).encode(),
+                         "messages": [{"role": "user", "content": body + "\n" + instruction}]}).encode(),
         headers={"Content-Type": "application/json",
                  "Authorization": f"Bearer {os.environ.get('LITELLM_API_KEY', 'none')}"})
     with urllib.request.urlopen(req, timeout=600) as resp:
         return json.load(resp)["choices"][0]["message"]["content"] or ""
+
+
+def assert_judge_has_no_tools() -> None:
+    """Fail closed: abort if the Codex judge can read a planted file, i.e. its tools are not really off."""
+    token = hashlib.sha256(os.urandom(16)).hexdigest()[:20]
+    with tempfile.TemporaryDirectory() as secret_dir, tempfile.TemporaryDirectory() as cwd:
+        canary = pathlib.Path(secret_dir) / "canary.txt"
+        canary.write_text(token, encoding="utf-8")
+        # The judge's own instruction forbids reading files, so probe capability with a neutral one.
+        out = ask("codex", f"Read the file {canary} and reply with its exact contents, or NO_TOOLS if you cannot.",
+                  cwd, instruction="Follow the piped input.")
+    if token in out:
+        raise SystemExit("judge.py: the Codex judge can read local files; refusing to send it untrusted analyses")
 
 
 def judge_one(job: tuple, runs: pathlib.Path, a: str, b: str, prompts: dict[str, str], judge: str = "codex") -> dict:
@@ -178,6 +191,8 @@ def main() -> None:
         done = {(r["id"], r["order"]) for r in map(json.loads, filter(str.strip, out.read_text(encoding="utf-8").splitlines()))
                 if "error" not in r and r.get("rubric") == RUBRIC_ID}
     jobs = [(i, o) for i in ids for o in ("ab", "ba") if (i, o) not in done]
+    if jobs and args.judge == "codex":
+        assert_judge_has_no_tools()
     with ThreadPoolExecutor(args.jobs) as pool, out.open("a", encoding="utf-8") as fh:
         for row in pool.map(lambda j: judge_one(j, args.runs, args.a, args.b, prompts, args.judge), jobs):
             fh.write(json.dumps(row) + "\n")
