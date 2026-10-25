@@ -67,7 +67,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   independent voice yield `local-only` (not `partial`); high-sensitivity reasons
   are not masked by fleet/peer availability ordering.
 
-## [1.2.0] — 2026-10-18 (not tagged)
+## [1.2.0] — 2026-10-18
 
 Depth without bulk: the engine asks for a deeper version of each task, not a bigger one, and runs only
 the modules a question needs. Deepening questions follow Felix Rieseberg, "How to be more ambitious: A
